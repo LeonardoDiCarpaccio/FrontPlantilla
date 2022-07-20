@@ -20,10 +20,9 @@
 
         <div class="mt-1 relative rounded-md shadow-sm">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-         <app-svg-builder [svg]="'email'" color="{{f.submitted && Email.invalid ? 'red' : 'gray'}}"></app-svg-builder>
           </div>
      <input required type="email" [(ngModel)]="person.User.Email" name="Email" #Email="ngModel" id="Email"
-          class="{{f.submitted && Email.invalid ? TypeBasicCss.INPUT_EMAIL_INVALID :TypeBasicCss.INPUT_EMAIL_DEFAULT}}"  placeholder="you@example.com">
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"  placeholder="you@example.com">
 
 
         </div>
@@ -35,7 +34,7 @@
         </label>
         <div class="mt-1">
           <select required #Role="ngModel" [(ngModel)]="role" id="Role" name="Role"
-          class="{{f.submitted && Role.invalid ? TypeBasicCss.INPUT_INVALID :TypeBasicCss.INPUT_DEFAULT}}">
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
             <option  value="" disabled selected>Choisir un rôle</option>
             <option class="text-gray-700" value="Administrateur">Administrateur</option>
             <option class="text-gray-700" value="Utilisateur">Utilisateur</option>
@@ -51,7 +50,7 @@
       </label>
       <div class="mt-1">
         <input required [(ngModel)]="person.User.FirstName"  type="text" #FirstName="ngModel" name="FirstName" id="FirstName" placeholder="Prénom" autocomplete="given-name"
-        class="{{f.submitted && FirstName.invalid ? TypeBasicCss.INPUT_INVALID :TypeBasicCss.INPUT_DEFAULT}}" >
+        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" >
       </div>
     </div>
 
@@ -61,7 +60,7 @@
       </label>
       <div class="mt-1">
         <input required type="text" #LastName="ngModel"  [(ngModel)]="person.User.LastName"  name="LastName" id="LastName" placeholder="Nom" autocomplete="given-name"
-        class="{{f.submitted && LastName.invalid ? TypeBasicCss.INPUT_INVALID :TypeBasicCss.INPUT_DEFAULT}}">
+        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
       </div>
     </div>
 </div>
