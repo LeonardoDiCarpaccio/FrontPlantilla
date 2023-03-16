@@ -1,0 +1,23 @@
+<div style="overflow-y: auto;">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <!-- This example requires Tailwind CSS v2.0+ -->
+      <div class="md:flex md:items-center md:justify-between" style="max-width: 50rem;">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+          Pedidos Approvado Y En Processo
+          </h2>
+        </div>
+       <!-- <Button (click)="createCsvModel(arrMainNgFor)">Je suis la</Button> -->
+      </div>
+      <div *ngIf="arrMainNgFor.length ==0" class="md:flex md:items-center md:justify-center" style="max-width: 100%;">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+No se encontraron pedido con este status en este momento         
+ </h2>
+        </div>
+       
+      </div>
+    <app-generic-table-order  [filter]="filter" [searchBar]="searchBar" [arrMainNgFor]="arrMainNgFor" 
+    [arrHeader]="arrHeader" [actions]="actions"  [statusStored]="1" [colorBtn]="'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300'" [alertMsgFilterNoMatch]="alertMsgFilterNoMatch" ></app-generic-table-order>
+    </div>
+  </div>

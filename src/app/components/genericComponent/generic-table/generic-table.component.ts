@@ -21,6 +21,8 @@ export class GenericTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.copyArrNgFor = this.arrMainNgFor.slice();
+    console.log(this.arrMainNgFor, 'arrMainNgFor');
+    // console.log('this.copyArrNgFor', this.copyArrNgFor[0].qty);
   }
 
   filterFunction(filterValue: any, item: any, indexFilter: any) {

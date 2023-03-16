@@ -7,10 +7,31 @@
 
 <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
   <div class="modal-header">
-    <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Ajouter un utilisateur</h4>
+    <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Anadir un usuario</h4>
   </div>
-
+  
   <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+    <div class="mt-5 mb-5 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+      <div class="sm:col-span-3">
+        <label for="first_name" class="block text-sm font-medium text-gray-700">
+          Nombre
+        </label>
+        <div class="mt-1">
+          <input required [(ngModel)]="person.User.FirstName"  type="text" #FirstName="ngModel" name="FirstName" id="FirstName" placeholder="Prénom" autocomplete="given-name"
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" >
+        </div>
+      </div>
+  
+      <div class="sm:col-span-3">
+        <label for="first_name" class="block text-sm font-medium text-gray-700">
+          Apellido
+        </label>
+        <div class="mt-1">
+          <input required type="text" #LastName="ngModel"  [(ngModel)]="person.User.LastName"  name="LastName" id="LastName" placeholder="Nom" autocomplete="given-name"
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+        </div>
+      </div>
+  </div>
     <div class=" grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
       <!-- col + input spécific email de tailwind  -->
       <div class="sm:col-span-3">
@@ -27,54 +48,34 @@
 
         </div>
       </div>
-      <!-- col pour le role, avec un select  -->
       <div class="sm:col-span-3">
-        <label for="first_name" class="block text-sm font-medium text-gray-700">
-          Rôle
+        <label for="first_name" class="block text-sm font-medium text-gray-700" >
+          Dirrecion De Envio
         </label>
-        <div class="mt-1">
-          <select required #Role="ngModel" [(ngModel)]="role" id="Role" name="Role"
-          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-            <option  value="" disabled selected>Choisir un rôle</option>
-            <option class="text-gray-700" value="Administrateur">Administrateur</option>
-            <option class="text-gray-700" value="Utilisateur">Utilisateur</option>
-          </select>
-            </div>
+
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          </div>
+     <input required type="text" [(ngModel)]="person.User.Ubicacion" name="Email" #Email="ngModel" id="Ubicacion"
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"  placeholder="Ubicacion">
+
+
+        </div>
       </div>
 
   </div>
-  <div class="mt-5 mb-5 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-    <div class="sm:col-span-3">
-      <label for="first_name" class="block text-sm font-medium text-gray-700">
-        Prénom
-      </label>
-      <div class="mt-1">
-        <input required [(ngModel)]="person.User.FirstName"  type="text" #FirstName="ngModel" name="FirstName" id="FirstName" placeholder="Prénom" autocomplete="given-name"
-        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" >
-      </div>
-    </div>
-
-    <div class="sm:col-span-3">
-      <label for="first_name" class="block text-sm font-medium text-gray-700">
-        Nom
-      </label>
-      <div class="mt-1">
-        <input required type="text" #LastName="ngModel"  [(ngModel)]="person.User.LastName"  name="LastName" id="LastName" placeholder="Nom" autocomplete="given-name"
-        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-      </div>
-    </div>
-</div>
+ 
 
 
   </div>
   <div class="bg-gray-100 px-4 py-3 flex justify-between">
 
     <button (click)="close()" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      Annuler
+      Descartar
     </button>
     <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2  bg-indigo-600 hover:bg-indigo-700
     text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm">
-      Valider
+      Confirmar
     </button>
 
   </div>

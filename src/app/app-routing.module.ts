@@ -7,16 +7,47 @@ import { MediaLibraryComponent } from './components/pages/media-library/media-li
 
 import { UsersComponent } from './components/pages/users/users.component';
 import { LayoutComponent } from './components/shared/layout/layout.component';
+import { OrderApprovedComponent } from './components/pages/order-approved/order-approved.component';
+import { OrderWaitingComponent } from './components/pages/order-waiting/order-waiting.component';
+import { OrderHistoryComponent } from './components/pages/order-history/order-history.component';
+import { ConnectedClientGuard } from './Guards/connected-client.guard';
+import { AuthAdminGuard } from './Guards/auth-admin.guard';
 
 const routes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'media-library', component: MediaLibraryComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'users', component: UsersComponent },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [ConnectedClientGuard],
+      },
+      {
+        path: 'order-approved',
+        component: OrderApprovedComponent,
+        canActivate: [AuthAdminGuard],
+      },
+      {
+        path: 'order-waiting',
+        component: OrderWaitingComponent,
+        canActivate: [AuthAdminGuard],
+      },
+      {
+        path: 'order-history',
+        component: OrderHistoryComponent,
+        canActivate: [AuthAdminGuard],
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [ConnectedClientGuard],
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthAdminGuard],
+      },
     ],
   },
   { path: 'login', component: LoginComponent },

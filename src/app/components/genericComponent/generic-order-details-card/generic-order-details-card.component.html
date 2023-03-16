@@ -1,0 +1,202 @@
+      <!-- <div *ngIf="display && item.selectedItem "> -->
+        <div style="min-width: max-content;" class="mt-5md:mt-0 md:col-span-2" >
+          <div  class="shadow overflow-hidden sm:rounded-md">
+
+          <!-- <div *ngFor="let command of arrMainNgFor" class="shadow overflow-hidden sm:rounded-md"> -->
+            <!-- <div *ngFor="let product of item.controls; let i = index;" class="px-4 py-5 bg-white sm:p-6"> -->
+              <div
+              *ngFor="let patient of arrMainNgFor.patient ;let f = index;">
+              <div class="relative">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex items-center justify-center">
+                  <span class="pr-3 bg-white text-2xl font-medium text-gray-900">
+                    Paciente {{f+1}}
+                  </span>
+                  <button *ngIf="f!=0" (click)="deletePatiente(patient,f)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    
+                    <svg class="-ml-1.5 mr-1 h-4 w-4 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Borrar</span>
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-8 gap-2">
+                <div class="col-span-2">
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{patient.patientName}}</label>
+                </div>
+               
+                <div class="col-span-2">
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{patient.patientFirstName}}</label>
+                </div>
+              </div>
+              <div *ngFor="let item of patient.item let i = index;" class="px-4 py-5 bg-white sm:p-6">
+          
+              <div class="relative">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex items-center justify-between">
+                  <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                    Plantilla Numero {{i+1}}
+                  </span>
+                  <button (click)="updatePlantija(item)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <!-- Heroicon name: solid/plus-sm -->
+                      <svg class="-ml-1.5 mr-1 h-8 w-8 text-gray-400" fill="none" stroke="blue" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
+                        </svg>
+                      <span>Modificar</span>
+                    </button>
+                  <button (click)="deleteShoeSol(item,i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <svg class="-ml-1.5 mr-1 h-8 w-8 text-gray-400" fill="none" stroke="red" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span>Borrar</span>
+                    </button>
+                </div>
+              </div>
+              <!-- NEW FORMMMMMM -->
+              <div class="grid grid-cols-6 gap-4 pt-4 px-60" >
+              
+                <div class="col-span-2">
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">Paciente Apellido</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.itemName}}</label>
+                </div>
+               
+                <div class="col-span-2">
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">Paciente Nombre</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.itemFirstName}}</label>
+                </div>
+          
+                <div class="col-span-2 ">
+                  <label for="Quantity" class="block text-sm font-medium text-gray-700">Cantidad</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.quantity}}</label>
+                </div>
+          
+                <div class="col-span-2 ">
+                  <label for="model" class="block text-sm font-medium text-gray-700">Modelo</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.model}}</label>      
+                </div>
+          
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="size" class="block text-sm font-medium text-gray-700">Talles</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.size}}</label>
+                </div>
+          
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="correction" class="block text-sm font-medium text-gray-700">Corrección</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.correction}}</label>
+                </div>
+          
+             
+                <div class="relative col-span-8">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                      Antepie 
+                    </span>
+                  </div>
+                </div>
+
+                <div *ngIf="item.oliva_BarraMetatarsal" class="col-span-2 sm:col-span-2">
+                  <label for="olivaBarras" class="block text-sm font-medium text-gray-700">Oliva Barra Metatarsal :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.oliva_BarraMetatarsal}}</label>
+                </div>
+                
+                <div *ngIf="item.descargaAntepie" class="col-span-2 sm:col-span-2">
+                  <label for="descargaAntepie" class="block text-sm font-medium text-gray-700">Descarga Antepie :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.descargaAntepie}}</label>
+                </div>
+                
+                <div *ngIf="item.rai" class="col-span-2 sm:col-span-2">
+                  <label for="rai" class="block text-sm font-medium text-gray-700">RAI :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.rai}}</label>
+                </div>
+                
+                <div *ngIf="item.rae" class="col-span-2 sm:col-span-2">
+                  <label for="rae" class="block text-sm font-medium text-gray-700">RAE :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.rae}}</label>
+                </div>
+                <div class="relative col-span-8">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                     Medio 
+                    </span>
+                  </div>
+                </div>
+  
+                <div *ngIf="item.arco" class="col-span-2 sm:col-span-4">
+                  <label for="arco" class="block text-sm font-medium text-gray-700"> Arco Longitudinal Interior :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.arco}}</label>
+                </div>
+                
+                <div *ngIf="item.contraArco" class="col-span-2 sm:col-span-4">
+                  <label for="contraArco" class="block text-sm font-medium text-gray-700">Contra Arco :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.contraArco}}</label>
+                </div>
+              
+                <div class="relative col-span-8">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                     Retropie/Talon
+                    </span>
+                  </div>
+                </div>
+              
+                <div *ngIf="item.alsa" class="col-span-2 sm:col-span-2">
+                  <label for="alturaDeAlsa" class="block text-sm font-medium text-gray-700">Alsa :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.alsa}}</label>
+                </div>
+    
+                <div *ngIf="item.rpi" class="col-span-2 sm:col-span-2">
+                  <label for="rpi" class="block text-sm font-medium text-gray-700">RPI :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.rpi}}</label>
+                </div>
+          
+                <div *ngIf="item.rpe" class="col-span-2 sm:col-span-2">
+                  <label for="rpi" class="block text-sm font-medium text-gray-700">RPE :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.rpe}}</label>
+                </div>
+                <div *ngIf="item.alcochadaOEspolon" class="col-span-2 sm:col-span-2">
+                  <label for="rpi" class="block text-sm font-medium text-gray-700">Acolchado De Talon/Descarga Espolon :</label>
+                  <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.alcochadaOEspolon}}</label>
+                </div>
+             
+              <div   *ngIf="item.talonera || item.clinica" class="relative col-span-8">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex items-center justify-center">
+                  <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                    Opccion Annexas 
+                  </span>
+                </div>
+              </div>
+              <div *ngIf="item.talonera" class="col-span-2 sm:col-span-4">
+                <label for="talonera" class="block text-sm font-medium text-gray-700">Talonera :</label>
+                <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.talonera}}</label>
+              </div>
+              
+              <div *ngIf="item.clinica" class="col-span-4">
+                <label for="text" class="block text-sm font-medium text-gray-700">Clinica : </label>
+                <label for="street_address" class="block text-sm font-medium text-gray-700">{{item.clinica}}</label>
+              </div>
+              
+              </div>
+            </div>
+          
+          </div>
+            </div>
+           
+          </div>
+         

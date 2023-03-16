@@ -1,0 +1,779 @@
+<app-generic-steps-form [step]="this.step"></app-generic-steps-form>
+<!-- <app-generic-formgroup></app-generic-formgroup> -->
+<!-- <p>dashboard works!</p> -->
+<div class="flex-1 flex items-stretch ">
+<main  class="flex-1 overflow-y-auto  h-screen">
+    
+  <div class="hidden " aria-hidden="true">
+    <div class="py-5">
+      <div class="border-t border-gray-200"></div>
+    </div>
+  </div>
+
+  <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-40 mr-40': 'pl-6'" class="mt-10 sm:mt-0">
+
+    <div [ngClass]="this.step==1 ? '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" class="md:gap-6">
+
+      <div [ngClass]="this.step==1 ? 'justify-center py-8': 'md:col-span-1 self-center'" class="flex">
+
+        <div  [ngClass]="this.step==1 ? '': 'col-start-1'" class="px-4 sm:px-0">
+
+          <h2 [ngClass]="this.step==1 ? 
+          'flex justify-center':null"
+          class=" text-lg font-bold leading-6 text-gray-900">Formulario Del Pedido </h2>
+          <p class="mt-1 text-sm text-gray-600">
+          Verifican que todas las informacion sean exacta antes de enviar este formulario del pedido
+          </p>
+
+        </div>
+      </div>
+     
+      <div [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
+        <form [formGroup]="commandFormGroup" (ngSubmit)="onSubmit()">
+          <div formArrayName="items" class="shadow overflow-hidden sm:rounded-md">
+          <div *ngFor="let item of commandFormGroup.get('items').controls; let i = index;"  class="px-4 py-5 bg-white sm:p-6">
+            <div [formGroupName]="i">
+              <div class="grid grid-cols-4 gap-6">
+            <div class="col-span-2">
+              <label for="street_address" class="block text-sm font-medium text-gray-700"> Paciente Apellido</label>
+              <input type="text" formControlName="itemName" id="itemName" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+           
+            <div class="col-span-2">
+              <label for="street_address" class="block text-sm font-medium text-gray-700">Paciente Nombre</label>
+              <input type="text" formControlName="itemFirstName" id="itemFirstName" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+          </div>
+            <div formArrayName="item">
+              <div *ngFor="let subitem of item.get('item').controls; let j = index;" class="px-4 py-5 bg-white sm:p-6">
+                <div class="relative">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-between">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                      Plantilla Numero {{i+1}}
+                    </span>
+                    <button (click)="deleteShoeSol(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      
+                      <svg class="-ml-1.5 mr-1 h-8 w-8 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span>Borrar</span>
+                    </button>
+                  </div>
+                </div>
+                <div [formGroupName]="j"  class="grid grid-cols-8 gap-6">
+                  <div class="col-span-2 ">
+                    <label for="Quantity" class="block text-sm font-medium text-gray-700">Cantidad</label>
+                    <input type="number" formControlName="quantity" id="quantity"  placeholder="Elegir Cantidad"
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                     border-gray-300 rounded-md">
+                  </div>
+    
+                  <div class="col-span-2 ">
+                    <label for="model" class="block text-sm font-medium text-gray-700">Modelo</label>
+                    
+                      <select formControlName="model" autocomplete="Model" name="Modelo"  
+                      class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option  id="model" *ngFor="let model of models" [value]="model">{{model}}</option>
+                      </select>
+                    
+  
+                  </div>
+    
+                  <div class="col-span-2 sm:col-span-2">
+                    <label for="size" class="block text-sm font-medium text-gray-700">Talles</label>
+                    <select  formControlName="size" autocomplete="Talles" name="Talles" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="size" *ngFor="let size of sizes" [value]="size" >{{size}}</option>
+                    </select>                
+                  </div>
+  
+                  <div class="col-span-2 sm:col-span-2">
+                    <label for="correction" class="block text-sm font-medium text-gray-700">Corrección</label>
+                    <input type="number" formControlName="correction" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                    border-gray-300 rounded-md" >
+                  </div>
+                  <div class="relative col-span-8">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex items-center justify-center">
+                      <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                       Antepie 
+                      </span>
+                    </div>
+                  </div>
+  
+                  <div class="col-span-2 sm:col-span-2">
+                    <label for="olivaBarras" class="block text-sm font-medium text-gray-700">Oliva Barra Metatarsal</label>
+                    <select formControlName="oliva_BarraMetatarsal" autocomplete="olivaBarra" name="olivaBarra" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="model" *ngFor="let olivasBarra of olivaBarras" [value]="olivasBarra">{{olivasBarra}}</option>
+                    </select>                
+                  </div>
+                  <div class="col-span-2 sm:col-span-2">
+                    <label for="descargaAntepie" class="block text-sm font-medium text-gray-700">Descarga Antepie</label>
+                    <select formControlName="descargaAntepie" autocomplete="descargaAntepie" name="descargaAntepie" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="model" *ngFor="let descargaAntepie of descargaAntepies" [value]="descargaAntepie">{{descargaAntepie}}</option>
+                    </select>                
+                  </div>
+                  <div class="col-span-2 sm:col-span-2">
+                   
+                    <label for="rai" class="block text-sm font-medium text-gray-700">RAI en mm</label>
+                    
+                    <select                 
+                    (change)="onChangeRai(i)"
+                    formControlName="rai" autocomplete="rai" name="rai" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="rai" *ngFor="let item of rai1" [value]="item">{{item}}</option>
+                    </select> 
+                    <div
+                    (change)="onChangeRai(i)"
+                    *ngIf=" product.get('rai')
+                    .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                      <div class="flex;
+                      flex-column;
+                    " style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                        <input formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Billateral" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label for="whereRai" class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Derecha" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label for="whereRai" class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label for="whereRai" class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-2 sm:col-span-2">
+                    <label for="rae" class="block text-sm font-medium text-gray-700">RAE en mm</label>
+                    <select                 
+                    (change)="onChangeRae(i)"
+  
+                    formControlName="rae" autocomplete="rae" name="rae" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="rae" *ngFor="let item of rae1" [value]="item">{{item}}</option>
+                    </select> 
+                    
+                    
+                    <div 
+                    (change)="onChangeRae(i)"
+                    *ngIf=" product.get('rae')
+                  .value"
+                 class="space-y-1 flex flex-row" style="align-items: baseline;">
+                    <div  class="flex;
+                    flex-column;
+                  " style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                      <input formControlName='whereRae' id="billateral" value="Billateral" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="billateral" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                      </label>
+                    </div>
+                    <div  class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input formControlName='whereRae' id="right" value="Derecha" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="right" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                      </label>
+                    </div>
+                    <div  class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input formControlName='whereRae' id="left" value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="left" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      </label>
+                    </div>
+                  </div>
+                  </div>
+                  <!-- add more form controls as needed -->
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        </form>
+       
+        <!--   <div formArrayName="item" class="shadow overflow-hidden sm:rounded-md">
+            
+            <div *ngFor="let product of item.controls; let i = index;" class="px-4 py-5 bg-white sm:p-6">
+              
+             
+              <div class="relative">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex items-center justify-between">
+                  <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                    Plantilla Numero {{i+1}}
+                  </span>
+                  <button (click)="deleteShoeSol(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    
+                    <svg class="-ml-1.5 mr-1 h-8 w-8 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Borrar</span>
+                  </button>
+                </div>
+              </div>
+              <div [formGroupName]="i"  class="grid grid-cols-6 gap-6" >
+                
+              
+
+                <div class="col-span-2 ">
+                  <label for="Quantity" class="block text-sm font-medium text-gray-700">Cantidad</label>
+                  <input type="number" formControlName="quantity" id="quantity"  placeholder="Elegir Cantidad"
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+  
+                <div class="col-span-2 ">
+                  <label for="model" class="block text-sm font-medium text-gray-700">Modelo</label>
+                  
+                    <select formControlName="model" autocomplete="Model" name="Modelo"  
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option  id="model" *ngFor="let model of models" [value]="model">{{model}}</option>
+                    </select>
+                  
+
+                </div>
+  
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="size" class="block text-sm font-medium text-gray-700">Talles</label>
+                  <select  formControlName="size" autocomplete="Talles" name="Talles" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="size" *ngFor="let size of sizes" [value]="size" >{{size}}</option>
+                  </select>                
+                </div>
+
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="correction" class="block text-sm font-medium text-gray-700">Corrección</label>
+                  <input type="number" formControlName="correction" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                  border-gray-300 rounded-md" >
+                </div>
+
+                <div class="relative col-span-6">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                     Antepie 
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="olivaBarras" class="block text-sm font-medium text-gray-700">Oliva Barra Metatarsal</label>
+                  <select formControlName="oliva_BarraMetatarsal" autocomplete="olivaBarra" name="olivaBarra" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="model" *ngFor="let olivasBarra of olivaBarras" [value]="olivasBarra">{{olivasBarra}}</option>
+                  </select>                
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="descargaAntepie" class="block text-sm font-medium text-gray-700">Descarga Antepie</label>
+                  <select formControlName="descargaAntepie" autocomplete="descargaAntepie" name="descargaAntepie" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="model" *ngFor="let descargaAntepie of descargaAntepies" [value]="descargaAntepie">{{descargaAntepie}}</option>
+                  </select>                
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                 
+                  <label for="rai" class="block text-sm font-medium text-gray-700">RAI en mm</label>
+                  
+                  <select                 
+                  (change)="onChangeRai(i)"
+                  formControlName="rai" autocomplete="rai" name="rai" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="rai" *ngFor="let item of rai1" [value]="item">{{item}}</option>
+                  </select> 
+                  <div
+                  (change)="onChangeRai(i)"
+                  *ngIf=" product.get('rai')
+                  .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                    <div class="flex;
+                    flex-column;
+                  " style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                      <input formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Billateral" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="whereRai" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                      </label>
+                    </div>
+                    <div class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Derecha" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="whereRai" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                      </label>
+                    </div>
+                    <div class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label for="whereRai" class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="rae" class="block text-sm font-medium text-gray-700">RAE en mm</label>
+                  <select                 
+                  (change)="onChangeRae(i)"
+
+                  formControlName="rae" autocomplete="rae" name="rae" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="rae" *ngFor="let item of rae1" [value]="item">{{item}}</option>
+                  </select> 
+                  
+                  
+                  <div 
+                  (change)="onChangeRae(i)"
+                  *ngIf=" product.get('rae')
+                .value"
+               class="space-y-1 flex flex-row" style="align-items: baseline;">
+                  <div  class="flex;
+                  flex-column;
+                " style="display: flex  !important;
+                flex-direction: column !important;
+                align-items: center !important;">
+                    <input formControlName='whereRae' id="billateral" value="Billateral" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="billateral" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                    </label>
+                  </div>
+                  <div  class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input formControlName='whereRae' id="right" value="Derecha" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="right" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                    </label>
+                  </div>
+                  <div  class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input formControlName='whereRae' id="left" value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="left" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                    </label>
+                  </div>
+                </div>
+                </div>
+                <div class="relative col-span-6">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                       Pie Medio 
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-span-2 sm:col-span-3">
+                  <label for="arcoInterno" class="block text-sm font-medium text-gray-700"> Arco Longitudinal Interno</label>
+                  <select                 (change)="onChangeArco(i)"
+                  formControlName="selectedArco1" autocomplete="selectedArco1" name="selectedArco1" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="model" *ngFor="let arcoInterno of selectedArco1" [value]="arcoInterno">{{arcoInterno}}</option>
+                  </select>     
+                  <input *ngIf=" product.get('selectedArco1')
+                  .value"
+                  (change)="onChangeArco(i)" type="number" formControlName="selectedArco2" id="arco"  placeholder="Altura del arco en mm"
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">           
+                </div>
+                <div class="col-span-2 sm:col-span-3">
+                  <label for="contraArco" class="block text-sm font-medium text-gray-700">Contra-Arco</label>
+                  <select 
+                  formControlName="contraArco" autocomplete="contraArco" name="contraArco" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="model" *ngFor="let contra of contraArco" [value]="contra">{{contra}}</option>
+                  </select>     
+                 
+                </div>
+                <div class="relative col-span-6">
+                  <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                       Retropie/Talon
+                    </span>
+                  </div>
+                </div>
+              
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="alturaDeAlsa" class="block text-sm font-medium text-gray-700">Alsa</label>
+                  <select                 
+                  (change)="onChangeAlsa(i)"
+                  formControlName="selectedAlsa1" autocomplete="selectedAlsa1" name="selectedAlsa1" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="alsa" *ngFor="let alsa of alsa1" [value]="alsa">{{alsa}}</option>
+                  </select> 
+                  <label    *ngIf=" product.get('selectedAlsa1')
+                  .value" class="block text-sm font-medium text-gray-700">Alsa Altura
+                  </label>
+                  <select  *ngIf=" product.get('selectedAlsa1')
+                  .value"
+                  (change)="onChangeAlsa(i)"
+                  formControlName="selectedAlsa2" autocomplete="selectedAlsa2" name="selectedAlsa2" 
+                  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option  id="alsa" *ngFor="let alsa of alsa2" [value]="alsa">{{alsa}}</option>
+                  </select> 
+                      
+                </div>
+               
+                <div class="col-span-2 sm:col-span-2">
+                  <label for="rpi" class="block text-sm font-medium text-gray-700">RPI</label>
+
+                <select 
+                (change)="onChangeRpi(i)"
+                formControlName="selectedRPI1"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option *ngFor="let item of rpis1" [value]="item">{{ item }}</option>
+                </select>
+                <label   *ngIf=" product.get('selectedRPI1')
+                .value" class="block text-sm font-medium text-gray-700">Rpi Altura
+                </label>
+                <select 
+                *ngIf=" product.get('selectedRPI1')
+                .value"
+                (change)="onChangeRpi(i)"
+                formControlName="selectedRPI2"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                  <option  *ngFor="let item of rpis2" [value]="item">{{ item }}</option>
+                </select>
+                <div  (change)="onChangeRpi(i)" *ngIf=" product.get('selectedRPI1')
+                .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                  <div class="flex;
+                  flex-column;
+                " style="display: flex  !important;
+                flex-direction: column !important;
+                align-items: center !important;">
+                    <input formControlName='whereRpi' id="billateral" value="Billateral" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="Billateral" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                    </label>
+                  </div>
+                  <div class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input formControlName='whereRpi' id="right" value="Derecha" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="right" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                    </label>
+                  </div>
+                  <div class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input  formControlName='whereRpi' id="left" value="Isquierda" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="left" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-span-2 sm:col-span-2">
+                <label for="rpe" class="block text-sm font-medium text-gray-700">RPE</label>
+
+                <select 
+                (change)="onChangeRpe(i)"
+
+                formControlName="selectedRPE1"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of rpes1" [value]="item">{{ item }}</option>
+                </select>
+                <label   *ngIf=" product.get('selectedRPE1')
+                .value" class="block text-sm font-medium text-gray-700">Rpe Altura
+                </label>
+                <select 
+                *ngIf=" product.get('selectedRPE1')
+                .value"
+                (change)="onChangeRpe(i)"
+                formControlName="selectedRPE2"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300
+                 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500
+                  focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of rpes2" [value]="item">{{ item }}</option>
+                </select>
+
+                <div *ngIf=" product.get('selectedRPE1')
+                .value"
+                (change)="onChangeRpe(i)"
+                 class="space-y-1 flex flex-row" style="align-items: baseline;">
+                  <div  class="flex;
+                  flex-column;
+                " style="display: flex  !important;
+                flex-direction: column !important;
+                align-items: center !important;">
+                    <input formControlName='whereRpe' id="billateral" value="Billateral" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="billateral" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                    </label>
+                  </div>
+                  <div  class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input formControlName='whereRpe' id="right" value="Derecha" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="right" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                    </label>
+                  </div>
+                  <div  class=" items-center" style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                    <input formControlName='whereRpe' id="left" value="Isquierda" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="left" class="ml-3">
+                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-2 ">
+                <label for="alcochadaOEspolon" class="block text-sm font-medium text-gray-700">Acolchado De Talon/Descarga Espolon</label>
+                <select 
+                formControlName="alcochadaOEspolon" autocomplete="alcochadaOEspolon" name="alcochadaOEspolon" 
+                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option  id="alcochadaOEspolon" *ngFor="let item of alcochadaOEspolon" [value]="item">{{item}}</option>
+                </select>     
+               
+              </div>
+              <div class="relative col-span-6">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex items-center justify-center">
+                  <span class="pr-3 bg-white text-lg font-medium text-gray-900">
+                        Opccion Annexas 
+                  </span>
+                </div>
+              </div>
+              <div class="col-span-2 sm:col-span-2">
+                <label for="talonera" class="block text-sm font-medium text-gray-700">Talonera</label>
+
+                <select 
+                (change)="onChangeTalonera(i)"
+
+                formControlName="talonera1"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of talonera1" [value]="item">{{ item }}</option>
+                </select>
+                <label   *ngIf=" product.get('talonera1')
+                .value" class="block text-sm font-medium text-gray-700">Talonera Altura 
+                </label>
+                <select 
+                *ngIf=" product.get('talonera1')
+                .value"
+                (change)="onChangeTalonera(i)"
+                formControlName="taloneraAltura"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300
+                 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500
+                  focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of taloneraAltura" [value]="item">{{ item }}</option>
+                </select>
+                <label   *ngIf=" product.get('talonera1')
+                .value" class="block text-sm font-medium text-gray-700">Talonera Typo 
+                </label>
+                <select 
+                *ngIf=" product.get('talonera1')
+                .value"
+                (change)="onChangeTalonera(i)"
+                formControlName="taloneraType"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300
+                 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500
+                  focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of taloneraType" [value]="item">{{ item }}</option>
+                </select>
+                <label   *ngIf=" product.get('talonera1')
+                .value" class="block text-sm font-medium text-gray-700">Talonera Con Descarga
+                </label>
+             
+                <select 
+                *ngIf=" product.get('talonera1')
+                .value"
+                (change)="onChangeTalonera(i)"
+                formControlName="taloneraDescarga"
+                class="mt-1 block w-full py-2 px-3 border border-gray-300
+                 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500
+                  focus:border-indigo-500 sm:text-sm" >
+                  <option *ngFor="let item of taloneraDescarga" [value]="item">{{ item }}</option>
+                </select>
+              </div>
+              
+              <div class="col-span-4">
+                <label for="text" class="block text-sm font-medium text-gray-700">Clinica</label>
+                <input type="text" formControlName="clinica" id="clinica" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+              
+              </div>
+            </div>
+            <div  *ngIf="step==1" class="relative h-10">
+              <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full border-t border-gray-300"></div>
+              </div>
+              <div class="relative flex justify-center">
+                <button (click)="addShoeSol()" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                  </svg>
+                  <span>Anadir Una Plantilla</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="step==1" class="px-4 py-3 flex justify-end  bg-gray-50 sm:px-6">
+           
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+             Confirmar El Pedido
+           </button> 
+        </div> 
+      </div>
+        </form> -->
+       
+          
+      </div>
+    </div>
+    
+  </div>
+  
+  <div *ngIf='this.step!=1'
+  [ngClass]="this.step==2 ? 
+  'ml-40 mr-40': 'pl-6'"
+  class="mt-10 sm:mt-0"
+  >
+    <div 
+    [ngClass]="this.step==2 ? 
+    '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" 
+    class=" md:gap-6">
+      <div 
+      [ngClass]="this.step==2 ? 
+        'justify-center py-8': 'md:col-span-1 self-center'"
+        class="flex"
+     >
+        <div 
+        [ngClass]="this.step==2 ? 
+        '': 'col-start-1'"
+        class="px-4 sm:px-0"
+        >
+          <h2 
+          [ngClass]="this.step==2 ? 
+          'flex justify-center':null"
+          class=" text-lg font-bold leading-6 text-gray-900"
+          >Sus Informacion</h2>
+          <p class="mt-1 text-sm text-gray-600">
+            Verifican que sus informacion sean correctas
+          </p>
+        </div>
+      </div>
+      <div class="mt-5 md:mt-0 md:col-span-2">
+        <form [formGroup]="form" (ngSubmit)="onSubmitClient()">
+          <div formGroupName="userInfo" class="shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
+              <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6 sm:col-span-2">
+                  <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                  <input  required type="text" formControlName="userFirstname" id="userFirstname" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+  
+                <div class="col-span-6 sm:col-span-2">
+                  <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido</label>
+                  <input required type="text" formControlName="userName" id="userName" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                  <label for="last_name" class="block text-sm font-medium text-gray-700">Cellular</label>
+                  <input required  type="tel" id="userPhone" formControlName="userPhone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                  <label for="email_address" class="block text-sm font-medium text-gray-700">Email</label>
+                  <input required type="text" name="email" id="userEmail" formControlName="userEmail"  
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+                <div class="col-span-6 sm:col-span-2">
+                  <label for="email_address" class="block text-sm font-medium text-gray-700">Dirrecion De Envio</label>
+                  <input required type="text"  id="address" formControlName="userAdress"
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md">
+                </div>
+             
+              </div>
+            </div>
+          
+            <div  *ngIf='this.step==2' class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+ 
+  <div  
+  [ngClass]="this.step==3 ? 'mt-10 sm:mt-0 pl-6 pb-8':'' "
+  >
+<div
+[ngClass]="this.step==3 ? 'md:grid pt-2 md:grid-cols-[300px_minmax(0,2fr)] md:gap-6 max-w-7xl':'' "
+>
+  <div *ngIf="step!=1" 
+  style="min-height: 200px;padding-left: 10rem;justify-content: flex-start;"
+  class="border-t border-gray-200 px-4 pb-12 flex items-center justify-around sm:px-0 ">
+  
+<a (click)="changeStepBack()" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+  <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+  Previous
+</a>
+
+  </div>
+
+  <div>
+  <div  *ngIf='this.step==3' class=" flex justify-center px-4 py-3 text-right sm:px-6">
+    <button (click)="temporarySaveForm()" type="submit" 
+    class="inline-flex justify-center py-2 px-8 border border-transparent 
+    shadow-sm text-xl font-medium rounded-md text-white bg-indigo-600
+     hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2
+      focus:ring-indigo-500">
+      Enviar El Pedido !
+    </button>
+  </div>
+</div>
+</div>
+</div>  
+
+</main>
+</div>
+
