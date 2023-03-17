@@ -98,48 +98,58 @@ export class DashboardComponent implements OnInit {
                 model: new FormControl('', Validators.required),
                 /// ANTEPIEE
                 descargaAntepie: new FormControl(''),
+                WhereDescarga: new FormControl(''),
+                //OLIVAA
                 oliva_BarraMetatarsal: new FormControl(''),
+                whereOliva: new FormControl(),
+                //RAI
                 rai: new FormControl(''),
+                whereRai: new FormControl(),
+                //RAE
                 rae: new FormControl(''),
-                /// PIE MEDIO
+                whereRae: new FormControl(),
+                //PIE MEDIOOOO
+                //ARCO
                 arco: new FormControl(''),
+                selectedArco1: new FormControl(''),
+                selectedArco2: new FormControl(''),
+                whereArco: new FormControl(),
+                //CONTRA ARCO
                 contraArco: new FormControl(''),
-                /// TALON/RETROPIE
-                alsa: new FormControl(''),
-                alcochadaOEspolon: new FormControl(''),
+                whereContraArco: new FormControl(''),
 
-                rpi: new FormControl(''),
-                rpe: new FormControl(''),
+                /// TALON/RETROPIE
+                ///ALSA
+                alsa: new FormControl(''),
+                selectedAlsa1: new FormControl(''),
+                selectedAlsa2: new FormControl(''),
+                whereAlsa: new FormControl(),
+
+                ///Alcochada
+                alcochadaOEspolon: new FormControl(''),
+                Wherealcochada: new FormControl(''),
 
                 ///OPTION
-                raex: new FormControl(''),
                 clinica: new FormControl(''),
                 talonera: new FormControl(''),
 
-                ////// RPI
+                //RPI
+                rpi: new FormControl(''),
                 selectedRPI1: new FormControl(''),
                 selectedRPI2: new FormControl(''),
+                whereRpi: new FormControl(),
+
                 ////// RPE
+                rpe: new FormControl(''),
                 selectedRPE1: new FormControl(''),
                 selectedRPE2: new FormControl(''),
+                whereRpe: new FormControl(),
 
-                ///ALSA
-                selectedAlsa1: new FormControl(''),
-                selectedAlsa2: new FormControl(''),
-                //ARCO
-                selectedArco1: new FormControl(''),
-                selectedArco2: new FormControl(''),
                 //Talonera
                 talonera1: new FormControl(''),
                 taloneraAltura: new FormControl(''),
                 taloneraType: new FormControl(''),
                 taloneraDescarga: new FormControl(''),
-
-                //Option
-                whereRae: new FormControl(),
-                whereRpe: new FormControl(),
-                whereRpi: new FormControl(),
-                whereRai: new FormControl(),
               }),
             ]),
           }),
@@ -223,48 +233,58 @@ export class DashboardComponent implements OnInit {
         model: new FormControl('', Validators.required),
         /// ANTEPIEE
         descargaAntepie: new FormControl(''),
+        WhereDescarga: new FormControl(''),
+        //OLIVAA
         oliva_BarraMetatarsal: new FormControl(''),
+        whereOliva: new FormControl(),
+        //RAI
         rai: new FormControl(''),
+        whereRai: new FormControl(),
+        //RAE
         rae: new FormControl(''),
-        /// PIE MEDIO
+        whereRae: new FormControl(),
+        //PIE MEDIOOOO
+        //ARCO
         arco: new FormControl(''),
+        selectedArco1: new FormControl(''),
+        selectedArco2: new FormControl(''),
+        whereArco: new FormControl(),
+        //CONTRA ARCO
         contraArco: new FormControl(''),
-        /// TALON/RETROPIE
-        alsa: new FormControl(''),
-        alcochadaOEspolon: new FormControl(''),
+        whereContraArco: new FormControl(''),
 
-        rpi: new FormControl(''),
-        rpe: new FormControl(''),
+        /// TALON/RETROPIE
+        ///ALSA
+        alsa: new FormControl(''),
+        selectedAlsa1: new FormControl(''),
+        selectedAlsa2: new FormControl(''),
+        whereAlsa: new FormControl(),
+
+        ///Alcochada
+        alcochadaOEspolon: new FormControl(''),
+        Wherealcochada: new FormControl(''),
 
         ///OPTION
-        raex: new FormControl(''),
         clinica: new FormControl(''),
         talonera: new FormControl(''),
 
-        ////// RPI
+        //RPI
+        rpi: new FormControl(''),
         selectedRPI1: new FormControl(''),
         selectedRPI2: new FormControl(''),
+        whereRpi: new FormControl(),
+
         ////// RPE
+        rpe: new FormControl(''),
         selectedRPE1: new FormControl(''),
         selectedRPE2: new FormControl(''),
+        whereRpe: new FormControl(),
 
-        ///ALSA
-        selectedAlsa1: new FormControl(''),
-        selectedAlsa2: new FormControl(''),
-        //ARCO
-        selectedArco1: new FormControl(''),
-        selectedArco2: new FormControl(''),
         //Talonera
         talonera1: new FormControl(''),
         taloneraAltura: new FormControl(''),
         taloneraType: new FormControl(''),
         taloneraDescarga: new FormControl(''),
-
-        //Option
-        whereRae: new FormControl(),
-        whereRpe: new FormControl(),
-        whereRpi: new FormControl(),
-        whereRai: new FormControl(),
       })
     );
   }
@@ -281,8 +301,6 @@ export class DashboardComponent implements OnInit {
         item: new FormArray([
           new FormGroup({
             // FORM NECESARIOS
-            // itemName: new FormControl('', Validators.required),
-            // itemFirstName: new FormControl('', Validators.required),
             correction: new FormControl([
               Validators.min(105),
               Validators.max(360),
@@ -292,48 +310,58 @@ export class DashboardComponent implements OnInit {
             model: new FormControl('', Validators.required),
             /// ANTEPIEE
             descargaAntepie: new FormControl(''),
+            WhereDescarga: new FormControl(''),
+            //OLIVAA
             oliva_BarraMetatarsal: new FormControl(''),
+            whereOliva: new FormControl(),
+            //RAI
             rai: new FormControl(''),
+            whereRai: new FormControl(),
+            //RAE
             rae: new FormControl(''),
-            /// PIE MEDIO
+            whereRae: new FormControl(),
+            //PIE MEDIOOOO
+            //ARCO
             arco: new FormControl(''),
+            selectedArco1: new FormControl(''),
+            selectedArco2: new FormControl(''),
+            whereArco: new FormControl(),
+            //CONTRA ARCO
             contraArco: new FormControl(''),
-            /// TALON/RETROPIE
-            alsa: new FormControl(''),
-            alcochadaOEspolon: new FormControl(''),
+            whereContraArco: new FormControl(''),
 
-            rpi: new FormControl(''),
-            rpe: new FormControl(''),
+            /// TALON/RETROPIE
+            ///ALSA
+            alsa: new FormControl(''),
+            selectedAlsa1: new FormControl(''),
+            selectedAlsa2: new FormControl(''),
+            whereAlsa: new FormControl(),
+
+            ///Alcochada
+            alcochadaOEspolon: new FormControl(''),
+            Wherealcochada: new FormControl(''),
 
             ///OPTION
-            raex: new FormControl(''),
             clinica: new FormControl(''),
             talonera: new FormControl(''),
 
-            ////// RPI
+            //RPI
+            rpi: new FormControl(''),
             selectedRPI1: new FormControl(''),
             selectedRPI2: new FormControl(''),
+            whereRpi: new FormControl(),
+
             ////// RPE
+            rpe: new FormControl(''),
             selectedRPE1: new FormControl(''),
             selectedRPE2: new FormControl(''),
+            whereRpe: new FormControl(),
 
-            ///ALSA
-            selectedAlsa1: new FormControl(''),
-            selectedAlsa2: new FormControl(''),
-            //ARCO
-            selectedArco1: new FormControl(''),
-            selectedArco2: new FormControl(''),
             //Talonera
             talonera1: new FormControl(''),
             taloneraAltura: new FormControl(''),
             taloneraType: new FormControl(''),
             taloneraDescarga: new FormControl(''),
-
-            //Option
-            whereRae: new FormControl(),
-            whereRpe: new FormControl(),
-            whereRpi: new FormControl(),
-            whereRai: new FormControl(''),
           }),
         ]),
       })
@@ -365,20 +393,129 @@ export class DashboardComponent implements OnInit {
         plantillaNombre++;
         /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
 
-        // console.log(
-        //   Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85,
-        //   'get(size).value to mm down'
-        // );
-        // console.log(item.get('correction').value, 'item mm value correcion');
-        // console.log(
-        //   Math.round((parseInt(item.get('size').value) * 10) / 1.5),
-        //   'get(size).value to mm high'
-        // );
-        // console.log(
-        //   item.get('correction').value <
-        //     Math.round((parseInt(item.get('size').value) * 10) / 1.5),
-        //   'test if correcion inferio then sup value'
-        // );
+        item
+          .get('rpi')
+          .setValue(
+            (item.get('selectedRPI1').value
+              ? item.get('selectedRPI1').value
+              : '') +
+              ('-' + item.get('selectedRPI2').value
+                ? item.get('selectedRPI2').value
+                : '') +
+              ('-' + item.get('whereRpi').value
+                ? item.get('whereRpi').value
+                : '')
+          );
+        item
+          .get('rpe')
+          .setValue(
+            (item.get('selectedRPE1').value
+              ? item.get('selectedRPE1').value
+              : '') +
+              ('-' + item.get('selectedRPE2').value
+                ? item.get('selectedRPE2').value
+                : '') +
+              ('-' + item.get('whereRpe').value
+                ? item.get('whereRpe').value
+                : '')
+          );
+        item
+          .get('rae')
+          .setValue(
+            (item.get('rae').value ? item.get('rae').value : '') +
+              ('-' + item.get('whereRae').value
+                ? item.get('whereRae').value
+                : '')
+          );
+        item
+          .get('oliva_BarraMetatarsal')
+          .setValue(
+            (item.get('oliva_BarraMetatarsal').value
+              ? item.get('oliva_BarraMetatarsal').value
+              : '') +
+              ('-' + item.get('whereOliva').value
+                ? item.get('whereOliva').value
+                : '')
+          );
+        item
+          .get('alcochadaOEspolon')
+          .setValue(
+            (item.get('alcochadaOEspolon').value
+              ? item.get('alcochadaOEspolon').value
+              : '') +
+              ('-' + item.get('Wherealcochada').value
+                ? item.get('Wherealcochada').value
+                : '')
+          );
+        item
+          .get('descargaAntepie')
+          .setValue(
+            (item.get('descargaAntepie').value
+              ? item.get('descargaAntepie').value
+              : '') +
+              ('-' + item.get('WhereDescarga').value
+                ? item.get('WhereDescarga').value
+                : '')
+          );
+        item
+          .get('rai')
+          .setValue(
+            (item.get('rai').value ? item.get('rai').value : '') +
+              ('-' + item.get('whereRai').value
+                ? item.get('whereRai').value
+                : '')
+          );
+        item
+          .get('talonera')
+          .setValue(
+            (item.get('talonera1').value ? item.get('talonera1').value : '') +
+              ('-' + item.get('taloneraAltura').value
+                ? item.get('taloneraAltura').value
+                : '') +
+              ('-' + item.get('taloneraType').value
+                ? item.get('taloneraType').value
+                : '') +
+              ('-' + item.get('taloneraDescarga').value
+                ? item.get('taloneraDescarga').value
+                : '')
+          );
+        item
+          .get('arco')
+          .setValue(
+            (item.get('selectedArco1').value
+              ? item.get('selectedArco1').value
+              : '') +
+              ('-' + item.get('selectedArco2').value
+                ? item.get('selectedArco2').value
+                : '') +
+              ('-' + item.get('whereArco').value
+                ? item.get('whereArco').value
+                : '')
+          );
+        item
+          .get('contraArco')
+          .setValue(
+            item.get('contraArco').value +
+              ('-' + item.get('whereContraArco').value
+                ? item.get('whereContraArco').value
+                : '')
+          );
+        item
+          .get('alsa')
+          .setValue(
+            (item.get('selectedAlsa1').value
+              ? item.get('selectedAlsa1').value
+              : '') +
+              ('-' + item.get('selectedAlsa2').value
+                ? item.get('selectedAlsa2').value
+                : '') +
+              ('-' + item.get('whereAlsa').value
+                ? item.get('whereAlsa').value
+                : '')
+          );
+
+        console.log(this.itemsArray.value);
+
         if (
           item.get('correction').value <
             Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
@@ -386,7 +523,7 @@ export class DashboardComponent implements OnInit {
             item.get('correction').value
         ) {
           this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
-
+          this.createFinalForm();
           this.alert.info(
             'El valor de la correcion no se puede applicar a la talles selecionnada '
           );
@@ -415,6 +552,21 @@ export class DashboardComponent implements OnInit {
       );
     }
     // this.changeStepAhead();
+  }
+  createFinalForm() {
+    (this.itemsArray as FormArray).controls.forEach((patient) => {
+      (patient.get('item') as FormArray).controls.forEach((item) => {
+        item
+          .get('rpi')
+          .setValue(
+            item.get('selectedRPI1').value +
+              '-' +
+              item.get('selectedRPI2').value +
+              '-' +
+              item.get('whereRpi').value
+          );
+      });
+    });
   }
   async loadCommand() {
     await this.clientService
@@ -495,75 +647,6 @@ export class DashboardComponent implements OnInit {
     finalDate = onlyDate ? finalDate.substring(0, 10) : finalDate;
 
     return finalDate;
-  }
-
-  /////RPIIIII
-  onChangeRpi(indexPatient: number, indexPlantilla: number) {
-    let variableRpi = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rpi');
-    let variableRpi1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPI1');
-    let variableRpi2 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPI2');
-    variableRpi.setValue(variableRpi1.value + '' + variableRpi2.value);
-  }
-  //RPIII
-  onChangeWhereRpi(
-    indexPatient: number,
-    indexPlantilla: number,
-    position: string
-  ) {
-    let variableRpi = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rpi');
-    let variableRpi1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPI1');
-    let variableRpi2 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPI2');
-    if (this.beforePositionRpi == 'none') {
-      variableRpi.setValue(
-        variableRpi1.value + '-' + variableRpi2.value + '-' + position
-      );
-      this.beforePositionRpi = position;
-    } else if (position !== this.beforePositionRpi) {
-      const regex = /(.*)-.*$/;
-      const match = regex.exec(variableRpi.value);
-      variableRpi.setValue(match[1]);
-
-      variableRpi.setValue(
-        variableRpi1.value + '-' + variableRpi2.value + '-' + position
-      );
-      this.beforePositionRpi = position;
-    }
   }
 
   //RPEEEE

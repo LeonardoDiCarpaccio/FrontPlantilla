@@ -128,14 +128,72 @@
                     <select formControlName="oliva_BarraMetatarsal" autocomplete="olivaBarra" name="olivaBarra" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="model" *ngFor="let olivasBarra of olivaBarras" [value]="olivasBarra">{{olivasBarra}}</option>
-                    </select>                
+                    </select>  
+                    <div   *ngIf=" product.get('oliva_BarraMetatarsal')
+                    .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                      <div class="flex;
+                      flex-column;
+                    " style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                        <input formControlName='whereOliva' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input formControlName='whereOliva'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;"> 
+                        <input formControlName='whereOliva' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        </label>
+                      </div>
+                    </div>                
                   </div>
                   <div class="col-span-2 sm:col-span-2">
                     <label for="descargaAntepie" class="block text-sm font-medium text-gray-700">Descarga Antepie</label>
                     <select formControlName="descargaAntepie" autocomplete="descargaAntepie" name="descargaAntepie" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="model" *ngFor="let descargaAntepie of descargaAntepies" [value]="descargaAntepie">{{descargaAntepie}}</option>
-                    </select>                
+                    </select>            
+                    <div   *ngIf=" product.get('descargaAntepie')
+                    .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                      <div class="flex;
+                      flex-column;
+                    " style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                        <input formControlName='WhereDescarga' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input formControlName='WhereDescarga'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;"> 
+                        <input formControlName='WhereDescarga' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        </label>
+                      </div>
+                    </div>    
                   </div>
 
                   <div class="col-span-2 sm:col-span-2">
@@ -158,7 +216,7 @@
                     " style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                        <input  (click)="onChangeWhereRai(i,j,'Billateral')"   formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Billateral" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input   formControlName="whereRai"  type="radio" value="Billateral" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label for="whereRai" class="ml-3">
                           <span class="block text-sm font-medium text-gray-700">Billateral</span>
                         </label>
@@ -166,7 +224,7 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;">
-                        <input (click)="onChangeWhereRai(i,j,'Derecha')"  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Derecha" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input  formControlName="whereRai"  type="radio" value="Derecha" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label for="whereRai" class="ml-3">
                           <span class="block text-sm font-medium text-gray-700">Derecha</span>
                         </label>
@@ -174,7 +232,7 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;">
-                        <input (click)="onChangeWhereRai(i,j,'Isquierda')" formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input  formControlName="whereRai"  type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label for="whereRai" class="ml-3">
                           <span class="block text-sm font-medium text-gray-700">Isquierda</span>
                         </label>
@@ -204,24 +262,24 @@
                   " style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                      <input (click)="onChangeWhereRae(i,j,'Billateral')"  formControlName='whereRae' id="billateral" value="Billateral" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="billateral" class="ml-3">
+                      <input formControlName='whereRae' value="Billateral" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Billateral</span>
                       </label>
                     </div>
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  (click)="onChangeWhereRae(i,j,'Derecha')" formControlName='whereRae' id="right" value="Derecha" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="right" class="ml-3">
+                      <input  formControlName='whereRae'  value="Derecha" name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Derecha</span>
                       </label>
                     </div>
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  (click)="onChangeWhereRae(i,j,'Isquierda')" formControlName='whereRae' id="left" value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="left" class="ml-3">
+                      <input  formControlName='whereRae'  value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Isquierda</span>
                       </label>
                     </div>
@@ -241,16 +299,45 @@
   
                   <div class="col-span-4 sm:col-span-3">
                     <label for="arcoInterno" class="block text-sm font-medium text-gray-700"> Arco Longitudinal Interno</label>
-                    <select (change)="onChangeArco(i,j)"
+                    <select
                     formControlName="selectedArco1" autocomplete="selectedArco1" name="selectedArco1" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="model" *ngFor="let arcoInterno of selectedArco1" [value]="arcoInterno">{{arcoInterno}}</option>
                     </select>     
                     <input *ngIf=" product.get('selectedArco1')
                     .value"
-                    (change)="onChangeArco(i,j)" type="number" formControlName="selectedArco2" id="arco"  placeholder="Altura del arco en mm"
+                   type="number" formControlName="selectedArco2" id="arco"  placeholder="Altura del arco en mm"
                     class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                     border-gray-300 rounded-md">           
+                     border-gray-300 rounded-md">    
+                     <div   *ngIf=" product.get('selectedArco2')
+                     .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                       <div class="flex;
+                       flex-column;
+                     " style="display: flex  !important;
+                     flex-direction: column !important;
+                     align-items: center !important;">
+                         <input formControlName='whereArco' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                         <label class="ml-3">
+                           <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                         </label>
+                       </div>
+                       <div class=" items-center" style="display: flex  !important;
+                       flex-direction: column !important;
+                       align-items: center !important;">
+                         <input formControlName='whereArco'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                         <label  class="ml-3">
+                           <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                         </label>
+                       </div>
+                       <div class=" items-center" style="display: flex  !important;
+                       flex-direction: column !important;
+                       align-items: center !important;"> 
+                         <input formControlName='whereArco' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                         <label  class="ml-3">
+                           <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                         </label>
+                       </div>
+                     </div>           
                   </div>
                   <div class="col-span-4 sm:col-span-3">
                     <label for="contraArco" class="block text-sm font-medium text-gray-700">Contra-Arco</label>
@@ -259,7 +346,35 @@
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="model" *ngFor="let contra of contraArco" [value]="contra">{{contra}}</option>
                     </select>     
-                   
+                    <div   *ngIf=" product.get('contraArco')
+                    .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                      <div class="flex;
+                      flex-column;
+                    " style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                        <input formControlName='whereContraArco' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input formControlName='whereContraArco'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;"> 
+                        <input formControlName='whereContraArco' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        </label>
+                      </div>
+                    </div>    
                   </div>
                   <!-- RETROPIE/TALON -->
                   <div class="relative col-span-10">
@@ -276,7 +391,6 @@
                   <div class="col-span-4 sm:col-span-2">
                     <label for="alturaDeAlsa" class="block text-sm font-medium text-gray-700">Alsa</label>
                     <select                 
-                    (change)="onChangeAlsa(i,j)"
                     formControlName="selectedAlsa1" autocomplete="selectedAlsa1" name="selectedAlsa1" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="alsa" *ngFor="let alsa of alsa1" [value]="alsa">{{alsa}}</option>
@@ -286,19 +400,47 @@
                     </label>
                     <select  *ngIf=" product.get('selectedAlsa1')
                     .value"
-                    (change)="onChangeAlsa(i,j)"
+                   
                     formControlName="selectedAlsa2" autocomplete="selectedAlsa2" name="selectedAlsa2" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="alsa" *ngFor="let alsa of alsa2" [value]="alsa">{{alsa}}</option>
                     </select> 
-                        
+                    <div   *ngIf=" product.get('selectedAlsa1')
+                    .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
+                      <div class="flex;
+                      flex-column;
+                    " style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                        <input formControlName='whereAlsa' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input   formControlName='whereAlsa'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                        </label>
+                      </div>
+                      <div class=" items-center" style="display: flex  !important;
+                      flex-direction: column !important;
+                      align-items: center !important;">
+                        <input   formControlName='whereAlsa'  value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <label  class="ml-3">
+                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
                  
                   <div class="col-span-1 sm:col-span-2">
                     <label for="rpi" class="block text-sm font-medium text-gray-700">RPI</label>
   
                   <select 
-                  (change)="onChangeRpi(i,j)"
+                 
                   formControlName="selectedRPI1"
                   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option *ngFor="let item of rpis1" [value]="item">{{ item }}</option>
@@ -321,24 +463,24 @@
                   " style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                      <input (change)="onChangeWhereRpi(i,j,'Billateral')" formControlName='whereRpi' id="billateral" value="Billateral" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="Billateral" class="ml-3">
+                      <input formControlName='whereRpi' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Billateral</span>
                       </label>
                     </div>
                     <div class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  (change)="onChangeWhereRpi(i,j,'Derecha')" formControlName='whereRpi' id="right" value="Derecha" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="right" class="ml-3">
+                      <input   formControlName='whereRpi'  value="Derecha"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Derecha</span>
                       </label>
                     </div>
                     <div class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  (change)="onChangeWhereRpi(i,j,'Isquierda')"  formControlName='whereRpi' id="left" value="Isquierda" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="left" class="ml-3">
+                      <input   formControlName='whereRpi'  value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Isquierda</span>
                       </label>
                     </div>
@@ -349,7 +491,6 @@
                   <label for="rpe" class="block text-sm font-medium text-gray-700">RPE</label>
   
                   <select 
-                  (change)="onChangeRpe(i,j)"
   
                   formControlName="selectedRPE1"
                   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
@@ -361,7 +502,6 @@
                   <select 
                   *ngIf=" product.get('selectedRPE1')
                   .value"
-                  (change)="onChangeRpe(i,j)"
                   formControlName="selectedRPE2"
                   class="mt-1 block w-full py-2 px-3 border border-gray-300
                    bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500
@@ -369,7 +509,7 @@
                     <option *ngFor="let item of rpes2" [value]="item">{{ item }}</option>
                   </select>
   
-                  <div *ngIf=" product.get('selectedRPE1')
+                  <div *ngIf=" product.get('selectedRPE2')
                   .value"
                    class="space-y-1 flex flex-row" style="align-items: baseline;">
                     <div  class="flex;
@@ -377,16 +517,16 @@
                   " style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                      <input                   (change)="onChangeWhereRpe(i,j,'Billateral')"
-                      formControlName='whereRpe' id="billateral" value="Billateral" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                      <label for="billateral" class="ml-3">
+                      <input                   
+                      formControlName='whereRpe' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Billateral</span>
                       </label>
                     </div>
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input   (change)="onChangeWhereRpe(i,j,'Derecha')" formControlName='whereRpe' id="right" value="Derecha" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input   formControlName='whereRpe'  value="Derecha" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label for="right" class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Derecha</span>
                       </label>
@@ -394,7 +534,7 @@
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input (change)="onChangeWhereRpe(i,j,'Isquierda')" formControlName='whereRpe' id="left" value="Isquierda" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input formControlName='whereRpe' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label for="left" class="ml-3">
                         <span class="block text-sm font-medium text-gray-700">Isquierda</span>
                       </label>
@@ -402,13 +542,43 @@
                   </div>
                 </div>
                 <div class="col-span-4 ">
-                  <label for="alcochadaOEspolon" class="block text-sm font-medium text-gray-700">Acolchado De Talon/Descarga Espolon</label>
+                  <label class="block text-sm font-medium text-gray-700">Acolchado De Talon/Descarga Espolon</label>
                   <select 
                   formControlName="alcochadaOEspolon" autocomplete="alcochadaOEspolon" name="alcochadaOEspolon" 
                   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option  id="alcochadaOEspolon" *ngFor="let item of alcochadaOEspolon" [value]="item">{{item}}</option>
+                    <option *ngFor="let item of alcochadaOEspolon" [value]="item">{{item}}</option>
                   </select>     
-                 
+                  <div *ngIf=" product.get('alcochadaOEspolon')
+                  .value"
+                   class="space-y-1 flex flex-row" style="align-items: baseline;">
+                    <div  class="flex;
+                    flex-column;
+                  " style="display: flex  !important;
+                  flex-direction: column !important;
+                  align-items: center !important;">
+                      <input                   
+                      formControlName='Wherealcochada' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Billateral</span>
+                      </label>
+                    </div>
+                    <div  class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input   formControlName='Wherealcochada'  value="Derecha" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Derecha</span>
+                      </label>
+                    </div>
+                    <div  class=" items-center" style="display: flex  !important;
+                    flex-direction: column !important;
+                    align-items: center !important;">
+                      <input formControlName='Wherealcochada' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <label  class="ml-3">
+                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
                   <!-- ANNEXASSS -->
                   <div class="relative col-span-10">
