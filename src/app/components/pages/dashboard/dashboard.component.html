@@ -1,8 +1,9 @@
+
 <app-generic-steps-form [step]="this.step"></app-generic-steps-form>
 <!-- <app-generic-formgroup></app-generic-formgroup> -->
 <!-- <p>dashboard works!</p> -->
-<div class="flex-1 flex items-stretch ">
-<main  class="flex-1 overflow-y-auto  h-screen">
+<div class="flex-1  overflow-y-auto  flex items-stretch ">
+<main  class="flex-1 h-screen">
     
   <div class="hidden " aria-hidden="true">
     <div class="py-5">
@@ -10,9 +11,9 @@
     </div>
   </div>
 
-  <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-40 mr-40': 'pl-6'" class="mt-10 sm:mt-0">
+  <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-6'" class="mt-10 sm:mt-0">
 
-    <div [ngClass]="this.step==1 ? '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" class="md:gap-2">
+    <div [ngClass]="this.step==1 ? '': 'md:grid pt-8 md:grid-cols-[200px_repeat(2,minmax(0,1fr))]  max-w-7xl'" class="md:gap-2">
 
       <div [ngClass]="this.step==1 ? 'justify-center py-8': 'md:col-span-1 self-center'" class="flex">
 
@@ -38,7 +39,7 @@
               </div>
               <div class="relative flex items-center justify-center">
                 <span class="pr-3 bg-white text-2xl font-medium text-gray-900">
-                  Paciente {{i+1}}
+                  Paciente {{i+1}} : {{ patient.get('patientName').value}} {{ patient.get('patientFirstName').value}}
                 </span>
                 <button *ngIf="i!=0" (click)="deletePatiente(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                   
@@ -69,7 +70,7 @@
                   </div>
                   <div class="relative flex items-center justify-between">
                     <span class="pr-3 bg-white text-lg font-medium text-gray-900">
-                      Plantilla Numero {{j+1}} Del Patiente
+                      Plantilla Numero {{j+1}} Del Patiente {{ patient.get('patientName').value}} {{ patient.get('patientFirstName').value}}
                     </span>
                     <button *ngIf="j!=0" (click)="deleteShoeSol(i,j)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                       
@@ -152,9 +153,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;"> 
-                        <input formControlName='whereOliva' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input formControlName='whereOliva' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label  class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>                
@@ -163,7 +164,7 @@
                     <label for="descargaAntepie" class="block text-sm font-medium text-gray-700">Descarga Antepie</label>
                     <select formControlName="descargaAntepie" autocomplete="descargaAntepie" name="descargaAntepie" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option  id="model" *ngFor="let descargaAntepie of descargaAntepies" [value]="descargaAntepie">{{descargaAntepie}}</option>
+                      <option  id="descargaAntepie" *ngFor="let descargaAntepie of descargaAntepies" [value]="descargaAntepie">{{descargaAntepie}}</option>
                     </select>            
                     <div   *ngIf=" product.get('descargaAntepie')
                     .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
@@ -188,9 +189,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;"> 
-                        <input formControlName='WhereDescarga' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input formControlName='WhereDescarga' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label  class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>    
@@ -206,8 +207,7 @@
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="rai" *ngFor="let item of rai1" [value]="item">{{item}}</option>
                     </select> 
-                    {{product.get('rai')
-                    .value}}
+                 
                     <div
                     *ngIf=" product.get('rai')
                     .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
@@ -232,9 +232,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;">
-                        <input  formControlName="whereRai"  type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input  formControlName="whereRai"  type="radio" value="Izquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label for="whereRai" class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>
@@ -249,8 +249,7 @@
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="rae" *ngFor="let item of rae1"   [value]="item">{{item}}</option>
                     </select> 
-                    {{product.get('rae')
-                    .value}}
+                   
                     
                     <div 
                    
@@ -278,9 +277,9 @@
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  formControlName='whereRae'  value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input  formControlName='whereRae'  value="Izquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -332,9 +331,9 @@
                        <div class=" items-center" style="display: flex  !important;
                        flex-direction: column !important;
                        align-items: center !important;"> 
-                         <input formControlName='whereArco' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                         <input formControlName='whereArco' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                          <label  class="ml-3">
-                           <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                           <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                          </label>
                        </div>
                      </div>           
@@ -369,9 +368,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;"> 
-                        <input formControlName='whereContraArco' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input formControlName='whereContraArco' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label  class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>    
@@ -428,9 +427,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;">
-                        <input   formControlName='whereAlsa'  value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input   formControlName='whereAlsa'  value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label  class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>
@@ -479,9 +478,9 @@
                     <div class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input   formControlName='whereRpi'  value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input   formControlName='whereRpi'  value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label  class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -509,7 +508,7 @@
                     <option *ngFor="let item of rpes2" [value]="item">{{ item }}</option>
                   </select>
   
-                  <div *ngIf=" product.get('selectedRPE2')
+                  <div *ngIf=" product.get('selectedRPE1')
                   .value"
                    class="space-y-1 flex flex-row" style="align-items: baseline;">
                     <div  class="flex;
@@ -534,9 +533,9 @@
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input formControlName='whereRpe' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input formControlName='whereRpe' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label for="left" class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -573,9 +572,9 @@
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input formControlName='Wherealcochada' value="Isquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input formControlName='Wherealcochada' value="Izquierda"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label  class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -661,7 +660,8 @@
                   <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                   </svg>
-                  <span>Anadir Una Plantilla Mas Al Paciente {{i+1}}</span>
+                  <span>Anadir Una Plantilla Mas Al Paciente : {{ patient.get('patientName').value}} {{ patient.get('patientFirstName').value}}
+                    </span>
                 </button>
               </div>
              

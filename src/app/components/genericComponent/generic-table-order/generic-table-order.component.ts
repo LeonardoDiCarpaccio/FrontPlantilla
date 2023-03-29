@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { CommandService } from 'src/app/services/crud/command.service';
+import { HelpersService } from 'src/app/services/helpers.service';
 
 @Component({
   selector: 'app-generic-table-order',
@@ -30,9 +31,11 @@ export class GenericTableOrderComponent implements OnInit {
   statusStoredHisto: any;
   id: any;
   commandDetails: any;
+
   constructor(
     private alert: AlertService,
-    private commandService: CommandService
+    private commandService: CommandService,
+    private helperService: HelpersService
   ) {}
 
   ngOnInit(): void {
@@ -88,7 +91,8 @@ export class GenericTableOrderComponent implements OnInit {
         id: command.id,
         clientId: command.clientId,
         creationDate: command.creationDate,
-        finishDate: this.statusStored == 3 ? this.dateNow(true) : null,
+        finishDateDisplay:
+          this.statusStored == 3 ? this.helperService.dateNowString() : null,
         Price: command.price,
         statusId: this.statusStored,
       };

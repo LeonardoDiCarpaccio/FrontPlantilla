@@ -24,7 +24,7 @@ export class OrderWaitingComponent implements OnInit {
     { name: 'Apellido', key: 'clientName', obj: 'client' },
     { name: 'Nombre', key: 'clientFirstName', obj: 'client' },
     { name: 'Organization', key: 'orga', obj: 'client' },
-    { name: 'Feche De Creacion', key: 'creationDate' },
+    { name: 'Feche De Creacion', key: 'creationDateDisplay' },
     { name: 'Ver Detalles', key: 'details' },
 
     // { name: 'Cantidad', key: 'quantity', obj: 'item' },
@@ -136,5 +136,6 @@ export class OrderWaitingComponent implements OnInit {
   };
   generateCSV = (item: any) => {
     this.helperService.createCsvModel(item);
+    this.helperService.createCsvSticker(item);
   };
 }

@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { ClientService } from 'src/app/services/crud/client.service';
+import { HelpersService } from 'src/app/services/helpers.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,7 +23,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private alert: AlertService,
     private clientService: ClientService,
-    private commandService: CommandService
+    private commandService: CommandService,
+    private helperService: HelpersService
   ) {}
 
   form: FormGroup;
@@ -78,7 +80,9 @@ export class DashboardComponent implements OnInit {
       }),
       command: new FormGroup({
         clientId: new FormControl(this.user.id, Validators.required),
-        creationDate: new FormControl(this.dateNow(true)),
+        creationDateDisplay: new FormControl(
+          this.helperService.dateNowString()
+        ),
         price: new FormControl(this.user.price, Validators.required),
         patient: new FormArray([
           new FormGroup({
@@ -98,36 +102,36 @@ export class DashboardComponent implements OnInit {
                 model: new FormControl('', Validators.required),
                 /// ANTEPIEE
                 descargaAntepie: new FormControl(''),
-                WhereDescarga: new FormControl(''),
+                WhereDescarga: new FormControl('Billateral'),
                 //OLIVAA
                 oliva_BarraMetatarsal: new FormControl(''),
-                whereOliva: new FormControl(),
+                whereOliva: new FormControl('Billateral'),
                 //RAI
                 rai: new FormControl(''),
-                whereRai: new FormControl(),
+                whereRai: new FormControl('Billateral'),
                 //RAE
                 rae: new FormControl(''),
-                whereRae: new FormControl(),
+                whereRae: new FormControl('Billateral'),
                 //PIE MEDIOOOO
                 //ARCO
                 arco: new FormControl(''),
                 selectedArco1: new FormControl(''),
                 selectedArco2: new FormControl(''),
-                whereArco: new FormControl(),
+                whereArco: new FormControl('Billateral'),
                 //CONTRA ARCO
                 contraArco: new FormControl(''),
-                whereContraArco: new FormControl(''),
+                whereContraArco: new FormControl('Billateral'),
 
                 /// TALON/RETROPIE
                 ///ALSA
                 alsa: new FormControl(''),
                 selectedAlsa1: new FormControl(''),
                 selectedAlsa2: new FormControl(''),
-                whereAlsa: new FormControl(),
+                whereAlsa: new FormControl('Billateral'),
 
                 ///Alcochada
                 alcochadaOEspolon: new FormControl(''),
-                Wherealcochada: new FormControl(''),
+                Wherealcochada: new FormControl('Billateral'),
 
                 ///OPTION
                 clinica: new FormControl(''),
@@ -137,13 +141,13 @@ export class DashboardComponent implements OnInit {
                 rpi: new FormControl(''),
                 selectedRPI1: new FormControl(''),
                 selectedRPI2: new FormControl(''),
-                whereRpi: new FormControl(),
+                whereRpi: new FormControl('Billateral'),
 
                 ////// RPE
                 rpe: new FormControl(''),
                 selectedRPE1: new FormControl(''),
                 selectedRPE2: new FormControl(''),
-                whereRpe: new FormControl(),
+                whereRpe: new FormControl('Billateral'),
 
                 //Talonera
                 talonera1: new FormControl(''),
@@ -219,7 +223,13 @@ export class DashboardComponent implements OnInit {
       this.itemsArray.at(index).get('item').value,
       'this form value item '
     );
-
+    let shoeSolBefore = (this.itemsArray.at(index).get('item') as FormArray).at(
+      index
+    );
+    console.log(
+      (this.itemsArray.at(index).get('item') as FormArray).at(index).value,
+      'this form value item '
+    );
     // console.log(this.form.get('shoeSols').value.length(), 'length');
     // if (this.form.get('shoeSols').value.length() != 1) {
     (this.itemsArray.at(index).get('item') as FormArray).push(
@@ -227,13 +237,26 @@ export class DashboardComponent implements OnInit {
         // FORM NECESARIOS
         // itemName: new FormControl('', Validators.required),
         // itemFirstName: new FormControl('', Validators.required),
-        correction: new FormControl([Validators.min(105), Validators.max(360)]),
-        size: new FormControl('', Validators.required),
+        correction: new FormControl(shoeSolBefore.get('correction').value, [
+          Validators.min(105),
+          Validators.max(360),
+        ]),
+        size: new FormControl(
+          shoeSolBefore.get('size').value,
+          Validators.required
+        ),
         quantity: new FormControl(1, Validators.required),
-        model: new FormControl('', Validators.required),
+        model: new FormControl(
+          shoeSolBefore.get('model').value,
+          Validators.required
+        ),
         /// ANTEPIEE
-        descargaAntepie: new FormControl(''),
-        WhereDescarga: new FormControl(''),
+        descargaAntepie: new FormControl(
+          shoeSolBefore.get('descargaAntepie').value
+        ),
+        WhereDescarga: new FormControl(
+          shoeSolBefore.get('WhereDescarga').value
+        ),
         //OLIVAA
         oliva_BarraMetatarsal: new FormControl(''),
         whereOliva: new FormControl(),
@@ -393,126 +416,148 @@ export class DashboardComponent implements OnInit {
         plantillaNombre++;
         /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
 
-        item
-          .get('rpi')
-          .setValue(
-            (item.get('selectedRPI1').value
-              ? item.get('selectedRPI1').value
-              : '') +
-              ('-' + item.get('selectedRPI2').value
-                ? item.get('selectedRPI2').value
-                : '') +
-              ('-' + item.get('whereRpi').value
-                ? item.get('whereRpi').value
-                : '')
-          );
-        item
-          .get('rpe')
-          .setValue(
-            (item.get('selectedRPE1').value
-              ? item.get('selectedRPE1').value
-              : '') +
-              ('-' + item.get('selectedRPE2').value
-                ? item.get('selectedRPE2').value
-                : '') +
-              ('-' + item.get('whereRpe').value
-                ? item.get('whereRpe').value
-                : '')
-          );
-        item
-          .get('rae')
-          .setValue(
-            (item.get('rae').value ? item.get('rae').value : '') +
-              ('-' + item.get('whereRae').value
-                ? item.get('whereRae').value
-                : '')
-          );
-        item
-          .get('oliva_BarraMetatarsal')
-          .setValue(
-            (item.get('oliva_BarraMetatarsal').value
-              ? item.get('oliva_BarraMetatarsal').value
-              : '') +
-              ('-' + item.get('whereOliva').value
-                ? item.get('whereOliva').value
-                : '')
-          );
-        item
-          .get('alcochadaOEspolon')
-          .setValue(
-            (item.get('alcochadaOEspolon').value
-              ? item.get('alcochadaOEspolon').value
-              : '') +
-              ('-' + item.get('Wherealcochada').value
-                ? item.get('Wherealcochada').value
-                : '')
-          );
-        item
-          .get('descargaAntepie')
-          .setValue(
-            (item.get('descargaAntepie').value
-              ? item.get('descargaAntepie').value
-              : '') +
-              ('-' + item.get('WhereDescarga').value
-                ? item.get('WhereDescarga').value
-                : '')
-          );
-        item
-          .get('rai')
-          .setValue(
-            (item.get('rai').value ? item.get('rai').value : '') +
-              ('-' + item.get('whereRai').value
-                ? item.get('whereRai').value
-                : '')
-          );
-        item
-          .get('talonera')
-          .setValue(
-            (item.get('talonera1').value ? item.get('talonera1').value : '') +
-              ('-' + item.get('taloneraAltura').value
-                ? item.get('taloneraAltura').value
-                : '') +
-              ('-' + item.get('taloneraType').value
-                ? item.get('taloneraType').value
-                : '') +
-              ('-' + item.get('taloneraDescarga').value
-                ? item.get('taloneraDescarga').value
-                : '')
-          );
-        item
-          .get('arco')
-          .setValue(
-            (item.get('selectedArco1').value
-              ? item.get('selectedArco1').value
-              : '') +
-              ('-' + item.get('selectedArco2').value
-                ? item.get('selectedArco2').value
-                : '') +
-              ('-' + item.get('whereArco').value
-                ? item.get('whereArco').value
-                : '')
-          );
-        item
-          .get('contraArco')
-          .setValue(
-            item.get('contraArco').value +
-              ('-' + item.get('whereContraArco').value
-                ? item.get('whereContraArco').value
-                : '')
-          );
-        item
-          .get('alsa')
-          .setValue(
-            (item.get('selectedAlsa1').value
-              ? item.get('selectedAlsa1').value
-              : '') +
-              ('-' + item.get('selectedAlsa2').value
-                ? item.get('selectedAlsa2').value
-                : '') +
-              ('-' + item.get('whereAlsa').value
-                ? item.get('whereAlsa').value
-                : '')
-          );
+        // item
+        //   .get('rpi')
+        //   .setValue(
+        //     (item.get('selectedRPI1').value
+        //       ? item.get('selectedRPI1').value
+        //       : '') +
+        //       (item.get('selectedRPI2').value
+        //         ? '-' + item.get('selectedRPI2').value
+        //         : '') +
+        //       (item.get('selectedRPI1').value != ''
+        //         ? item.get('whereRpi').value != ''
+        //           ? '-' + item.get('whereRpi').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('rpe')
+        //   .setValue(
+        //     (item.get('selectedRPE1').value
+        //       ? item.get('selectedRPE1').value
+        //       : '') +
+        //       (item.get('selectedRPE2').value
+        //         ? '-' + item.get('selectedRPE2').value
+        //         : '') +
+        //       (item.get('selectedRPE1').value != ''
+        //         ? item.get('whereRpe').value != ''
+        //           ? '-' + item.get('whereRpe').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('rae')
+        //   .setValue(
+        //     (item.get('rae').value ? item.get('rae').value : '') +
+        //       (item.get('rae').value != ''
+        //         ? item.get('whereRae').value != ''
+        //           ? '-' + item.get('whereRae').value != ''
+        //           : ''
+        //         : '')
+        //   );
+
+        // item
+        //   .get('oliva_BarraMetatarsal')
+        //   .setValue(
+        //     (item.get('oliva_BarraMetatarsal').value
+        //       ? item.get('oliva_BarraMetatarsal').value
+        //       : '') +
+        //       (item.get('oliva_BarraMetatarsal').value != ''
+        //         ? item.get('whereOliva').value != ''
+        //           ? '-' + item.get('whereOliva').value
+        //           : ''
+        //         : '')
+        //   );
+
+        // item
+        //   .get('alcochadaOEspolon')
+        //   .setValue(
+        //     (item.get('alcochadaOEspolon').value
+        //       ? item.get('alcochadaOEspolon').value
+        //       : '') +
+        //       (item.get('alcochadaOEspolon').value != ''
+        //         ? item.get('Wherealcochada').value != ''
+        //           ? '-' + item.get('Wherealcochada').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('descargaAntepie')
+        //   .setValue(
+        //     (item.get('descargaAntepie').value
+        //       ? item.get('descargaAntepie').value
+        //       : '') +
+        //       (item.get('descargaAntepie').value != ''
+        //         ? item.get('WhereDescarga').value != ''
+        //           ? '-' + item.get('WhereDescarga').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('rai')
+        //   .setValue(
+        //     (item.get('rai').value ? item.get('rai').value : '') +
+        //       (item.get('rai').value != ''
+        //         ? item.get('whereRai').value != ''
+        //           ? '-' + item.get('whereRai').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('talonera')
+        //   .setValue(
+        //     (item.get('talonera1').value ? item.get('talonera1').value : '') +
+        //       (item.get('taloneraAltura').value
+        //         ? '-' + item.get('taloneraAltura').value
+        //         : '') +
+        //       (item.get('taloneraType').value
+        //         ? '-' + item.get('taloneraType').value
+        //         : '') +
+        //       (item.get('taloneraDescarga').value
+        //         ? '-' + item.get('taloneraDescarga').value
+        //         : '')
+        //   );
+        // item
+        //   .get('arco')
+        //   .setValue(
+        //     (item.get('selectedArco1').value
+        //       ? item.get('selectedArco1').value
+        //       : '') +
+        //       (item.get('selectedArco2').value
+        //         ? '-' + item.get('selectedArco2').value
+        //         : '') +
+        //       (item.get('selectedArco1').value != ''
+        //         ? item.get('whereArco').value != ''
+        //           ? '-' + item.get('whereArco').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('contraArco')
+        //   .setValue(
+        //     item.get('contraArco').value +
+        //       (item.get('contraArco').value != ''
+        //         ? item.get('whereContraArco').value != ''
+        //           ? '-' + item.get('whereContraArco').value
+        //           : ''
+        //         : '')
+        //   );
+        // item
+        //   .get('alsa')
+        //   .setValue(
+        //     (item.get('selectedAlsa1').value
+        //       ? item.get('selectedAlsa1').value
+        //       : '') +
+        //       (item.get('selectedAlsa2').value
+        //         ? '-' + item.get('selectedAlsa2').value
+        //         : '') +
+        //       (item.get('selectedAlsa1').value != ''
+        //         ? item.get('whereAlsa').value != ''
+        //           ? '-' + item.get('whereAlsa').value
+        //           : ''
+        //         : '')
+        //   );
 
         console.log(this.itemsArray.value);
 
@@ -523,7 +568,7 @@ export class DashboardComponent implements OnInit {
             item.get('correction').value
         ) {
           this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
-          this.createFinalForm();
+          // this.createFinalForm();
           this.alert.info(
             'El valor de la correcion no se puede applicar a la talles selecionnada '
           );
@@ -595,6 +640,170 @@ export class DashboardComponent implements OnInit {
   }
 
   temporarySaveForm() {
+    (this.itemsArray as FormArray).controls.forEach((patient) => {
+      (patient.get('item') as FormArray).controls.forEach((item) => {
+        // console.log(item.value, 'item');
+        /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
+
+        item
+          .get('rpi')
+          .setValue(
+            (item.get('selectedRPI1').value
+              ? item.get('selectedRPI1').value
+              : '') +
+              (item.get('selectedRPI2').value
+                ? '-' + item.get('selectedRPI2').value
+                : '') +
+              (item.get('selectedRPI1').value != ''
+                ? item.get('whereRpi').value != ''
+                  ? '-' + item.get('whereRpi').value
+                  : ''
+                : '')
+          );
+        item
+          .get('rpe')
+          .setValue(
+            (item.get('selectedRPE1').value
+              ? item.get('selectedRPE1').value
+              : '') +
+              (item.get('selectedRPE2').value
+                ? '-' + item.get('selectedRPE2').value
+                : '') +
+              (item.get('selectedRPE1').value != ''
+                ? item.get('whereRpe').value != ''
+                  ? '-' + item.get('whereRpe').value
+                  : ''
+                : '')
+          );
+        item
+          .get('rae')
+          .setValue(
+            (item.get('rae').value ? item.get('rae').value : '') +
+              (item.get('rae').value != ''
+                ? item.get('whereRae').value != ''
+                  ? '-' + item.get('whereRae').value
+                  : ''
+                : '')
+          );
+
+        item
+          .get('oliva_BarraMetatarsal')
+          .setValue(
+            (item.get('oliva_BarraMetatarsal').value
+              ? item.get('oliva_BarraMetatarsal').value
+              : '') +
+              (item.get('oliva_BarraMetatarsal').value != ''
+                ? item.get('whereOliva').value != ''
+                  ? '-' + item.get('whereOliva').value
+                  : ''
+                : '')
+          );
+
+        item
+          .get('alcochadaOEspolon')
+          .setValue(
+            (item.get('alcochadaOEspolon').value
+              ? item.get('alcochadaOEspolon').value
+              : '') +
+              (item.get('alcochadaOEspolon').value != ''
+                ? item.get('Wherealcochada').value != ''
+                  ? '-' + item.get('Wherealcochada').value
+                  : ''
+                : '')
+          );
+        item
+          .get('descargaAntepie')
+          .setValue(
+            (item.get('descargaAntepie').value
+              ? item.get('descargaAntepie').value
+              : '') +
+              (item.get('descargaAntepie').value != ''
+                ? item.get('WhereDescarga').value != ''
+                  ? '-' + item.get('WhereDescarga').value
+                  : ''
+                : '')
+          );
+        item
+          .get('rai')
+          .setValue(
+            (item.get('rai').value ? item.get('rai').value : '') +
+              (item.get('rai').value != ''
+                ? item.get('whereRai').value != ''
+                  ? '-' + item.get('whereRai').value
+                  : ''
+                : '')
+          );
+        item
+          .get('talonera')
+          .setValue(
+            (item.get('talonera1').value ? item.get('talonera1').value : '') +
+              (item.get('taloneraAltura').value
+                ? '-' + item.get('taloneraAltura').value
+                : '') +
+              (item.get('taloneraType').value
+                ? '-' + item.get('taloneraType').value
+                : '') +
+              (item.get('taloneraDescarga').value
+                ? '-' + item.get('taloneraDescarga').value
+                : '')
+          );
+        item
+          .get('arco')
+          .setValue(
+            (item.get('selectedArco1').value
+              ? item.get('selectedArco1').value
+              : '') +
+              (item.get('selectedArco2').value
+                ? '-' + item.get('selectedArco2').value + 'mm'
+                : '') +
+              (item.get('selectedArco1').value != ''
+                ? item.get('whereArco').value != ''
+                  ? '-' + item.get('whereArco').value
+                  : ''
+                : '')
+          );
+        item
+          .get('contraArco')
+          .setValue(
+            item.get('contraArco').value +
+              (item.get('contraArco').value != ''
+                ? item.get('whereContraArco').value != ''
+                  ? '-' + item.get('whereContraArco').value
+                  : ''
+                : '')
+          );
+        item
+          .get('alsa')
+          .setValue(
+            (item.get('selectedAlsa1').value
+              ? item.get('selectedAlsa1').value
+              : '') +
+              (item.get('selectedAlsa2').value
+                ? '-' + item.get('selectedAlsa2').value
+                : '') +
+              (item.get('selectedAlsa1').value != ''
+                ? item.get('whereAlsa').value != ''
+                  ? '-' + item.get('whereAlsa').value
+                  : ''
+                : '')
+          );
+
+        console.log(this.itemsArray.value);
+
+        if (
+          item.get('correction').value <
+            Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
+          Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
+            item.get('correction').value
+        ) {
+          this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
+          // this.createFinalForm();
+          this.alert.info(
+            'El valor de la correcion no se puede applicar a la talles selecionnada '
+          );
+        }
+      });
+    });
     console.log(
       JSON.parse(JSON.stringify(this.commandFormGroup.value)),
       'pedido ja'
@@ -623,31 +832,6 @@ export class DashboardComponent implements OnInit {
   }
 
   //IF CANT REGISTRER LIKE THAT USE CODE BELOW TO CHANGE DATE FORMAT
-  dateNow(onlyDate: Boolean) {
-    var date = new Date();
-    var now_utc = Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate()
-    );
-    // const dateString = "2023-01-31T00:00:00.000Z";
-    // // Convert the date string into a Date object
-    // const date = new Date(dateString);
-    // // Extract the day, month, and year components from the Date object
-    // const day = date.getDate();
-    // const month = date.getMonth() + 1; // Note: Month is zero-indexed
-    // const year = date.getFullYear();
-    // const formattedDate = `${day}-${month}-${year}`;
-    // Output: "31-1-2023"
-
-    var finalDate = new Date(now_utc)
-      .toISOString()
-      .replace(/T/, ' ')
-      .replace(/\..+/, '');
-    finalDate = onlyDate ? finalDate.substring(0, 10) : finalDate;
-
-    return finalDate;
-  }
 
   //RPEEEE
   onChangeRpe(indexPatient: number, indexPlantilla: number) {

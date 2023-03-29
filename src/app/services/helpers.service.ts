@@ -8,40 +8,27 @@ import * as fs from 'file-saver';
 export class HelpersService {
   constructor() {}
 
-  dateNow(onlyDate: boolean) {
-    var date = new Date();
-    var now_utc = Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours() + 2,
-      date.getUTCMinutes(),
-      date.getUTCSeconds()
-    );
+  dateNowString(): string {
+    const date = new Date();
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString().slice(-2);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    var finalDate = new Date(now_utc)
-      .toISOString()
-      .replace(/T/, ' ')
-      .replace(/\..+/, '');
-    finalDate = onlyDate ? finalDate.substring(0, 10) : finalDate;
-
-    return finalDate;
+    return `${day}/${month}/${year}-${hours}:${minutes}`;
   }
-
-  createCsvModel(items: any) {
-    const title_file = 'Excel Pedido Plantija';
+  createCsvSticker(items: any) {
+    const title_file =
+      'Etiquetas ' +
+      items.client.clientName +
+      '' +
+      items.client.clientFirstName +
+      '' +
+      'Pedido' +
+      '' +
+      items.id;
     let workbook = new Workbook();
-    const header = [
-      '#',
-      'Cantidad',
-      'Modelo',
-      'Talle',
-      'Correcciones Der/Izq',
-      'Appelido',
-      'Correcciones',
-      'COMENT',
-    ];
-
     let worksheetPresta = workbook.addWorksheet('Feuil1');
     // Set the page properties
     worksheetPresta.pageSetup.paperSize = 8; // A4
@@ -53,17 +40,110 @@ export class HelpersService {
       header: 0.05,
       footer: 0.05,
     };
+    items.patient.forEach((patient) => {
+      patient.item.forEach((item) => {
+        let newrow = [
+          item.id,
+          patient.patientName + ' ' + patient.patientFirstName,
+        ];
+        worksheetPresta.addRow(newrow);
+      });
+    });
+    // Set the width of columns A to F
+    worksheetPresta.getColumn('A').width = 8;
+    worksheetPresta.getColumn('B').width = 25;
+    for (let i = 1; i <= worksheetPresta.rowCount; i++) {
+      const cellA = worksheetPresta.getCell(`A${i}`);
+      const cellB = worksheetPresta.getCell(`B${i}`);
+
+      cellA.alignment = {
+        wrapText: true,
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+      cellA.font = {
+        size: 14,
+      };
+      cellB.alignment = {
+        wrapText: true,
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+      cellB.font = {
+        size: 16,
+      };
+    }
+
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data: any) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, title_file + '.xlsx');
+    });
+  }
+  createCsvModel(items: any) {
+    const title_file =
+      items.client.clientName +
+      '' +
+      items.client.clientFirstName +
+      '' +
+      'Pedido' +
+      '' +
+      items.id;
+    let workbook = new Workbook();
+    const currentDate = new Date().toLocaleDateString('arg-CA');
+    const clientName = items.client.clientName;
+    const clientFirstName = items.client.clientFirstName;
+    let worksheetPresta = workbook.addWorksheet('Feuil1');
+    // Add date and client name to the sheet
+    const cellA = worksheetPresta.getCell(`F1`);
+    const cellB = worksheetPresta.getCell(`G1`);
+    cellA.alignment = {
+      wrapText: true,
+    };
+    cellA.font = {
+      size: 15,
+    };
+    cellA.value = `FECHA : ${currentDate}`;
+    cellB.alignment = {
+      wrapText: true,
+    };
+    cellB.font = {
+      size: 15,
+    };
+    cellB.value = ` ${clientName} ${clientFirstName}`;
+    const header = [
+      '#',
+      'Can',
+      'Modelo',
+      'Talle',
+      'Correcciones Der/Izq',
+      'Appelido',
+      'Correcciones',
+      'COMENT',
+    ];
+
+    // Set the page properties
+    worksheetPresta.pageSetup.paperSize = 8; // A4
+    worksheetPresta.pageSetup.margins = {
+      left: 0.2,
+      right: 0.2,
+      top: 0.5,
+      bottom: 0.5,
+      header: 0.05,
+      footer: 0.05,
+    };
+
     let headerRowPresta = worksheetPresta.addRow(header);
     headerRowPresta.eachCell((cell: any, number: any) => {
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: '#000000' },
-        bgColor: { argb: '' },
-      };
+      // cell.fill = {
+      //   type: 'pattern',
+      //   pattern: 'solid',
+      // };
       cell.font = {
         bold: true,
-        color: { argb: 'FFFFFF' },
+        // color: { argb: 'FFFFFF' },
         size: 16,
       };
     });
@@ -74,21 +154,23 @@ export class HelpersService {
         vertical: 'middle', // center the value vertically in the cell
         horizontal: 'center', // center the value horizontally in the cell
       };
-      if (rowNumber > 1 && cell.value) {
+      if (rowNumber > 2 && cell.value) {
         cell.value = Number(cell.value); // Convert the value to number
       }
     });
-    // worksheetPresta.addRow([]);
 
     const billateralRegex = /-Billateral/g; // Regular expression to match "Billateral"
     const derechaRegex = /-Derecha/g; // Regular expression to match "Derecha"
     const izquierdaRegex = /-Izquierda/g; // Regular expression to match "Izquierda"
-
+    console.log(items, 'items amigo');
     items.patient.forEach((patient) => {
       patient.item.forEach((item) => {
         let billateral = '';
         let izquierda = '';
         let derecha = '';
+
+        console.log(item, 'each itemon for each represented');
+
         //ARCO
         if (item.arco) {
           if (item.arco.includes('Izquierda')) {
@@ -268,8 +350,8 @@ export class HelpersService {
           patient.patientName + ' ' + patient.patientFirstName,
           'A ' +
             (billateral != ' BILLATERAL' ? billateral : '') +
-            (derecha != ' DERECHA' ? '--' + derecha : '') +
-            (izquierda != ' IZQUIERDA' ? '--' + izquierda : ''),
+            (derecha != ' DERECHA' ? '/-/' + derecha : '') +
+            (izquierda != ' IZQUIERDA' ? '/-/' + izquierda : ''),
           item.talonera + ' ' + item.clinica,
         ];
         worksheetPresta.addRow(newrow);
@@ -278,15 +360,15 @@ export class HelpersService {
 
     // Set the width of columns A to F
     worksheetPresta.getColumn('A').width = 6;
-    worksheetPresta.getColumn('B').width = 6;
-    worksheetPresta.getColumn('C').width = 6;
-    worksheetPresta.getColumn('D').width = 6;
-    worksheetPresta.getColumn('E').width = 6;
+    worksheetPresta.getColumn('B').width = 8;
+    worksheetPresta.getColumn('C').width = 8;
+    worksheetPresta.getColumn('D').width = 8;
+    worksheetPresta.getColumn('E').width = 8;
     worksheetPresta.getColumn('F').width = 20;
     worksheetPresta.getColumn('G').width = 55;
     worksheetPresta.getColumn('H').width = 35;
     // Set the height of the G cell in each row to adjust to the text
-    for (let i = 2; i <= worksheetPresta.rowCount; i++) {
+    for (let i = 3; i <= worksheetPresta.rowCount; i++) {
       const cellA = worksheetPresta.getCell(`A${i}`);
       const cellB = worksheetPresta.getCell(`B${i}`);
       const cellC = worksheetPresta.getCell(`C${i}`);
