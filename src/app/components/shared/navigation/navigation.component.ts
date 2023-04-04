@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
     role: any;
     client: any;
     async ngOnInit() {
-        this.client = JSON.parse(localStorage.getItem("user"));
+        this.client = JSON.parse(sessionStorage.getItem("user"));
 
         this.role = await this.auth.getRole();
     }

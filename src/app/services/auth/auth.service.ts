@@ -27,7 +27,7 @@ export class AuthService {
       map((user) => {
         console.log(user, 'userr');
         this.role = user.role.name;
-        localStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('user', JSON.stringify(user));
         switch (this.role) {
           case 'admin':
             this.router.navigate(['/order-waiting']);
@@ -72,7 +72,7 @@ export class AuthService {
     if (typeof this.role != 'undefined') {
       return this.role;
     } else {
-      let a: any = localStorage.getItem('user');
+      let a: any = sessionStorage.getItem('user');
       if (a == null) {
         this.disconnect();
       } else {
@@ -84,7 +84,7 @@ export class AuthService {
   }
 
   disconnect() {
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
 
     this.router.navigate(['/login']);
     this.alert.info('Reconnexion...');

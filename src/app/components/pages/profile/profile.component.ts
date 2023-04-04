@@ -157,6 +157,6 @@ export class ProfileComponent implements OnInit {
   client: any;
 
   async ngOnInit() {
-    this.client = JSON.parse(localStorage.getItem('user'));
+    this.client = JSON.parse(sessionStorage.getItem('user'));
   }
 }

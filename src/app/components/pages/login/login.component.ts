@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   constructor(private alert: AlertService, private auth: AuthService) {}
 
   async ngOnInit() {
-    let id = JSON.parse(localStorage.getItem('user')).id;
+    let id = JSON.parse(sessionStorage.getItem('user')).id;
     console.log(id, 'iddddd');
     await this.auth.getMe({ id }).subscribe(
       (res) => {

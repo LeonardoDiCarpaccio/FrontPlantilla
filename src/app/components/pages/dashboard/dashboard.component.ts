@@ -58,12 +58,12 @@ export class DashboardComponent implements OnInit {
     ///DONT FORGET LA CONCHA DE TU MADRE
     //Initiate UserInfo FormGroup by callin backend
     //Initiate userPrice variable
-    console.log('Initiating', JSON.parse(localStorage.getItem('user')));
-    if (JSON.parse(localStorage.getItem('user')).roleId == 1) {
+    console.log('Initiating', JSON.parse(sessionStorage.getItem('user')));
+    if (JSON.parse(sessionStorage.getItem('user')).roleId == 1) {
       this.role = 'admin';
       this.user = {};
     } else {
-      this.user = JSON.parse(localStorage.getItem('user'));
+      this.user = JSON.parse(sessionStorage.getItem('user'));
       this.role = 'client';
     }
     console.log(this.user, 'user');

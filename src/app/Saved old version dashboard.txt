@@ -155,9 +155,9 @@
                       <div class=" items-center" style="display: flex  !important;
                       flex-direction: column !important;
                       align-items: center !important;">
-                        <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                        <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Izquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                         <label for="whereRai" class="ml-3">
-                          <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                          <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                         </label>
                       </div>
                     </div>
@@ -199,9 +199,9 @@
                     <div  class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input formControlName='whereRae' id="left" value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input formControlName='whereRae' id="left" value="Izquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label for="left" class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -333,9 +333,9 @@
                     <div class=" items-center" style="display: flex  !important;
                     flex-direction: column !important;
                     align-items: center !important;">
-                      <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Isquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                      <input  formControlName="whereRai" id="whereRai" name="whereRai" type="radio" value="Izquierda" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                       <label for="whereRai" class="ml-3">
-                        <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                        <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                       </label>
                     </div>
                   </div>
@@ -377,9 +377,9 @@
                   <div  class=" items-center" style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                    <input formControlName='whereRae' id="left" value="Isquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <input formControlName='whereRae' id="left" value="Izquierda"name="whereRae" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                     <label for="left" class="ml-3">
-                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                     </label>
                   </div>
                 </div>
@@ -492,9 +492,9 @@
                   <div class=" items-center" style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                    <input  formControlName='whereRpi' id="left" value="Isquierda" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <input  formControlName='whereRpi' id="left" value="Izquierda" name="whereRpi" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                     <label for="left" class="ml-3">
-                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                     </label>
                   </div>
                 </div>
@@ -549,9 +549,9 @@
                   <div  class=" items-center" style="display: flex  !important;
                   flex-direction: column !important;
                   align-items: center !important;">
-                    <input formControlName='whereRpe' id="left" value="Isquierda" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <input formControlName='whereRpe' id="left" value="Izquierda" name="whereRpe" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                     <label for="left" class="ml-3">
-                      <span class="block text-sm font-medium text-gray-700">Isquierda</span>
+                      <span class="block text-sm font-medium text-gray-700">Izquierda</span>
                     </label>
                   </div>
                 </div>
