@@ -31,7 +31,7 @@ export class HelpersService {
     let workbook = new Workbook();
     let worksheetPresta = workbook.addWorksheet('Feuil1');
     // Set the page properties
-    worksheetPresta.pageSetup.paperSize = 8; // A4
+    worksheetPresta.pageSetup.paperSize = 9; // A4
     worksheetPresta.pageSetup.margins = {
       left: 0.2,
       right: 0.2,
@@ -125,7 +125,9 @@ export class HelpersService {
     ];
 
     // Set the page properties
-    worksheetPresta.pageSetup.paperSize = 8; // A4
+    worksheetPresta.pageSetup.fitToPage = true; // A4
+
+    worksheetPresta.pageSetup.paperSize = 9; // A4
     worksheetPresta.pageSetup.margins = {
       left: 0.2,
       right: 0.2,
@@ -360,13 +362,13 @@ export class HelpersService {
 
     // Set the width of columns A to F
     worksheetPresta.getColumn('A').width = 6;
-    worksheetPresta.getColumn('B').width = 8;
-    worksheetPresta.getColumn('C').width = 8;
-    worksheetPresta.getColumn('D').width = 8;
-    worksheetPresta.getColumn('E').width = 8;
+    worksheetPresta.getColumn('B').width = 6;
+    worksheetPresta.getColumn('C').width = 6;
+    worksheetPresta.getColumn('D').width = 6;
+    worksheetPresta.getColumn('E').width = 6;
     worksheetPresta.getColumn('F').width = 20;
-    worksheetPresta.getColumn('G').width = 55;
-    worksheetPresta.getColumn('H').width = 35;
+    worksheetPresta.getColumn('G').width = 45;
+    worksheetPresta.getColumn('H').width = 20;
     // Set the height of the G cell in each row to adjust to the text
     for (let i = 3; i <= worksheetPresta.rowCount; i++) {
       const cellA = worksheetPresta.getCell(`A${i}`);

@@ -92,9 +92,9 @@
                   <div class="col-span-2 ">
                     <label for="model" class="block text-sm font-medium text-gray-700">Modelo</label>
                     
-                      <select formControlName="model" autocomplete="Model" name="Modelo"  
+                      <select (change)="updatePrice($event.target.value,i,j)" formControlName="model" autocomplete="Model" name="Modelo"  
                       class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option  id="model" *ngFor="let model of models" [value]="model">{{model}}</option>
+                        <option  id="model" *ngFor="let model of priceTypePlantillaList" [value]="model.name">{{model.name}}</option>
                       </select>
                     
   
@@ -308,7 +308,7 @@
                    type="number" formControlName="selectedArco2" id="arco"  placeholder="Altura del arco en mm"
                     class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
                      border-gray-300 rounded-md">    
-                     <div   *ngIf=" product.get('selectedArco2')
+                     <div   *ngIf=" product.get('selectedArco1')
                      .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
                        <div class="flex;
                        flex-column;
@@ -749,7 +749,23 @@
                   <!-- <input  required type="text" formControlName="clientFirstname" id="clientFirstname" 
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
                    border-gray-300 rounded-md"> -->
-                </div>              
+                </div>      
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Organization</label>
+                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.orga').value}}</label>
+<!-- 
+                  <input required  type="tel" id="phone" formControlName="phone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>  
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Descuento en % por Plantilla</label>
+                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.price').value}}</label>
+<!-- 
+                  <input required  type="tel" id="phone" formControlName="phone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>      
                 <div class="col-span-6 sm:col-span-1">
                   <label for="phone" class="block text-sm font-medium text-gray-700">Cellular</label>
                   <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.phone').value}}</label>

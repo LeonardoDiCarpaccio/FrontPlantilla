@@ -107,8 +107,8 @@ export class UsersComponent implements OnInit {
     {
       typeForm: 'input',
       typeInput: 'number',
-      placeholder: 'Precio Por Plantilla',
-      label: 'Entrar El Precio Por Plantilla',
+      placeholder: 'Descuento',
+      label: 'Entrar el descuento Por Plantilla',
       formControl: 'price',
     },
     {
@@ -190,14 +190,14 @@ export class UsersComponent implements OnInit {
     let title = 'Entrar Un Nuevo Cliente';
     let form = new FormGroup({
       // id: new FormControl(Validators.required),
-      clientName: new FormControl('', Validators.required),
-      clientFirstName: new FormControl('', Validators.required),
-      mail: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
-      location: new FormControl('', Validators.required),
-      orga: new FormControl('', Validators.required),
-      account: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      clientName: new FormControl(),
+      clientFirstName: new FormControl(),
+      mail: new FormControl(),
+      price: new FormControl(),
+      location: new FormControl(),
+      orga: new FormControl(),
+      account: new FormControl(),
+      phone: new FormControl(),
     });
     let subscription = this.simpleModalService
       .addModal(GenericFormgroupComponent, {
@@ -207,6 +207,7 @@ export class UsersComponent implements OnInit {
       })
       .subscribe(async (data) => {
         if (data) {
+          console.log(data, 'dataaa');
           await this.clientService.insertUpdateClient(data).subscribe((res) => {
             if (res) {
               this.alert.success(

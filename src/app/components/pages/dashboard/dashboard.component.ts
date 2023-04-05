@@ -14,6 +14,7 @@ import {
 import { AlertService } from 'src/app/services/alert.service';
 import { ClientService } from 'src/app/services/crud/client.service';
 import { HelpersService } from 'src/app/services/helpers.service';
+import { PriceTypeService } from 'src/app/services/crud/price_type';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,7 +25,8 @@ export class DashboardComponent implements OnInit {
     private alert: AlertService,
     private clientService: ClientService,
     private commandService: CommandService,
-    private helperService: HelpersService
+    private helperService: HelpersService,
+    private priceTypeService: PriceTypeService
   ) {}
 
   form: FormGroup;
@@ -34,17 +36,20 @@ export class DashboardComponent implements OnInit {
   commandFormGroup: FormGroup;
   clientFormGroup: FormGroup;
   clientList: any;
+  priceTypePlantillaList: any;
+
   actions: any = null;
   role: any = null;
   beforePositionRai: string = 'none';
   beforePositionRae: string = 'none';
   beforePositionRpe: string = 'none';
   beforePositionRpi: string = 'none';
+
   arrHeader = [
     { name: 'Apellido', key: 'clientName' },
     { name: 'Nombre', key: 'clientFirstName' },
     { name: 'Organization', key: 'orga' },
-    // { name: 'Precio Por Plantilla', key: 'price' },
+    { name: 'Precio Por Plantilla', key: 'price' },
     { name: 'Email', key: 'mail' },
     { name: 'Dirrecion De Envio', key: 'location' },
     // { name: 'Contrasena', key: 'password' },
@@ -54,7 +59,7 @@ export class DashboardComponent implements OnInit {
   searchBar = {
     placeholder: 'Buscar un usuario',
   };
-  ngOnInit(): void {
+  async ngOnInit() {
     ///DONT FORGET LA CONCHA DE TU MADRE
     //Initiate UserInfo FormGroup by callin backend
     //Initiate userPrice variable
@@ -66,6 +71,16 @@ export class DashboardComponent implements OnInit {
       this.user = JSON.parse(sessionStorage.getItem('user'));
       this.role = 'client';
     }
+    await this.priceTypeService.getPriceType({}).subscribe((res) => {
+      if (res) {
+        this.priceTypePlantillaList = res;
+        console.log(
+          this.priceTypePlantillaList,
+          ' this.priceTypePlantillaList'
+        );
+      }
+    });
+
     console.log(this.user, 'user');
     // VERIFIER QUE LA DATA CEST BIEN ENREGIRSTR2 DANS LA BASE AVEC LE NOUVEAU FORMAT !!!
     // clientId: [this.user.id,Validators.required], autre facon de lecrire
@@ -74,16 +89,19 @@ export class DashboardComponent implements OnInit {
       client: new FormGroup({
         clientName: new FormControl(''),
         clientFirstname: new FormControl(''),
+        orga: new FormControl(''),
+
         phone: new FormControl(''),
         mail: new FormControl(''),
         location: new FormControl(''),
+        price: new FormControl(''),
       }),
       command: new FormGroup({
         clientId: new FormControl(this.user.id, Validators.required),
         creationDateDisplay: new FormControl(
           this.helperService.dateNowString()
         ),
-        price: new FormControl(this.user.price, Validators.required),
+        price: new FormControl('', Validators.required),
         patient: new FormArray([
           new FormGroup({
             patientName: new FormControl('', Validators.required),
@@ -94,7 +112,7 @@ export class DashboardComponent implements OnInit {
                 // FORM NECESARIOS
 
                 correction: new FormControl([
-                  Validators.min(105),
+                  Validators.min(100),
                   Validators.max(360),
                 ]),
                 size: new FormControl('', Validators.required),
@@ -154,6 +172,8 @@ export class DashboardComponent implements OnInit {
                 taloneraAltura: new FormControl(''),
                 taloneraType: new FormControl(''),
                 taloneraDescarga: new FormControl(''),
+                //PRICE
+                price: new FormControl(''),
               }),
             ]),
           }),
@@ -179,34 +199,12 @@ export class DashboardComponent implements OnInit {
     clientId.get('clientId').setValue(user.id);
     this.form.get('client.clientName').setValue(user.clientName);
     this.form.get('client.clientFirstname').setValue(user.clientFirstName);
+    this.form.get('client.orga').setValue(user.orga);
+
     this.form.get('client.phone').setValue(user.phone);
     this.form.get('client.mail').setValue(user.mail);
     this.form.get('client.location').setValue(user.location);
-
-    // let subscription = this.simpleModalService
-    //   .addModal(GenericFormgroupComponent, {
-    //     form: form,
-    //     formRules: this.formRulesUpdate,
-    //     title: title,
-    //   })
-    //   .subscribe(async (data) => {
-    //     if (data) {
-    //       await this.clientService.insertUpdateClient(data).subscribe((res) => {
-    //         if (res) {
-    //           this.alert.success(
-    //             'Los datos del usuario fueron modificado en la base de datos !'
-    //           );
-    //           window.location.reload();
-    //         } else {
-    //           this.alert.error('El servidor se encontro con un problema');
-    //         }
-    //       });
-
-    //       //We get modal result
-    //       subscription.unsubscribe();
-    //       console.log('data del usuarioamigo', data);
-    //     }
-    //   });
+    this.form.get('client.price').setValue(user.price);
   };
   get itemsArray() {
     return this.commandFormGroup?.get('patient') as FormArray;
@@ -238,11 +236,15 @@ export class DashboardComponent implements OnInit {
         // itemName: new FormControl('', Validators.required),
         // itemFirstName: new FormControl('', Validators.required),
         correction: new FormControl(shoeSolBefore.get('correction').value, [
-          Validators.min(105),
+          Validators.min(100),
           Validators.max(360),
         ]),
         size: new FormControl(
           shoeSolBefore.get('size').value,
+          Validators.required
+        ),
+        price: new FormControl(
+          shoeSolBefore.get('price').value,
           Validators.required
         ),
         quantity: new FormControl(1, Validators.required),
@@ -330,6 +332,7 @@ export class DashboardComponent implements OnInit {
             ]),
             size: new FormControl('', Validators.required),
             quantity: new FormControl(1, Validators.required),
+            price: new FormControl(),
             model: new FormControl('', Validators.required),
             /// ANTEPIEE
             descargaAntepie: new FormControl(''),
@@ -408,158 +411,12 @@ export class DashboardComponent implements OnInit {
   }
   async onSubmit() {
     // console.log('Submit1');
-    let plantillaNombre = 0;
+    // let plantillaNombre = 0;
     console.log(this.itemsArray.value);
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item) => {
         // console.log(item.value, 'item');
-        plantillaNombre++;
-        /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
-
-        // item
-        //   .get('rpi')
-        //   .setValue(
-        //     (item.get('selectedRPI1').value
-        //       ? item.get('selectedRPI1').value
-        //       : '') +
-        //       (item.get('selectedRPI2').value
-        //         ? '-' + item.get('selectedRPI2').value
-        //         : '') +
-        //       (item.get('selectedRPI1').value != ''
-        //         ? item.get('whereRpi').value != ''
-        //           ? '-' + item.get('whereRpi').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('rpe')
-        //   .setValue(
-        //     (item.get('selectedRPE1').value
-        //       ? item.get('selectedRPE1').value
-        //       : '') +
-        //       (item.get('selectedRPE2').value
-        //         ? '-' + item.get('selectedRPE2').value
-        //         : '') +
-        //       (item.get('selectedRPE1').value != ''
-        //         ? item.get('whereRpe').value != ''
-        //           ? '-' + item.get('whereRpe').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('rae')
-        //   .setValue(
-        //     (item.get('rae').value ? item.get('rae').value : '') +
-        //       (item.get('rae').value != ''
-        //         ? item.get('whereRae').value != ''
-        //           ? '-' + item.get('whereRae').value != ''
-        //           : ''
-        //         : '')
-        //   );
-
-        // item
-        //   .get('oliva_BarraMetatarsal')
-        //   .setValue(
-        //     (item.get('oliva_BarraMetatarsal').value
-        //       ? item.get('oliva_BarraMetatarsal').value
-        //       : '') +
-        //       (item.get('oliva_BarraMetatarsal').value != ''
-        //         ? item.get('whereOliva').value != ''
-        //           ? '-' + item.get('whereOliva').value
-        //           : ''
-        //         : '')
-        //   );
-
-        // item
-        //   .get('alcochadaOEspolon')
-        //   .setValue(
-        //     (item.get('alcochadaOEspolon').value
-        //       ? item.get('alcochadaOEspolon').value
-        //       : '') +
-        //       (item.get('alcochadaOEspolon').value != ''
-        //         ? item.get('Wherealcochada').value != ''
-        //           ? '-' + item.get('Wherealcochada').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('descargaAntepie')
-        //   .setValue(
-        //     (item.get('descargaAntepie').value
-        //       ? item.get('descargaAntepie').value
-        //       : '') +
-        //       (item.get('descargaAntepie').value != ''
-        //         ? item.get('WhereDescarga').value != ''
-        //           ? '-' + item.get('WhereDescarga').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('rai')
-        //   .setValue(
-        //     (item.get('rai').value ? item.get('rai').value : '') +
-        //       (item.get('rai').value != ''
-        //         ? item.get('whereRai').value != ''
-        //           ? '-' + item.get('whereRai').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('talonera')
-        //   .setValue(
-        //     (item.get('talonera1').value ? item.get('talonera1').value : '') +
-        //       (item.get('taloneraAltura').value
-        //         ? '-' + item.get('taloneraAltura').value
-        //         : '') +
-        //       (item.get('taloneraType').value
-        //         ? '-' + item.get('taloneraType').value
-        //         : '') +
-        //       (item.get('taloneraDescarga').value
-        //         ? '-' + item.get('taloneraDescarga').value
-        //         : '')
-        //   );
-        // item
-        //   .get('arco')
-        //   .setValue(
-        //     (item.get('selectedArco1').value
-        //       ? item.get('selectedArco1').value
-        //       : '') +
-        //       (item.get('selectedArco2').value
-        //         ? '-' + item.get('selectedArco2').value
-        //         : '') +
-        //       (item.get('selectedArco1').value != ''
-        //         ? item.get('whereArco').value != ''
-        //           ? '-' + item.get('whereArco').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('contraArco')
-        //   .setValue(
-        //     item.get('contraArco').value +
-        //       (item.get('contraArco').value != ''
-        //         ? item.get('whereContraArco').value != ''
-        //           ? '-' + item.get('whereContraArco').value
-        //           : ''
-        //         : '')
-        //   );
-        // item
-        //   .get('alsa')
-        //   .setValue(
-        //     (item.get('selectedAlsa1').value
-        //       ? item.get('selectedAlsa1').value
-        //       : '') +
-        //       (item.get('selectedAlsa2').value
-        //         ? '-' + item.get('selectedAlsa2').value
-        //         : '') +
-        //       (item.get('selectedAlsa1').value != ''
-        //         ? item.get('whereAlsa').value != ''
-        //           ? '-' + item.get('whereAlsa').value
-        //           : ''
-        //         : '')
-        //   );
-
-        console.log(this.itemsArray.value);
+        /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIO
 
         if (
           item.get('correction').value <
@@ -567,8 +424,9 @@ export class DashboardComponent implements OnInit {
           Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
             item.get('correction').value
         ) {
+          // plantillaNombre += item.get('price').value;
+
           this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
-          // this.createFinalForm();
           this.alert.info(
             'El valor de la correcion no se puede applicar a la talles selecionnada '
           );
@@ -576,16 +434,16 @@ export class DashboardComponent implements OnInit {
       });
     });
 
-    this.form
-      .get('command')
-      ?.get('price')
-      .setValue(
-        (this.form.get('command')?.get('price').value as number) *
-          plantillaNombre
-      );
+    // this.form
+    //   .get('command')
+    //   ?.get('price')
+    //   .setValue(
+    //     (this.form.get('client')?.get('price').value as number) *
+    //       plantillaNombre
+    //   );
 
-    // console.log(this.itemsArray.value);
-    // console.log(this.itemsArray.valid);
+    console.log(this.itemsArray.value);
+    console.log(this.itemsArray.valid);
 
     if (this.itemsArray.valid) {
       console.log(this.itemsArray.valid);
@@ -597,21 +455,6 @@ export class DashboardComponent implements OnInit {
       );
     }
     // this.changeStepAhead();
-  }
-  createFinalForm() {
-    (this.itemsArray as FormArray).controls.forEach((patient) => {
-      (patient.get('item') as FormArray).controls.forEach((item) => {
-        item
-          .get('rpi')
-          .setValue(
-            item.get('selectedRPI1').value +
-              '-' +
-              item.get('selectedRPI2').value +
-              '-' +
-              item.get('whereRpi').value
-          );
-      });
-    });
   }
   async loadCommand() {
     await this.clientService
@@ -634,11 +477,34 @@ export class DashboardComponent implements OnInit {
   onSubmitClient() {
     console.log('Submit222');
     console.log(this.form.get('client').valid);
+    let plantillaNombre = 0;
+    (this.itemsArray as FormArray).controls.forEach((patient) => {
+      (patient.get('item') as FormArray).controls.forEach((item) => {
+        plantillaNombre += item.get('price').value;
+      });
+    });
+
+    this.form
+      .get('command')
+      ?.get('price')
+      .setValue(
+        (this.form.get('client')?.get('price').value as number) *
+          plantillaNombre
+      );
     if (this.form.get('client').valid) {
       this.changeStepAhead();
     }
   }
-
+  updatePrice(model: any, indexItems: any, indexItem: any) {
+    const matchingObject = this.priceTypePlantillaList.find(
+      (obj) => obj.name === model
+    );
+    const pricePlantilla = matchingObject ? matchingObject.price : null;
+    (this.itemsArray.at(indexItems).get('item') as FormArray)
+      .at(indexItem)
+      .get('price')
+      .setValue(pricePlantilla);
+  }
   temporarySaveForm() {
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item) => {
@@ -797,7 +663,6 @@ export class DashboardComponent implements OnInit {
             item.get('correction').value
         ) {
           this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
-          // this.createFinalForm();
           this.alert.info(
             'El valor de la correcion no se puede applicar a la talles selecionnada '
           );
@@ -814,6 +679,7 @@ export class DashboardComponent implements OnInit {
         this.alert.success(
           'Los datos del pedido fueron enregistrado en labase de datos!'
         );
+        window.location.reload();
       } else {
         this.alert.error('El servidor se encontro con un problema');
       }
@@ -829,272 +695,6 @@ export class DashboardComponent implements OnInit {
     if (this.step > 1) {
       this.step -= 1;
     }
-  }
-
-  //IF CANT REGISTRER LIKE THAT USE CODE BELOW TO CHANGE DATE FORMAT
-
-  //RPEEEE
-  onChangeRpe(indexPatient: number, indexPlantilla: number) {
-    let variableRpe = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rpe');
-    let variableRpe1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPE1');
-    let variableRpe2 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPE2');
-    variableRpe.setValue(variableRpe1.value + '' + variableRpe2.value);
-  }
-  ///RPEEEE
-  onChangeWhereRpe(
-    indexPatient: number,
-    indexPlantilla: number,
-    position: string
-  ) {
-    let variableRpe = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rpe');
-    let variableRpe1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPE1');
-    let variableRpe2 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedRPE2');
-    if (this.beforePositionRpe == 'none') {
-      variableRpe.setValue(
-        variableRpe1.value + '-' + variableRpe2.value + '-' + position
-      );
-      this.beforePositionRpe = position;
-    } else if (position !== this.beforePositionRai) {
-      const regex = /(.*)-.*$/;
-      const match = regex.exec(variableRpe.value);
-      variableRpe.setValue(match[1]);
-
-      variableRpe.setValue(
-        variableRpe1.value + '-' + variableRpe2.value + '-' + position
-      );
-      this.beforePositionRpe = position;
-    }
-  }
-
-  onChangeTalonera(indexPatient: number, indexPlantilla: number) {
-    let variableTalonera = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('talonera');
-
-    let variableTalonera1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('talonera1');
-
-    let variableTaloneraAltura = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('taloneraAltura');
-
-    let variableTaloneraType = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('taloneraType');
-
-    let variableTaloneraDescarga = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('taloneraDescarga');
-
-    if (variableTalonera1.value != '') {
-      variableTalonera.setValue(
-        (variableTalonera1.value != null ? variableTalonera1.value : '') +
-          (variableTaloneraAltura.value != null
-            ? '-' + variableTaloneraAltura.value
-            : '') +
-          (variableTaloneraType.value != null
-            ? '-' + variableTaloneraType.value
-            : '') +
-          (variableTaloneraDescarga.value != null
-            ? '-' + variableTaloneraDescarga.value
-            : '')
-      );
-    }
-  }
-
-  onChangeRae(indexPatient: number, indexPlantilla: number) {
-    let variableRae = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rae');
-    variableRae.setValue(variableRae.value);
-  }
-  onChangeWhereRae(
-    indexPatient: number,
-    indexPlantilla: number,
-    position: string
-  ) {
-    let variableRae = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rae');
-    if (this.beforePositionRae == 'none') {
-      variableRae.setValue(variableRae.value + '-' + position);
-      this.beforePositionRae = position;
-    } else if (position !== this.beforePositionRae) {
-      const regex = /(.*)-.*$/;
-      const match = regex.exec(variableRae.value);
-      variableRae.setValue(match[1]);
-
-      variableRae.setValue(variableRae.value + '-' + position);
-      this.beforePositionRae = position;
-    }
-  }
-  onChangeRai(indexPatient: number, indexPlantilla: number) {
-    let variableRai = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rai');
-    variableRai.setValue(variableRai.value);
-  }
-  onChangeWhereRai(
-    indexPatient: number,
-    indexPlantilla: number,
-    position: string
-  ) {
-    let variableRai = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('rai');
-    if (this.beforePositionRai == 'none') {
-      variableRai.setValue(variableRai.value + '-' + position);
-      this.beforePositionRai = position;
-    } else if (position !== this.beforePositionRai) {
-      const regex = /(.*)-.*$/;
-      const match = regex.exec(variableRai.value);
-      variableRai.setValue(match[1]);
-
-      variableRai.setValue(variableRai.value + '-' + position);
-      this.beforePositionRai = position;
-    }
-  }
-
-  onChangeArco(indexPatient: number, indexPlantilla: number) {
-    let variableArco = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('arco');
-    if (
-      this.form
-        .get('command')
-        .get('patient')
-        .get([indexPatient])
-        .get('item')
-        .get([indexPlantilla])
-        .get('selectedArco1').value != ''
-    ) {
-      variableArco.setValue(
-        this.form
-          .get('command')
-          .get('patient')
-          .get([indexPatient])
-          .get('item')
-          .get([indexPlantilla])
-          .get('selectedArco1').value +
-          '-' +
-          this.form
-            .get('command')
-            .get('patient')
-            .get([indexPatient])
-            .get('item')
-            .get([indexPlantilla])
-            .get('selectedArco2').value +
-          'mm'
-      );
-    }
-  }
-
-  onChangeAlsa(indexPatient: number, indexPlantilla: number) {
-    let variableAlsa = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('alsa');
-    let variableAlsa1 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedAlsa1');
-    let variableAlsa2 = this.form
-      .get('command')
-      .get('patient')
-      .get([indexPatient])
-      .get('item')
-      .get([indexPlantilla])
-      .get('selectedAlsa2');
-    if (variableAlsa1.value != '') {
-      variableAlsa.setValue(
-        (variableAlsa1.value != null ? variableAlsa1.value : '') +
-          (variableAlsa2.value != null ? '-' + variableAlsa2.value : '')
-      );
-    }
-    // do something with selectedItem1Value
   }
 
   step: any;
