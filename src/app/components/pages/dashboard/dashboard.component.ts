@@ -212,6 +212,9 @@ export class DashboardComponent implements OnInit {
   getItem(index: any) {
     return this.itemsArray.at(index).get('item') as FormArray;
   }
+  onValueChanged(newValue: number) {
+    this.step = newValue;
+  }
   addShoeSol(index: any) {
     console.log(
       this.form.get('command')?.get('patient').value,

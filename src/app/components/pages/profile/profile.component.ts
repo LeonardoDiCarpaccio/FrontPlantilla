@@ -103,8 +103,9 @@ export class ProfileComponent implements OnInit {
     {
       typeForm: 'input',
       typeInput: 'number',
-      placeholder: 'Precio Por Plantilla',
-      label: 'Entrar El Precio Por Plantilla',
+      placeholder:
+        'Descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
+      label: 'Entrar El Descuento Por Plantilla',
       formControl: 'price',
     },
     {

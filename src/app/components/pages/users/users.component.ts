@@ -107,8 +107,9 @@ export class UsersComponent implements OnInit {
     {
       typeForm: 'input',
       typeInput: 'number',
-      placeholder: 'Descuento',
-      label: 'Entrar el descuento Por Plantilla',
+      placeholder: 'Descuento Por Plantilla del 0 AL 1',
+      label:
+        'Entrar el descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
       formControl: 'price',
     },
     {

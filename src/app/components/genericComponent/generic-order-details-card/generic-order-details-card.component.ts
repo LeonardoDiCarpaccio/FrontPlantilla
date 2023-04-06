@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SimpleModalService } from 'ngx-simple-modal';
 import { AlertService } from 'src/app/services/alert.service';
@@ -16,6 +16,7 @@ import { PatientService } from 'src/app/services/crud/patient.service';
 export class GenericOrderDetailsCardComponent implements OnInit {
   @Input() arrMainNgFor: any;
   @Input() actions: any;
+  @Output() valueChanged = new EventEmitter<any>();
   // simpleModalService: any;
   item: any;
   constructor(
@@ -188,69 +189,74 @@ export class GenericOrderDetailsCardComponent implements OnInit {
   /// Modificar la forma del anadir pedido con los nuevos datos
   ///
   updatePlantija = (item: any, patient: any): void => {
-    let title = 'Cambiar Los Datos De la plantilla';
-    console.log(item, 'item');
-    let form = new FormGroup({
-      id: new FormControl(item.id, Validators.required),
-      patientFirstName: new FormControl(
-        patient.patientFirstName,
-        Validators.required
-      ),
-      patientName: new FormControl(patient.patientName, Validators.required),
+    if (this.actions != 'InOrder') {
+      let title = 'Cambiar Los Datos De la plantilla';
+      console.log(item, 'item');
+      let form = new FormGroup({
+        id: new FormControl(item.id, Validators.required),
+        patientFirstName: new FormControl(
+          patient.patientFirstName,
+          Validators.required
+        ),
+        patientName: new FormControl(patient.patientName, Validators.required),
 
-      model: new FormControl(item.model, Validators.required),
-      quantity: new FormControl(item.quantity, Validators.required),
-      size: new FormControl(item.size, Validators.required),
-      correction: new FormControl(item.correction, Validators.required),
-      oliva_BarraMetatarsal: new FormControl(
-        item.oliva_BarraMetatarsal,
-        Validators.required
-      ),
-      descargaAntepie: new FormControl(
-        item.descargaAntepie,
-        Validators.required
-      ),
-      rai: new FormControl(item.rai, Validators.required),
-      rae: new FormControl(item.rae, Validators.required),
-      arco: new FormControl(item.arco, Validators.required),
-      contraArco: new FormControl(item.contraArco, Validators.required),
-      alsa: new FormControl(item.alsa, Validators.required),
-      rpi: new FormControl(item.rpi, Validators.required),
-      rpe: new FormControl(item.rpe, Validators.required),
-      alcochadaOEspolon: new FormControl(
-        item.alcochadaOEspolon,
-        Validators.required
-      ),
-      talonera: new FormControl(item.talonera, Validators.required),
-      clinica: new FormControl(item.clinica, Validators.required),
-    });
-
-    let subscription = this.simpleModalService
-      .addModal(GenericFormgroupComponent, {
-        form: form,
-
-        formRules: this.formRulesUpdate,
-        title: title,
-      })
-      .subscribe(async (data) => {
-        if (data) {
-          console.log(data, 'dataaaaaaaaaa');
-          await this.itemService.insertUpdateItem(data).subscribe((res) => {
-            if (res) {
-              this.alert.success(
-                'Los datos del usuario fueron modificado en la base de datos !'
-              );
-              window.location.reload();
-            } else {
-              this.alert.error('El servidor se encontro con un problema');
-            }
-          });
-
-          //We get modal result
-          subscription.unsubscribe();
-          console.log('data del item', data);
-        }
+        model: new FormControl(item.model, Validators.required),
+        quantity: new FormControl(item.quantity, Validators.required),
+        size: new FormControl(item.size, Validators.required),
+        correction: new FormControl(item.correction, Validators.required),
+        oliva_BarraMetatarsal: new FormControl(
+          item.oliva_BarraMetatarsal,
+          Validators.required
+        ),
+        descargaAntepie: new FormControl(
+          item.descargaAntepie,
+          Validators.required
+        ),
+        rai: new FormControl(item.rai, Validators.required),
+        rae: new FormControl(item.rae, Validators.required),
+        arco: new FormControl(item.arco, Validators.required),
+        contraArco: new FormControl(item.contraArco, Validators.required),
+        alsa: new FormControl(item.alsa, Validators.required),
+        rpi: new FormControl(item.rpi, Validators.required),
+        rpe: new FormControl(item.rpe, Validators.required),
+        alcochadaOEspolon: new FormControl(
+          item.alcochadaOEspolon,
+          Validators.required
+        ),
+        talonera: new FormControl(item.talonera, Validators.required),
+        clinica: new FormControl(item.clinica, Validators.required),
       });
+
+      let subscription = this.simpleModalService
+        .addModal(GenericFormgroupComponent, {
+          form: form,
+
+          formRules: this.formRulesUpdate,
+          title: title,
+        })
+        .subscribe(async (data) => {
+          if (data) {
+            console.log(data, 'dataaaaaaaaaa');
+            await this.itemService.insertUpdateItem(data).subscribe((res) => {
+              if (res) {
+                this.alert.success(
+                  'Los datos del usuario fueron modificado en la base de datos !'
+                );
+                window.location.reload();
+              } else {
+                this.alert.error('El servidor se encontro con un problema');
+              }
+            });
+
+            //We get modal result
+            subscription.unsubscribe();
+            console.log('data del item', data);
+          }
+        });
+    } else if (this.actions == 'InOrder') {
+      let a = 1;
+      this.valueChanged.emit('1');
+    }
   };
 
   formRulesUpdate = [

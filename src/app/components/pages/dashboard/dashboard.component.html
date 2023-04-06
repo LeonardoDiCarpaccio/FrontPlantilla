@@ -10,6 +10,7 @@
       <div class="border-t border-gray-200"></div>
     </div>
   </div>
+  <!-- <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-6'" class="mt-10 sm:mt-0"> -->
 
   <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-6'" class="mt-10 sm:mt-0">
 
@@ -28,8 +29,9 @@
 
         </div>
       </div>
-     
-      <div [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
+      <app-generic-order-details-card *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card>
+
+      <div *ngIf='this.step==1' [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
         <form [formGroup]="commandFormGroup" (ngSubmit)="onSubmit()">
           <div formArrayName="patient" class="shadow overflow-hidden sm:rounded-md">
           <div *ngFor="let patient of itemsArray.controls; let i = index;"  class="px-4 py-5 bg-white sm:p-6">
