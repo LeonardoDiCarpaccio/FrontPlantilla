@@ -29,7 +29,8 @@
 
         </div>
       </div>
-      <app-generic-order-details-card *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card>
+      <app-generic-order-details-card style="min-width: 60.8em;
+      margin-left: 6.2em;" *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card>
 
       <div *ngIf='this.step==1' [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
         <form [formGroup]="commandFormGroup" (ngSubmit)="onSubmit()">
