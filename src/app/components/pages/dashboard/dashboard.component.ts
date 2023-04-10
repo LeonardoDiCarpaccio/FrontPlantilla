@@ -238,81 +238,204 @@ export class DashboardComponent implements OnInit {
         // FORM NECESARIOS
         // itemName: new FormControl('', Validators.required),
         // itemFirstName: new FormControl('', Validators.required),
-        correction: new FormControl(shoeSolBefore.get('correction').value, [
-          Validators.min(100),
-          Validators.max(360),
-        ]),
+        correction: new FormControl(
+          shoeSolBefore.get('correction').value
+            ? shoeSolBefore.get('correction').value
+            : null,
+          [Validators.min(100), Validators.max(360)]
+        ),
         size: new FormControl(
-          shoeSolBefore.get('size').value,
+          shoeSolBefore.get('size').value
+            ? shoeSolBefore.get('size').value
+            : null,
           Validators.required
         ),
         price: new FormControl(
-          shoeSolBefore.get('price').value,
+          shoeSolBefore.get('price').value
+            ? shoeSolBefore.get('price').value
+            : null,
           Validators.required
         ),
         quantity: new FormControl(1, Validators.required),
-        model: new FormControl(
-          shoeSolBefore.get('model').value,
-          Validators.required
-        ),
+        model: new FormControl(''),
         /// ANTEPIEE
         descargaAntepie: new FormControl(
           shoeSolBefore.get('descargaAntepie').value
+            ? shoeSolBefore.get('descargaAntepie').value
+            : null
         ),
         WhereDescarga: new FormControl(
           shoeSolBefore.get('WhereDescarga').value
+            ? shoeSolBefore.get('WhereDescarga').value
+            : null
         ),
         //OLIVAA
-        oliva_BarraMetatarsal: new FormControl(''),
-        whereOliva: new FormControl(),
+        oliva_BarraMetatarsal: new FormControl(
+          shoeSolBefore.get('oliva_BarraMetatarsal').value
+            ? shoeSolBefore.get('oliva_BarraMetatarsal').value
+            : null
+        ),
+        whereOliva: new FormControl(
+          shoeSolBefore.get('whereOliva').value
+            ? shoeSolBefore.get('whereOliva').value
+            : ''
+        ),
         //RAI
-        rai: new FormControl(''),
-        whereRai: new FormControl(),
+        rai: new FormControl(
+          shoeSolBefore.get('rai').value ? shoeSolBefore.get('rai').value : ''
+        ),
+        whereRai: new FormControl(
+          shoeSolBefore.get('whereRai').value
+            ? shoeSolBefore.get('whereRai').value
+            : ''
+        ),
         //RAE
-        rae: new FormControl(''),
-        whereRae: new FormControl(),
+        rae: new FormControl(
+          shoeSolBefore.get('rae').value ? shoeSolBefore.get('rae').value : ''
+        ),
+        whereRae: new FormControl(
+          shoeSolBefore.get('whereRae').value
+            ? shoeSolBefore.get('whereRae').value
+            : ''
+        ),
         //PIE MEDIOOOO
         //ARCO
-        arco: new FormControl(''),
-        selectedArco1: new FormControl(''),
-        selectedArco2: new FormControl(''),
-        whereArco: new FormControl(),
+        arco: new FormControl(
+          shoeSolBefore.get('arco').value ? shoeSolBefore.get('arco').value : ''
+        ),
+        selectedArco1: new FormControl(
+          shoeSolBefore.get('selectedArco1').value
+            ? shoeSolBefore.get('selectedArco1').value
+            : ''
+        ),
+        selectedArco2: new FormControl(
+          shoeSolBefore.get('selectedArco2').value
+            ? shoeSolBefore.get('selectedArco2').value
+            : ''
+        ),
+        whereArco: new FormControl(
+          shoeSolBefore.get('whereArco').value
+            ? shoeSolBefore.get('whereArco').value
+            : ''
+        ),
         //CONTRA ARCO
-        contraArco: new FormControl(''),
-        whereContraArco: new FormControl(''),
+        contraArco: new FormControl(
+          shoeSolBefore.get('contraArco').value
+            ? shoeSolBefore.get('contraArco').value
+            : ''
+        ),
+        whereContraArco: new FormControl(
+          shoeSolBefore.get('whereContraArco').value
+            ? shoeSolBefore.get('whereContraArco').value
+            : ''
+        ),
 
         /// TALON/RETROPIE
         ///ALSA
-        alsa: new FormControl(''),
-        selectedAlsa1: new FormControl(''),
-        selectedAlsa2: new FormControl(''),
-        whereAlsa: new FormControl(),
+        alsa: new FormControl(
+          shoeSolBefore.get('alsa').value ? shoeSolBefore.get('alsa').value : ''
+        ),
+        selectedAlsa1: new FormControl(
+          shoeSolBefore.get('selectedAlsa1').value
+            ? shoeSolBefore.get('selectedAlsa1').value
+            : ''
+        ),
+        selectedAlsa2: new FormControl(
+          shoeSolBefore.get('selectedAlsa2').value
+            ? shoeSolBefore.get('selectedAlsa2').value
+            : ''
+        ),
+        whereAlsa: new FormControl(
+          shoeSolBefore.get('whereAlsa').value
+            ? shoeSolBefore.get('whereAlsa').value
+            : ''
+        ),
 
         ///Alcochada
-        alcochadaOEspolon: new FormControl(''),
-        Wherealcochada: new FormControl(''),
+        alcochadaOEspolon: new FormControl(
+          shoeSolBefore.get('alcochadaOEspolon').value
+            ? shoeSolBefore.get('alcochadaOEspolon').value
+            : ''
+        ),
+        Wherealcochada: new FormControl(
+          shoeSolBefore.get('Wherealcochada').value
+            ? shoeSolBefore.get('Wherealcochada').value
+            : ''
+        ),
 
         ///OPTION
-        clinica: new FormControl(''),
-        talonera: new FormControl(''),
+        clinica: new FormControl(
+          shoeSolBefore.get('Wherealcochada').value
+            ? shoeSolBefore.get('Wherealcochada').value
+            : ''
+        ),
+        talonera: new FormControl(
+          shoeSolBefore.get('Wherealcochada').value
+            ? shoeSolBefore.get('Wherealcochada').value
+            : ''
+        ),
 
         //RPI
-        rpi: new FormControl(''),
-        selectedRPI1: new FormControl(''),
-        selectedRPI2: new FormControl(''),
-        whereRpi: new FormControl(),
+        rpi: new FormControl(
+          shoeSolBefore.get('rpi').value ? shoeSolBefore.get('rpi').value : ''
+        ),
+        selectedRPI1: new FormControl(
+          shoeSolBefore.get('selectedRPI1').value
+            ? shoeSolBefore.get('selectedRPI1').value
+            : ''
+        ),
+        selectedRPI2: new FormControl(
+          shoeSolBefore.get('selectedRPI2').value
+            ? shoeSolBefore.get('selectedRPI2').value
+            : ''
+        ),
+        whereRpi: new FormControl(
+          shoeSolBefore.get('whereRpi').value
+            ? shoeSolBefore.get('whereRpi').value
+            : ''
+        ),
 
         ////// RPE
-        rpe: new FormControl(''),
-        selectedRPE1: new FormControl(''),
-        selectedRPE2: new FormControl(''),
-        whereRpe: new FormControl(),
+        rpe: new FormControl(
+          shoeSolBefore.get('rpe').value ? shoeSolBefore.get('rpe').value : ''
+        ),
+        selectedRPE1: new FormControl(
+          shoeSolBefore.get('selectedRPE1').value
+            ? shoeSolBefore.get('selectedRPE1').value
+            : ''
+        ),
+        selectedRPE2: new FormControl(
+          shoeSolBefore.get('selectedRPE2').value
+            ? shoeSolBefore.get('selectedRPE2').value
+            : ''
+        ),
+        whereRpe: new FormControl(
+          shoeSolBefore.get('whereRpe').value
+            ? shoeSolBefore.get('whereRpe').value
+            : ''
+        ),
 
         //Talonera
-        talonera1: new FormControl(''),
-        taloneraAltura: new FormControl(''),
-        taloneraType: new FormControl(''),
-        taloneraDescarga: new FormControl(''),
+        talonera1: new FormControl(
+          shoeSolBefore.get('talonera1').value
+            ? shoeSolBefore.get('talonera1').value
+            : ''
+        ),
+        taloneraAltura: new FormControl(
+          shoeSolBefore.get('taloneraAltura').value
+            ? shoeSolBefore.get('taloneraAltura').value
+            : ''
+        ),
+        taloneraType: new FormControl(
+          shoeSolBefore.get('taloneraType').value
+            ? shoeSolBefore.get('taloneraType').value
+            : ''
+        ),
+        taloneraDescarga: new FormControl(
+          shoeSolBefore.get('taloneraDescarga').value
+            ? shoeSolBefore.get('taloneraDescarga').value
+            : ''
+        ),
       })
     );
   }
@@ -425,7 +548,8 @@ export class DashboardComponent implements OnInit {
           item.get('correction').value <
             Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
           Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
-            item.get('correction').value
+            item.get('correction').value ||
+          item.get('quantity').value < 1
         ) {
           // plantillaNombre += item.get('price').value;
 
@@ -719,11 +843,11 @@ export class DashboardComponent implements OnInit {
   rae1 = ['', '1 mm', '2 mm', '3 mm', '4 mm', '5 mm'];
 
   //ARCO
-  selectedArco1 = ['', 'STANDARD', 'Sobre Arco', 'Arco Reforsado'];
+  selectedArco1 = ['', 'STANDARD', 'SOBRE ARCO', 'REFORZADO'];
   selectedArco2: number;
 
   //CONTRA ARCO
-  contraArco = ['', 'STANDARD', 'LARGA'];
+  contraArco = ['', 'ESTANDARD', 'LARGA'];
 
   //TALONERA RETROPIE
   talonera1 = ['', 'Talonera Sin Pegar'];
@@ -740,10 +864,10 @@ export class DashboardComponent implements OnInit {
     '10 mm',
     '11 mm',
   ];
-  taloneraType = ['', 'STANDARD', 'LARGA'];
-  taloneraDescarga = ['', 'Descarga Espolon'];
+  taloneraType = ['', 'ESTANDARD', 'LARGA'];
+  taloneraDescarga = ['', 'DESCARGA ESPOLON'];
   //ALSA
-  alsa1 = ['', 'Alsa STANDARD', 'Alsa LARGA', 'Descarga Espolon'];
+  alsa1 = ['', 'ALSA ESTANDARD', 'ALSA LARGA', 'DESCARGA ESPOLON'];
   alsa2 = [
     '1 mm',
     '2 mm',
@@ -762,31 +886,31 @@ export class DashboardComponent implements OnInit {
   // DESCARGA ANTEPIES
   descargaAntepies = [
     '',
-    'Descarga STD 1',
-    'Descarga STD 5',
-    'Descarga GRD 1',
-    'Descarga GRD 5',
-    'Mulidescarga STD 2',
-    'Mulidescarga STD 3',
-    'Mulidescarga STD 4',
-    'Mulidescarga GRD 2',
-    'Mulidescarga GRD 3',
-    'Mulidescarga GRD 4',
+    'DESCARGA STD 1',
+    'DESCARGA STD 5',
+    'DESCARGA GRD 1',
+    'DESCARGA GRD 5',
+    'MULTIDESCARGA STD 2',
+    'MULTIDESCARGA STD 3',
+    'MULTIDESCARGA STD 4',
+    'MULTIDESCARGA GRD 2',
+    'MULTIDESCARGA GRD 3',
+    'MULTIDESCARGA GRD 4',
   ];
 
   //OLIVA BARRAS
   olivaBarras = [
     '',
-    'Oliva STANDARD',
-    'Oliva MEDIA',
-    'Oliva 4',
-    'Oliva 3',
-    'Oliva 2',
-    'Oliva 1',
-    'Oliva 0',
-    'Barra STANDARD',
-    'Barra MEDIA',
-    'Barra GRANDE',
+    'OLIVA ESTANDARD',
+    'OLIVA MEDIA',
+    'OLIVA 4',
+    'OLIVA 3',
+    'OLIVA 2',
+    'OLIVA 1',
+    'OLIVA 0',
+    'BARRA STANDARD',
+    'BARRA MEDIA',
+    'BARRA GRANDE',
   ];
   //SIZE/TALLES
   sizes = [
