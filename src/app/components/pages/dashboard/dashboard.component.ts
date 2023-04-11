@@ -850,7 +850,7 @@ export class DashboardComponent implements OnInit {
   contraArco = ['', 'ESTANDARD', 'LARGA'];
 
   //TALONERA RETROPIE
-  talonera1 = ['', 'Talonera Sin Pegar'];
+  talonera1 = ['', 'TALONERA SIN PEGAR'];
   taloneraAltura = [
     '1 mm',
     '2 mm',
@@ -882,7 +882,7 @@ export class DashboardComponent implements OnInit {
     '11 mm',
   ];
   //alcochadaOEspolon
-  alcochadaOEspolon = ['', 'Acolchado De Talon', 'Descarga Espolon'];
+  alcochadaOEspolon = ['', 'ACOLCHADO DE TALON', 'DESCARGA ESPOLON'];
   // DESCARGA ANTEPIES
   descargaAntepies = [
     '',
