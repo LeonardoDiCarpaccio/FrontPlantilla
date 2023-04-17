@@ -17,11 +17,15 @@ export class NavigationComponent implements OnInit {
         this.role = await this.auth.getRole();
     }
     Show: boolean = false;
+    displayed: boolean = false;
 
     hideSidebar() {
         this.isSidebarOpen = false;
     }
     toggle() {
         this.Show = !this.Show;
+    }
+    display() {
+        this.displayed = !this.displayed;
     }
 }

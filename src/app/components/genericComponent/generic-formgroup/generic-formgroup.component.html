@@ -1,4 +1,6 @@
 <form  [formGroup]="form" (ngSubmit)="OnSubmitUserForm()">
+  <!-- <form  (ngSubmit)="OnSubmitUserForm()"> -->
+
   <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" aria-hidden="true"></div>
 
   <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -52,6 +54,13 @@
               </div>
  
           </div>
+          <select *ngIf="item.typeForm == 'dropdown'"  [formControlName]="item.formControl" 
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+            <option [value]="null" disabled selected>{{item.placeholder}}</option>
+            <option *ngFor="let option of item.option" class="text-gray-700" [value]="item.keyOption ? option.id : option">
+                {{item.keyOption ? option[item.keyOption] : option}}
+            </option>
+          </select>
           </div>
 
         </div>
@@ -60,11 +69,11 @@
     <div class="bg-gray-100 px-4 py-3 flex justify-between">
 
       <button (click)="close()" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Annuler
+        Volver
       </button>
       <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2  bg-indigo-600 hover:bg-indigo-700
       text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm">
-        Valider
+        Validar
       </button>
 
     </div>

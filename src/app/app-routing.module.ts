@@ -10,9 +10,10 @@ import { LayoutComponent } from './components/shared/layout/layout.component';
 import { OrderApprovedComponent } from './components/pages/order-approved/order-approved.component';
 import { OrderWaitingComponent } from './components/pages/order-waiting/order-waiting.component';
 import { OrderHistoryComponent } from './components/pages/order-history/order-history.component';
-import { ConnectedClientGuard } from './Guards/connected-client.guard';
-import { AuthAdminGuard } from './Guards/auth-admin.guard';
 
+import { RoleGuard } from './Guards/role.guard';
+import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
+import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 const routes: Route[] = [
   {
     path: '',
@@ -21,32 +22,50 @@ const routes: Route[] = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [ConnectedClientGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['client', 'admin'] },
       },
-      {
-        path: 'order-approved',
-        component: OrderApprovedComponent,
-        canActivate: [AuthAdminGuard],
-      },
+      // {
+      //   path: 'order-approved',
+      //   component: OrderApprovedComponent,
+      //   canActivate: [RoleGuard],
+      //   data: { roles: ['admin'] },
+      // },
       {
         path: 'order-waiting',
         component: OrderWaitingComponent,
-        canActivate: [AuthAdminGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['admin'] },
       },
       {
         path: 'order-history',
         component: OrderHistoryComponent,
-        canActivate: [AuthAdminGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['admin'] },
+      },
+      {
+        path: 'myorder-waiting',
+        component: MyorderWaitingComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['client'] },
+      },
+      {
+        path: 'myorder-history',
+        component: MyorderHistoryComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['client'] },
       },
       {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [ConnectedClientGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['client', 'admin'] },
       },
       {
         path: 'users',
         component: UsersComponent,
-        canActivate: [AuthAdminGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['admin'] },
       },
     ],
   },

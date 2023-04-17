@@ -17,9 +17,7 @@ export class PersonUpdateModalComponent
     super();
   }
 
-  ngOnInit(): void {
-    console.log('this.person', this.person);
-  }
+  ngOnInit(): void {}
 
   // dans syneview il semble qu'un user ne puisse avoir qu'un seul rôle, donc on reset l'array à chaque click sur le select
   pushToRoleArray(role: any) {

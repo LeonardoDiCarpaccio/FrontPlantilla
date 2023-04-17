@@ -14,6 +14,7 @@ export class AuthService {
     private router: Router,
     private alert: AlertService
   ) {}
+  private readonly TOKEN_KEY = 'authToken';
 
   user: any;
   role: any;
@@ -22,13 +23,20 @@ export class AuthService {
   }
 
   login(data: any) {
-    // this.getIdTeamHttp();
     return this.http.post<any>(`${environment.apiUrl}/auth/login`, data).pipe(
-      map((user) => {
-        console.log(user, 'userr');
-        this.role = user.role.name;
-        sessionStorage.setItem('user', JSON.stringify(user));
-        switch (this.role) {
+      map((res) => {
+        const token = res.token;
+        const user = res.user;
+
+        if (token) {
+          sessionStorage.setItem(this.TOKEN_KEY, token);
+        }
+
+        if (user) {
+          sessionStorage.setItem('user', JSON.stringify(user));
+        }
+
+        switch (user.role.name) {
           case 'admin':
             this.router.navigate(['/order-waiting']);
             break;
@@ -38,22 +46,21 @@ export class AuthService {
           default:
             this.router.navigate(['/dashboard']);
         }
-        return user;
+
+        return res.body;
       })
     );
   }
+
   getMe(data: any) {
     return this.http.post<any>(`${environment.apiUrl}/auth/check`, data).pipe(
       map(
         (res) => {
-          console.log(res, 'resulta de la check??');
           switch (res[0].role.name) {
             case 'admin':
-              console.log('case admin');
               this.router.navigate(['/order-waiting']);
               break;
             case 'client':
-              console.log('case client');
               this.router.navigate(['/dashboard']);
 
               break;
@@ -82,7 +89,9 @@ export class AuthService {
       }
     }
   }
-
+  getToken(): string | null {
+    return sessionStorage.getItem(this.TOKEN_KEY);
+  }
   disconnect() {
     sessionStorage.removeItem('user');
 

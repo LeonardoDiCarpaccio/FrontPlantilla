@@ -13,11 +13,8 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit() {
     let id = JSON.parse(sessionStorage.getItem('user')).id;
-    console.log(id, 'iddddd');
     await this.auth.getMe({ id }).subscribe(
-      (res) => {
-        console.log(res, 'res credential');
-      },
+      (res) => {},
       (error) => {
         this.alert.error('Email ou mot de passe incorrect');
       }
@@ -29,11 +26,8 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
   async login() {
-    console.log(this.credential.value, 'credential');
     await this.auth.login(this.credential.value).subscribe(
-      (res) => {
-        console.log(res, 'res credential');
-      },
+      (res) => {},
       (error) => {
         this.alert.error('Email ou mot de passe incorrect');
       }

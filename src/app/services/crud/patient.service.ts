@@ -17,7 +17,6 @@ export class PatientService {
   }
 
   insertUpdatePatient(data: any) {
-    console.log(data, 'data');
     return this.http.post<any>(`${environment.apiUrl}/patient/save`, data);
   }
 

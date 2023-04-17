@@ -65,7 +65,6 @@ export class GenericModalInsertComponent
   ngOnInit(): void {}
 
   OnSubmitUserForm(f: NgForm) {
-    console.log('effefeef');
     if (f.valid) {
       this.confirm();
     }

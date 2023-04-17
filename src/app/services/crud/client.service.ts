@@ -13,13 +13,10 @@ export class ClientService {
   }
 
   findByClient(data: any) {
-    console.log(data, 'data');
-
     return this.http.post<any>(`${environment.apiUrl}/client/findBy`, data);
   }
 
   insertUpdateClient(data: any) {
-    console.log(data, 'data');
     return this.http.post<any>(`${environment.apiUrl}/client/save`, data);
   }
 

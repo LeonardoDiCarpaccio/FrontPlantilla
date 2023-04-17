@@ -1,14 +1,14 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { CommandService } from 'src/app/services/crud/command.service';
 import { HelpersService } from 'src/app/services/helpers.service';
 
 @Component({
-  selector: 'app-generic-table-order',
-  templateUrl: './generic-table-order.component.html',
-  styleUrls: ['./generic-table-order.component.scss'],
+  selector: 'app-generic-table-myorder',
+  templateUrl: './generic-table-myorder.component.html',
+  styleUrls: ['./generic-table-myorder.component.scss'],
 })
-export class GenericTableOrderComponent implements OnInit {
+export class GenericTableMyorderComponent implements OnInit {
   @Input() arrMainNgFor: any;
   @Input() arrHeader: any;
   @Input() actions: any;
@@ -72,34 +72,35 @@ export class GenericTableOrderComponent implements OnInit {
     }
   }
 
-  async updateStatus(command: any) {
-    if (this.statusStored == 0) {
-      this.alert.warn(
-        'No Se Puede Guardar Un Pedido Sin Estado De Processamiento'
-      );
-    } else {
-      let update = {
-        id: command.id,
-        clientId: command.clientId,
-        creationDate: command.creationDate,
-        finishDateDisplay:
-          this.statusStored == 3 ? this.helperService.dateNowString() : null,
-        Price: command.price,
-        statusId: this.statusStored,
-      };
-      this.commandService.insertUpdateCommand(update).subscribe((res) => {
-        if (res) {
-          this.alert.success(
-            'El Estado del pedido fueron modificado en la base de datos !'
-          );
-          window.location.reload();
-        } else {
-          this.alert.error('El servidor se encontro con un problema');
-        }
-      });
-    }
-    this.toggleFunction(command);
-  }
+  // async updateStatus(command: any) {
+
+  //   if (this.statusStored == 0) {
+  //     this.alert.warn(
+  //       'No Se Puede Guardar Un Pedido Sin Estado De Processamiento'
+  //     );
+  //   } else {
+  //     let update = {
+  //       id: command.id,
+  //       clientId: command.clientId,
+  //       creationDate: command.creationDate,
+  //       finishDateDisplay:
+  //         this.statusStored == 3 ? this.helperService.dateNowString() : null,
+  //       Price: command.price,
+  //       statusId: this.statusStored,
+  //     };
+  //     this.commandService.insertUpdateCommand(update).subscribe((res) => {
+  //       if (res) {
+  //         this.alert.success(
+  //           'El Estado del pedido fueron modificado en la base de datos !'
+  //         );
+  //         window.location.reload();
+  //       } else {
+  //         this.alert.error('El servidor se encontro con un problema');
+  //       }
+  //     });
+  //   }
+  //   this.toggleFunction(command);
+  // }
 
   displayDetails(node) {
     if (this.beforeDisplayDetails != node.id && this.display) {
@@ -167,75 +168,5 @@ export class GenericTableOrderComponent implements OnInit {
         this.arrIndexFilter.push(indexFilter);
       }
     }
-  }
-
-  removeFilter(item: any, indexFilter: any) {
-    // in any case, we reset those value
-    item.filterValue = '';
-    item.filterNgModelValue = '';
-    // we remove from the array of filter the current one
-    this.arrIndexFilter = this.arrIndexFilter.filter(
-      (el: any) => el != indexFilter
-    );
-    // if filter array length == 0, that mean that we can come back to the initial array
-    if (this.arrIndexFilter.length == 0) {
-      this.arrMainNgFor = this.copyArrNgFor.slice();
-    } else {
-      // arrFilter will be the store of filtered value, at the end arrMainNgFor will be equal to it
-      let arrFilter: any[] = [];
-      // we iterate on the array which store wich filter are still active
-      this.arrIndexFilter.forEach((filter: any, index: any) => {
-        let temp = [];
-        // index zero mean that we filter in the copyNgForArray
-        if (index == 0) {
-          temp = this.copyArrNgFor.filter(
-            (el: any) =>
-              el[this.filter[filter].keyNgForFilter] ==
-              this.filter[filter].filterNgModelValue
-          );
-        } else {
-          // index>0 mean that we need to filter "ourselves"
-          temp = arrFilter.filter(
-            (el: any) =>
-              el[this.filter[filter].keyNgForFilter] ==
-              this.filter[filter].filterNgModelValue
-          );
-        }
-        // to finish we push values to arrFilter
-        // if it's the last iteration, the filter is done, and we can make arrFilter = temp
-        if (index == this.arrIndexFilter.length - 1) {
-          arrFilter = temp.slice();
-        } else {
-          //while it's not the last we push filtered values in the arrFilter
-          temp.forEach((item: any) => {
-            arrFilter.find((element: any) => element.id == item.id) == undefined
-              ? arrFilter.push(item)
-              : null;
-          });
-        }
-      });
-      //finally job is done, arrMainNgFor = arrFilter
-      this.arrMainNgFor = arrFilter.slice();
-    }
-  }
-
-  dateNow(onlyDate: Boolean) {
-    var date = new Date();
-    var now_utc = Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      date.getUTCHours() - 3,
-      date.getUTCMinutes(),
-      date.getUTCSeconds()
-    );
-
-    var finalDate = new Date(now_utc)
-      .toISOString()
-      .replace(/T/, ' ')
-      .replace(/\..+/, '');
-    finalDate = onlyDate ? finalDate.substring(0, 10) : finalDate;
-
-    return finalDate;
   }
 }

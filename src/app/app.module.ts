@@ -24,9 +24,15 @@ import { OrderHistoryComponent } from './components/pages/order-history/order-hi
 import { GenericTableOrderComponent } from './components/genericComponent/generic-table-order/generic-table-order.component';
 import { GenericStepsFormComponent } from './components/genericComponent/generic-steps-form/generic-steps-form.component';
 import { GenericFormgroupComponent } from './components/genericComponent/generic-formgroup/generic-formgroup.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { GenericOrderDetailsCardComponent } from './components/genericComponent/generic-order-details-card/generic-order-details-card.component';
+import { AuthInterceptor } from './services/authInterceptor';
+import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
+import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
+import { GenericTableMyorderComponent } from './components/genericComponent/generic-table-myorder/generic-table-myorder.component';
+// import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
+// import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +55,11 @@ import { GenericOrderDetailsCardComponent } from './components/genericComponent/
     GenericStepsFormComponent,
     GenericFormgroupComponent,
     GenericOrderDetailsCardComponent,
+    MyorderWaitingComponent,
+    MyorderHistoryComponent,
+    GenericTableMyorderComponent,
+    // MyorderWaitingComponent,
+    // MyorderHistoryComponent,
   ],
 
   imports: [
@@ -73,7 +84,13 @@ import { GenericOrderDetailsCardComponent } from './components/genericComponent/
     GenericModalInsertComponent,
   ],
 
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

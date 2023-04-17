@@ -28,12 +28,8 @@ export class GenericOrderDetailsCardComponent implements OnInit {
     private commandService: CommandService
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.arrMainNgFor, 'my array ');
-  }
+  ngOnInit(): void {}
   deleteShoeSol(item: any, i: any) {
-    console.log(item, 'item');
-    console.log(i, 'iii');
     if (item && i != 0) {
       this.itemService.deleteItem(item).subscribe((res) => {
         if (res) {
@@ -55,7 +51,7 @@ export class GenericOrderDetailsCardComponent implements OnInit {
   }
   addShoeSol(patient: any, item: any, index: any, j: any) {
     let title = 'Anadir Una plantilla';
-    // console.log(item, 'item');
+    //(item, 'item');
     let form = new FormGroup({
       patientFirstName: new FormControl(
         patient.patientFirstName,
@@ -100,7 +96,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
       .subscribe(async (item) => {
         if (item) {
           patient.item.push(item);
-          console.log(item, 'dataaaaaaaaaa');
           await this.patientService
             .insertUpdatePatient({
               id: patient.id,
@@ -121,13 +116,12 @@ export class GenericOrderDetailsCardComponent implements OnInit {
 
           //We get modal result
           subscription.unsubscribe();
-          console.log('data del item named item', item);
         }
       });
   }
   addPaciente() {
     let title = 'Anadir Un Paciente';
-    // console.log(item, 'item');
+    //(item, 'item');
     let form = new FormGroup({
       patientFirstName: new FormControl('', Validators.required),
       patientName: new FormControl('', Validators.required),
@@ -143,7 +137,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
       .subscribe(async (item) => {
         if (item) {
           this.arrMainNgFor.patient.push(item);
-          console.log(item, 'dataaaaaaaaaa');
           await this.commandService
             .insertUpdateCommand(this.arrMainNgFor)
             .subscribe((res) => {
@@ -159,7 +152,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
 
           //We get modal result
           subscription.unsubscribe();
-          console.log('data del item named item', item);
         }
       });
   }
@@ -191,7 +183,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
   updatePlantija = (item: any, patient: any): void => {
     if (this.actions != 'InOrder') {
       let title = 'Cambiar Los Datos De la plantilla';
-      console.log(item, 'item');
       let form = new FormGroup({
         id: new FormControl(item.id, Validators.required),
         patientFirstName: new FormControl(
@@ -236,7 +227,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
         })
         .subscribe(async (data) => {
           if (data) {
-            console.log(data, 'dataaaaaaaaaa');
             await this.itemService.insertUpdateItem(data).subscribe((res) => {
               if (res) {
                 this.alert.success(
@@ -250,7 +240,6 @@ export class GenericOrderDetailsCardComponent implements OnInit {
 
             //We get modal result
             subscription.unsubscribe();
-            console.log('data del item', data);
           }
         });
     } else if (this.actions == 'InOrder') {

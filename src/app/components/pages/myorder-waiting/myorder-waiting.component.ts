@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from 'src/app/services/alert.service';
-import { GenericModalInsertComponent } from '../../genericComponent/generic-modal-insert/generic-modal-insert.component';
-import { PersonUpdateModalComponent } from '../../shared/modal/person-update-modal/person-update-modal.component';
-import { SimpleModalService } from 'ngx-simple-modal';
-import { ToastrService } from 'ngx-toastr';
+import { GenericFormgroupComponent } from '../../genericComponent/generic-formgroup/generic-formgroup.component';
 import { CommandService } from 'src/app/services/crud/command.service';
+import { SimpleModalService } from 'ngx-simple-modal';
+import { AlertService } from 'src/app/services/alert.service';
+import { HelpersService } from 'src/app/services/helpers.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-order-history',
-  templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.scss'],
+  selector: 'app-myorder-waiting',
+  templateUrl: './myorder-waiting.component.html',
+  styleUrls: ['./myorder-waiting.component.scss'],
 })
-export class OrderHistoryComponent implements OnInit {
+export class MyorderWaitingComponent implements OnInit {
   user: any;
   // Header of the <table>, name is what the user see, key is the real name of the key of obj
   arrHeader = [
@@ -47,7 +47,7 @@ export class OrderHistoryComponent implements OnInit {
   };
 
   filter = [];
-
+  client: any;
   // text alert when filter make the ngFor array lengh coming to zero
   alertMsgFilterNoMatch = 'Esos filtros no corresponden a ningun pedido';
   // actions is initialized at null, but it can be filled by an array with the text of the action and the method to call, if it stay null, the generic table will only be for display
@@ -61,21 +61,23 @@ export class OrderHistoryComponent implements OnInit {
   constructor(
     private commandService: CommandService,
     private simpleModalService: SimpleModalService,
-    private alert: AlertService
+    private alert: AlertService,
+    private helperService: HelpersService
   ) {}
 
   async ngOnInit() {
     this.actions = [
-      // { text: 'Modificar', method: this.updateUser },
+      { text: 'Excel', method: this.generateCSV },
       { text: 'Borrar', method: this.deletePedido },
     ];
     this.status = [{ text: 'Cambiar El Estado', method: this.changeStatus }];
+    this.client = JSON.parse(sessionStorage.getItem('user'));
     await this.loadCommand();
   }
   async loadCommand() {
     await this.commandService
       .findByCommand({
-        where: { statusId: 3 },
+        where: { statusId: 1, clientId: this.client.clientId },
         relations: ['status', 'client', 'patient', 'patient.item'],
       })
       .subscribe((res) => {
@@ -92,44 +94,61 @@ export class OrderHistoryComponent implements OnInit {
     };
   };
 
-  updateUser = (user: any): void => {
-    let update = {
-      User: {
-        FirstName: user.firstname,
-        LastName: user.name,
-        Email: user.mail,
+  deletePedido = (pedido: any) => {
+    this.alert.warn('En Trabajo');
+    let title = 'Borrar Pedido';
+
+    let form = new FormGroup({
+      confirm: new FormControl(),
+    });
+    let optionList = ['SI Borrar', 'Volver'];
+    let formRulesUpdate = [
+      {
+        typeForm: 'dropdown',
+        placeholder: 'Eligir Optiones',
+        label: 'Borrar Pedido',
+        option: optionList,
+        // keyOption: 'name',
+        formControl: 'confirm',
       },
-    };
+    ];
+
     let subscription = this.simpleModalService
-      .addModal(PersonUpdateModalComponent, {
-        person: update,
-        role: 'Utilisateur',
+      .addModal(GenericFormgroupComponent, {
+        form: form,
+        formRules: formRulesUpdate,
+        title: title,
       })
       .subscribe((data) => {
         if (data) {
-          this.alert.success(
-            'Los datos del usuario fueron modificado en la base de datos !'
-          );
-          //We get modal result
-          subscription.unsubscribe();
+          if (data.confirm === 'SI Borrar') {
+            this.alert.success(
+              'Los datos del usuario fueron modificado en la base de datos !'
+            );
+
+            if (pedido) {
+              this.commandService.deleteCommand(pedido).subscribe((res) => {
+                if (res) {
+                  this.alert.success(
+                    'El Pedido fue borrado de la base de datos !'
+                  );
+                  window.location.reload();
+                } else {
+                  this.alert.error('El servidor se encontro con un problema');
+                }
+                subscription.unsubscribe();
+              });
+            }
+          } else if (data.confirm === 'Volver') {
+            // Close the modal
+            subscription.unsubscribe();
+          }
         }
       });
   };
 
-  deletePedido = (pedido: any) => {
-    this.alert.warn('En Trabajo');
-
-    this.alert.warn('En Trabajo');
-
-    if (pedido) {
-      this.commandService.deleteCommand(pedido).subscribe((res) => {
-        if (res) {
-          this.alert.success('El Pedido fue borrado de la base de datos !');
-          window.location.reload();
-        } else {
-          this.alert.error('El servidor se encontro con un problema');
-        }
-      });
-    }
+  generateCSV = (item: any) => {
+    this.helperService.createCsvModel(item);
+    this.helperService.createCsvSticker(item);
   };
 }

@@ -164,14 +164,11 @@ export class HelpersService {
     const billateralRegex = /-Billateral/g; // Regular expression to match "Billateral"
     const derechaRegex = /-Derecha/g; // Regular expression to match "Derecha"
     const izquierdaRegex = /-Izquierda/g; // Regular expression to match "Izquierda"
-    console.log(items, 'items amigo');
     items.patient.forEach((patient) => {
       patient.item.forEach((item) => {
         let billateral = '';
         let izquierda = '';
         let derecha = '';
-
-        console.log(item, 'each itemon for each represented');
 
         //ARCO
         if (item.arco) {

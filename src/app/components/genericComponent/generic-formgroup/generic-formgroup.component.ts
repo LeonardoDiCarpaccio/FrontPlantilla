@@ -56,11 +56,7 @@ export class GenericFormgroupComponent
     super();
   }
 
-  ngOnInit(): void {
-    // this.buildForm();
-    console.log(this.title, 'title');
-    console.log(this.form, 'form');
-  }
+  ngOnInit(): void {}
 
   addValueToSelect(
     idSelected: any,
@@ -110,7 +106,6 @@ export class GenericFormgroupComponent
     }
 
     this.form.get(formControl).value.splice(indexToSplice, indexToSplice + 1);
-    console.log(itemSelected);
   }
   // buildForm(): void {
   //   this.form = this.fb.group({
@@ -128,10 +123,6 @@ export class GenericFormgroupComponent
 
   OnSubmitUserForm() {
     this.confirm();
-    console.log(
-      JSON.parse(JSON.stringify(this.form.value)),
-      'estamos aca la concha de tu hermana'
-    );
   }
   confirm() {
     this.result = JSON.parse(JSON.stringify(this.form.value));

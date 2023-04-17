@@ -60,10 +60,8 @@ export class DashboardComponent implements OnInit {
     placeholder: 'Buscar un usuario',
   };
   async ngOnInit() {
-    ///DONT FORGET LA CONCHA DE TU MADRE
-    //Initiate UserInfo FormGroup by callin backend
-    //Initiate userPrice variable
-    console.log('Initiating', JSON.parse(sessionStorage.getItem('user')));
+    // VERIFIER QUE LA DATA CEST BIEN ENREGIRSTR2 DANS LA BASE AVEC LE NOUVEAU FORMAT !!!
+    // clientId: [this.user.id,Validators.required], autre facon de lecrire
     if (JSON.parse(sessionStorage.getItem('user')).roleId == 1) {
       this.role = 'admin';
       this.user = {};
@@ -74,17 +72,8 @@ export class DashboardComponent implements OnInit {
     await this.priceTypeService.getPriceType({}).subscribe((res) => {
       if (res) {
         this.priceTypePlantillaList = res;
-        console.log(
-          this.priceTypePlantillaList,
-          ' this.priceTypePlantillaList'
-        );
       }
     });
-
-    console.log(this.user, 'user');
-    // VERIFIER QUE LA DATA CEST BIEN ENREGIRSTR2 DANS LA BASE AVEC LE NOUVEAU FORMAT !!!
-    // clientId: [this.user.id,Validators.required], autre facon de lecrire
-
     this.form = new FormGroup({
       client: new FormGroup({
         clientName: new FormControl(''),
@@ -107,17 +96,20 @@ export class DashboardComponent implements OnInit {
             patientName: new FormControl('', Validators.required),
             patientFirstName: new FormControl('', Validators.required),
             patientId: new FormControl(),
+            options: new FormArray([
+              new FormGroup({
+                quantity: new FormControl(1, Validators.required),
+                model: new FormControl('', Validators.required),
+              }),
+            ]),
             item: new FormArray([
               new FormGroup({
                 // FORM NECESARIOS
+                quantity: new FormControl(1),
+                model: new FormControl(''),
+                correction: new FormControl(),
+                size: new FormControl(''),
 
-                correction: new FormControl([
-                  Validators.min(100),
-                  Validators.max(360),
-                ]),
-                size: new FormControl('', Validators.required),
-                quantity: new FormControl(1, Validators.required),
-                model: new FormControl('', Validators.required),
                 /// ANTEPIEE
                 descargaAntepie: new FormControl(''),
                 WhereDescarga: new FormControl('Billateral'),
@@ -186,15 +178,25 @@ export class DashboardComponent implements OnInit {
     this.step = 1;
     this.commandFormGroup = this.form.get('command') as FormGroup;
     this.clientFormGroup = this.form.get('client') as FormGroup;
+    if (this.role === 'client') {
+      let clientId = this.form.get('command');
+      clientId.get('clientId').setValue(this.user.id);
+      this.form.get('client.clientName').setValue(this.user.clientName);
+      this.form
+        .get('client.clientFirstname')
+        .setValue(this.user.clientFirstName);
+      this.form.get('client.orga').setValue(this.user.orga);
 
+      this.form.get('client.phone').setValue(this.user.phone);
+      this.form.get('client.mail').setValue(this.user.mail);
+      this.form.get('client.location').setValue(this.user.location);
+      this.form.get('client.price').setValue(this.user.price);
+    }
     this.actions = [{ text: 'Selecionnar', method: this.selectClient }];
   }
 
   selectClient = (user: any): void => {
     let clientId = this.form.get('command');
-    console.log(user, 'user');
-
-    console.log(this.form.get('client').value, 'client before');
 
     clientId.get('clientId').setValue(user.id);
     this.form.get('client.clientName').setValue(user.clientName);
@@ -212,254 +214,45 @@ export class DashboardComponent implements OnInit {
   getItem(index: any) {
     return this.itemsArray.at(index).get('item') as FormArray;
   }
+  getOptions(index: any) {
+    return this.itemsArray.at(index).get('options') as FormArray;
+  }
   onValueChanged(newValue: number) {
     this.step = newValue;
   }
   addShoeSol(index: any) {
-    console.log(
-      this.form.get('command')?.get('patient').value,
-      'this form value'
-    );
-    console.log(
-      this.itemsArray.at(index).get('item').value,
-      'this form value item '
-    );
     let shoeSolBefore = (this.itemsArray.at(index).get('item') as FormArray).at(
       index
     );
-    console.log(
-      (this.itemsArray.at(index).get('item') as FormArray).at(index).value,
-      'this form value item '
-    );
-    // console.log(this.form.get('shoeSols').value.length(), 'length');
+
     // if (this.form.get('shoeSols').value.length() != 1) {
-    (this.itemsArray.at(index).get('item') as FormArray).push(
+    (this.itemsArray.at(index).get('options') as FormArray).push(
       new FormGroup({
-        // FORM NECESARIOS
-        // itemName: new FormControl('', Validators.required),
-        // itemFirstName: new FormControl('', Validators.required),
-        correction: new FormControl(
-          shoeSolBefore.get('correction').value
-            ? shoeSolBefore.get('correction').value
-            : null,
-          [Validators.min(100), Validators.max(360)]
-        ),
-        size: new FormControl(
-          shoeSolBefore.get('size').value
-            ? shoeSolBefore.get('size').value
-            : null,
-          Validators.required
-        ),
-        price: new FormControl(
-          shoeSolBefore.get('price').value
-            ? shoeSolBefore.get('price').value
-            : null,
-          Validators.required
-        ),
         quantity: new FormControl(1, Validators.required),
-        model: new FormControl(''),
-        /// ANTEPIEE
-        descargaAntepie: new FormControl(
-          shoeSolBefore.get('descargaAntepie').value
-            ? shoeSolBefore.get('descargaAntepie').value
-            : null
-        ),
-        WhereDescarga: new FormControl(
-          shoeSolBefore.get('WhereDescarga').value
-            ? shoeSolBefore.get('WhereDescarga').value
-            : null
-        ),
-        //OLIVAA
-        oliva_BarraMetatarsal: new FormControl(
-          shoeSolBefore.get('oliva_BarraMetatarsal').value
-            ? shoeSolBefore.get('oliva_BarraMetatarsal').value
-            : null
-        ),
-        whereOliva: new FormControl(
-          shoeSolBefore.get('whereOliva').value
-            ? shoeSolBefore.get('whereOliva').value
-            : ''
-        ),
-        //RAI
-        rai: new FormControl(
-          shoeSolBefore.get('rai').value ? shoeSolBefore.get('rai').value : ''
-        ),
-        whereRai: new FormControl(
-          shoeSolBefore.get('whereRai').value
-            ? shoeSolBefore.get('whereRai').value
-            : ''
-        ),
-        //RAE
-        rae: new FormControl(
-          shoeSolBefore.get('rae').value ? shoeSolBefore.get('rae').value : ''
-        ),
-        whereRae: new FormControl(
-          shoeSolBefore.get('whereRae').value
-            ? shoeSolBefore.get('whereRae').value
-            : ''
-        ),
-        //PIE MEDIOOOO
-        //ARCO
-        arco: new FormControl(
-          shoeSolBefore.get('arco').value ? shoeSolBefore.get('arco').value : ''
-        ),
-        selectedArco1: new FormControl(
-          shoeSolBefore.get('selectedArco1').value
-            ? shoeSolBefore.get('selectedArco1').value
-            : ''
-        ),
-        selectedArco2: new FormControl(
-          shoeSolBefore.get('selectedArco2').value
-            ? shoeSolBefore.get('selectedArco2').value
-            : ''
-        ),
-        whereArco: new FormControl(
-          shoeSolBefore.get('whereArco').value
-            ? shoeSolBefore.get('whereArco').value
-            : ''
-        ),
-        //CONTRA ARCO
-        contraArco: new FormControl(
-          shoeSolBefore.get('contraArco').value
-            ? shoeSolBefore.get('contraArco').value
-            : ''
-        ),
-        whereContraArco: new FormControl(
-          shoeSolBefore.get('whereContraArco').value
-            ? shoeSolBefore.get('whereContraArco').value
-            : ''
-        ),
-
-        /// TALON/RETROPIE
-        ///ALSA
-        alsa: new FormControl(
-          shoeSolBefore.get('alsa').value ? shoeSolBefore.get('alsa').value : ''
-        ),
-        selectedAlsa1: new FormControl(
-          shoeSolBefore.get('selectedAlsa1').value
-            ? shoeSolBefore.get('selectedAlsa1').value
-            : ''
-        ),
-        selectedAlsa2: new FormControl(
-          shoeSolBefore.get('selectedAlsa2').value
-            ? shoeSolBefore.get('selectedAlsa2').value
-            : ''
-        ),
-        whereAlsa: new FormControl(
-          shoeSolBefore.get('whereAlsa').value
-            ? shoeSolBefore.get('whereAlsa').value
-            : ''
-        ),
-
-        ///Alcochada
-        alcochadaOEspolon: new FormControl(
-          shoeSolBefore.get('alcochadaOEspolon').value
-            ? shoeSolBefore.get('alcochadaOEspolon').value
-            : ''
-        ),
-        Wherealcochada: new FormControl(
-          shoeSolBefore.get('Wherealcochada').value
-            ? shoeSolBefore.get('Wherealcochada').value
-            : ''
-        ),
-
-        ///OPTION
-        clinica: new FormControl(
-          shoeSolBefore.get('Wherealcochada').value
-            ? shoeSolBefore.get('Wherealcochada').value
-            : ''
-        ),
-        talonera: new FormControl(
-          shoeSolBefore.get('Wherealcochada').value
-            ? shoeSolBefore.get('Wherealcochada').value
-            : ''
-        ),
-
-        //RPI
-        rpi: new FormControl(
-          shoeSolBefore.get('rpi').value ? shoeSolBefore.get('rpi').value : ''
-        ),
-        selectedRPI1: new FormControl(
-          shoeSolBefore.get('selectedRPI1').value
-            ? shoeSolBefore.get('selectedRPI1').value
-            : ''
-        ),
-        selectedRPI2: new FormControl(
-          shoeSolBefore.get('selectedRPI2').value
-            ? shoeSolBefore.get('selectedRPI2').value
-            : ''
-        ),
-        whereRpi: new FormControl(
-          shoeSolBefore.get('whereRpi').value
-            ? shoeSolBefore.get('whereRpi').value
-            : ''
-        ),
-
-        ////// RPE
-        rpe: new FormControl(
-          shoeSolBefore.get('rpe').value ? shoeSolBefore.get('rpe').value : ''
-        ),
-        selectedRPE1: new FormControl(
-          shoeSolBefore.get('selectedRPE1').value
-            ? shoeSolBefore.get('selectedRPE1').value
-            : ''
-        ),
-        selectedRPE2: new FormControl(
-          shoeSolBefore.get('selectedRPE2').value
-            ? shoeSolBefore.get('selectedRPE2').value
-            : ''
-        ),
-        whereRpe: new FormControl(
-          shoeSolBefore.get('whereRpe').value
-            ? shoeSolBefore.get('whereRpe').value
-            : ''
-        ),
-
-        //Talonera
-        talonera1: new FormControl(
-          shoeSolBefore.get('talonera1').value
-            ? shoeSolBefore.get('talonera1').value
-            : ''
-        ),
-        taloneraAltura: new FormControl(
-          shoeSolBefore.get('taloneraAltura').value
-            ? shoeSolBefore.get('taloneraAltura').value
-            : ''
-        ),
-        taloneraType: new FormControl(
-          shoeSolBefore.get('taloneraType').value
-            ? shoeSolBefore.get('taloneraType').value
-            : ''
-        ),
-        taloneraDescarga: new FormControl(
-          shoeSolBefore.get('taloneraDescarga').value
-            ? shoeSolBefore.get('taloneraDescarga').value
-            : ''
-        ),
+        model: new FormControl('', Validators.required),
       })
     );
   }
   addPaciente(index: any) {
-    console.log(this.itemsArray.value, 'this form value item ');
-
-    // console.log(this.form.get('shoeSols').value.length(), 'length');
     // if (this.form.get('shoeSols').value.length() != 1) {
     (this.itemsArray as FormArray).push(
       new FormGroup({
         patientId: new FormControl(),
         patientName: new FormControl('', Validators.required),
         patientFirstName: new FormControl('', Validators.required),
+        options: new FormArray([
+          new FormGroup({
+            quantity: new FormControl(1, Validators.required),
+            model: new FormControl('', Validators.required),
+          }),
+        ]),
         item: new FormArray([
           new FormGroup({
             // FORM NECESARIOS
-            correction: new FormControl([
-              Validators.min(105),
-              Validators.max(360),
-            ]),
+            correction: new FormControl(),
             size: new FormControl('', Validators.required),
-            quantity: new FormControl(1, Validators.required),
+
             price: new FormControl(),
-            model: new FormControl('', Validators.required),
             /// ANTEPIEE
             descargaAntepie: new FormControl(''),
             WhereDescarga: new FormControl(''),
@@ -519,13 +312,11 @@ export class DashboardComponent implements OnInit {
       })
     );
     // }
-
-    // console.log(this.itemsArray.value, 'this form value');
   }
 
   deleteShoeSol(indexItems: any, indexItem: any) {
-    if (this.itemsArray.at(indexItems).get('item').value.length > 1) {
-      (this.itemsArray.at(indexItems).get('item') as FormArray).removeAt(
+    if (this.itemsArray.at(indexItems).get('options').value.length > 1) {
+      (this.itemsArray.at(indexItems).get('options') as FormArray).removeAt(
         indexItem
       );
     }
@@ -536,20 +327,18 @@ export class DashboardComponent implements OnInit {
     }
   }
   async onSubmit() {
-    // console.log('Submit1');
     // let plantillaNombre = 0;
-    console.log(this.itemsArray.value);
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item) => {
-        // console.log(item.value, 'item');
         /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIO
 
         if (
           item.get('correction').value <
             Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
           Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
-            item.get('correction').value ||
-          item.get('quantity').value < 1
+            item.get('correction').value
+          //    ||
+          // item.get('quantity').value < 1
         ) {
           // plantillaNombre += item.get('price').value;
 
@@ -561,20 +350,7 @@ export class DashboardComponent implements OnInit {
       });
     });
 
-    // this.form
-    //   .get('command')
-    //   ?.get('price')
-    //   .setValue(
-    //     (this.form.get('client')?.get('price').value as number) *
-    //       plantillaNombre
-    //   );
-
-    console.log(this.itemsArray.value);
-    console.log(this.itemsArray.valid);
-
     if (this.itemsArray.valid) {
-      console.log(this.itemsArray.valid);
-
       this.clientList = await this.loadCommand();
     } else {
       this.alert.info(
@@ -589,21 +365,13 @@ export class DashboardComponent implements OnInit {
         where: { roleId: 2 },
       })
       .subscribe((res) => {
-        console.log(res, 'res');
         this.clientList = res;
         this.changeStepAhead();
-        console.log(this.clientList, 'this.clientList');
-        console.log(
-          this.form.get('command').get('clientId').value,
-          "'        this.form.get('clientId').valu'"
-        );
       });
     // this.display = true;
   }
 
   onSubmitClient() {
-    console.log('Submit222');
-    console.log(this.form.get('client').valid);
     let plantillaNombre = 0;
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item) => {
@@ -622,6 +390,7 @@ export class DashboardComponent implements OnInit {
       this.changeStepAhead();
     }
   }
+
   updatePrice(model: any, indexItems: any, indexItem: any) {
     const matchingObject = this.priceTypePlantillaList.find(
       (obj) => obj.name === model
@@ -632,11 +401,18 @@ export class DashboardComponent implements OnInit {
       .get('price')
       .setValue(pricePlantilla);
   }
+
   temporarySaveForm() {
-    (this.itemsArray as FormArray).controls.forEach((patient) => {
-      (patient.get('item') as FormArray).controls.forEach((item) => {
-        // console.log(item.value, 'item');
+    (this.itemsArray as FormArray).controls.forEach((patient, patientIndex) => {
+      (patient.get('item') as FormArray).controls.forEach((item, itemIndex) => {
         /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
+
+        item
+          .get('model')
+          .setValue(
+            (patient.get('options') as FormArray).at(itemIndex).get('model')
+              .value
+          );
 
         item
           .get('rpi')
@@ -781,8 +557,6 @@ export class DashboardComponent implements OnInit {
                 : '')
           );
 
-        console.log(this.itemsArray.value);
-
         if (
           item.get('correction').value <
             Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
@@ -796,10 +570,7 @@ export class DashboardComponent implements OnInit {
         }
       });
     });
-    console.log(
-      JSON.parse(JSON.stringify(this.commandFormGroup.value)),
-      'pedido ja'
-    );
+
     let pedido = JSON.parse(JSON.stringify(this.commandFormGroup.value));
     this.commandService.insertUpdateCommand(pedido).subscribe((res) => {
       if (res) {

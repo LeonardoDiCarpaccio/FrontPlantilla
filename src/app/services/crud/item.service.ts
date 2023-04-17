@@ -17,7 +17,6 @@ export class ItemService {
   }
 
   insertUpdateItem(data: any) {
-    console.log(data, 'data');
     return this.http.post<any>(`${environment.apiUrl}/item/save`, data);
   }
 

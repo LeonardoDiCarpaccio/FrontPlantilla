@@ -109,7 +109,7 @@ export class UsersComponent implements OnInit {
       typeInput: 'number',
       placeholder: 'Descuento Por Plantilla del 0 AL 1',
       label:
-        'Entrar el descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
+        'Descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
       formControl: 'price',
     },
     {
@@ -170,7 +170,6 @@ export class UsersComponent implements OnInit {
   async ngOnInit() {
     //
     await this.loadSkills();
-    console.log(this.arrMainNgFor, 'arrMain');
 
     this.actions = [
       { text: 'Modificar', method: this.updateUser },
@@ -182,7 +181,6 @@ export class UsersComponent implements OnInit {
     await this.clientService
       .findByClient({ where: { roleId: 2 } })
       .subscribe((res) => {
-        console.log(res, 'res');
         this.arrMainNgFor = res;
       });
   }
@@ -208,7 +206,6 @@ export class UsersComponent implements OnInit {
       })
       .subscribe(async (data) => {
         if (data) {
-          console.log(data, 'dataaa');
           await this.clientService.insertUpdateClient(data).subscribe((res) => {
             if (res) {
               this.alert.success(
@@ -222,7 +219,6 @@ export class UsersComponent implements OnInit {
 
           //We get modal result
           subscription.unsubscribe();
-          console.log('data del usuarioamigo', data);
         }
       });
   }
@@ -264,13 +260,11 @@ export class UsersComponent implements OnInit {
 
           //We get modal result
           subscription.unsubscribe();
-          console.log('data del usuarioamigo', data);
         }
       });
   };
 
   deleteUser = (user: any): void => {
-    console.log(user, 'user');
     if (user) {
       this.clientService.deleteClient(user).subscribe((res) => {
         if (res) {

@@ -9,6 +9,8 @@ import { CommandService } from 'src/app/services/crud/command.service';
 import * as XLSX from 'ts-xlsx';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { GenericFormgroupComponent } from '../../genericComponent/generic-formgroup/generic-formgroup.component';
+import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-order-waiting',
   templateUrl: './order-waiting.component.html',
@@ -83,7 +85,6 @@ export class OrderWaitingComponent implements OnInit {
         relations: ['status', 'client', 'patient', 'patient.item'],
       })
       .subscribe((res) => {
-        console.log(this.arrMainNgFor, 'arrMainNgFor');
         this.arrMainNgFor = res;
       });
   }
@@ -122,18 +123,57 @@ export class OrderWaitingComponent implements OnInit {
   };
   deletePedido = (pedido: any) => {
     this.alert.warn('En Trabajo');
+    let title = 'Borrar Pedido';
 
-    if (pedido) {
-      this.commandService.deleteCommand(pedido).subscribe((res) => {
-        if (res) {
-          this.alert.success('El Pedido fue borrado de la base de datos !');
-          window.location.reload();
-        } else {
-          this.alert.error('El servidor se encontro con un problema');
+    let form = new FormGroup({
+      confirm: new FormControl(),
+    });
+    let optionList = ['SI Borrar', 'Volver'];
+    let formRulesUpdate = [
+      {
+        typeForm: 'dropdown',
+        placeholder: 'Eligir Optiones',
+        label: 'Borrar Pedido',
+        option: optionList,
+        // keyOption: 'name',
+        formControl: 'confirm',
+      },
+    ];
+
+    let subscription = this.simpleModalService
+      .addModal(GenericFormgroupComponent, {
+        form: form,
+        formRules: formRulesUpdate,
+        title: title,
+      })
+      .subscribe((data) => {
+        if (data) {
+          if (data.confirm === 'SI Borrar') {
+            this.alert.success(
+              'Los datos del usuario fueron modificado en la base de datos !'
+            );
+
+            if (pedido) {
+              this.commandService.deleteCommand(pedido).subscribe((res) => {
+                if (res) {
+                  this.alert.success(
+                    'El Pedido fue borrado de la base de datos !'
+                  );
+                  window.location.reload();
+                } else {
+                  this.alert.error('El servidor se encontro con un problema');
+                }
+                subscription.unsubscribe();
+              });
+            }
+          } else if (data.confirm === 'Volver') {
+            // Close the modal
+            subscription.unsubscribe();
+          }
         }
       });
-    }
   };
+
   generateCSV = (item: any) => {
     this.helperService.createCsvModel(item);
     this.helperService.createCsvSticker(item);

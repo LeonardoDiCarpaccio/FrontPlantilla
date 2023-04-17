@@ -20,7 +20,6 @@ export class PriceTypeService {
   }
 
   insertUpdatePriceType(data: any) {
-    console.log(data, 'data');
     return this.http.post<any>(`${environment.apiUrl}/price_type/save`, data);
   }
 

@@ -102,7 +102,6 @@ export class OrderApprovedComponent implements OnInit {
     ];
     this.status = [{ text: 'Cambiar El Estado', method: this.changeStatus }];
     await this.loadCommand();
-    console.log(this.arrMainNgFor, 'arrMain');
   }
   async loadCommand() {
     await this.commandService
@@ -111,7 +110,6 @@ export class OrderApprovedComponent implements OnInit {
         relations: ['status', 'client', 'patient', 'patient.item'],
       })
       .subscribe((res) => {
-        console.log(res, 'res');
         this.arrMainNgFor = res;
       });
     this.display = true;
@@ -128,7 +126,6 @@ export class OrderApprovedComponent implements OnInit {
 
   updatePedido = (pedido: any): void => {
     let title = 'Cambiar Los Datos Del  Pedido';
-    console.log(pedido, 'pedido');
     let form = new FormGroup({
       id: new FormControl(pedido.id),
       clientFirstName: new FormControl(pedido.client.clientFirstName),
@@ -152,14 +149,12 @@ export class OrderApprovedComponent implements OnInit {
           );
           //We get modal result
           subscription.unsubscribe();
-          console.log('data', data);
         }
       });
   };
 
   deletePedido = (pedido: any) => {
     this.alert.warn('En Trabajo');
-    console.log(pedido, 'user');
     this.alert.warn('En Trabajo');
 
     if (pedido) {

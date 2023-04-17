@@ -17,7 +17,6 @@ export class CommandService {
   }
 
   insertUpdateCommand(data: any) {
-    console.log(data, 'data');
     return this.http.post<any>(`${environment.apiUrl}/command/save`, data);
   }
 
