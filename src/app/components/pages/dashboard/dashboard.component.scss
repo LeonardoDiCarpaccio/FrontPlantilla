@@ -1,4 +1,8 @@
 .form-container {
     overflow-x: auto;
     white-space: nowrap;
-  }
+  }/* Add this to your component's CSS file */
+.error-input {
+  border-color: red;
+  background-color: #ffe6e6;
+}

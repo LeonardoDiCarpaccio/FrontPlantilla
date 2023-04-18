@@ -1,5 +1,5 @@
 
-<app-generic-steps-form [step]="this.step"></app-generic-steps-form>
+<app-generic-steps-form *ngIf="largeScreen" [step]="this.step"></app-generic-steps-form>
 <!-- <app-generic-formgroup></app-generic-formgroup> -->
 <!-- <p>dashboard works!</p> -->
 <div class="flex-1  overflow-auto  flex items-stretch ">
@@ -145,18 +145,42 @@
                   <div                 *ngIf="j==0"
                    class="w-20 flex flex-col items-center justify-center">
                     <label for="size"  class="block text-sm font-medium text-gray-700">TALLES EU</label>
-                    <select  formControlName="size" autocomplete="Talles" name="Talles" 
+                    <select (change)="onSelectTalles($event.target.value, i, j)"  formControlName="size" autocomplete="Talles" name="Talles" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option  id="size" *ngFor="let size of sizes" [value]="size" >{{size}}</option>
                     </select>                
                   </div>
   
-                  <div                *ngIf="j==0"
-                  class="w-28 flex flex-col items-center justify-center">
-                    <label for="correction" class="block text-sm font-medium text-gray-700">CORRECCIÓN</label>
-                    <input  type="number" formControlName="correction" class=" w-16 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
-                    border-gray-300 rounded-md" >
+                  <div *ngIf="j == 0" class="w-28 ml-4 flex flex-col  justify-center">
+                    <label for="correction" class="block text-sm font-medium text-gray-700">
+                      CORRECCIÓN
+                    </label>
+                    <div class="flex flex-row ">
+                      <input
+                        [ngClass]="{
+                          'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('correction')?.getError('invalid')
+                        }"
+                        type="number"
+                        formControlName="correction"
+                        class="w-16 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                        <span
+                          *ngIf="itemsArray.at(i).get('item').at(j).get('correction').getError('invalid')"
+                          class="ml-2 text-sm text-red-700"
+                        >
+                          Correcion entre
+                          {{
+                          
+                            itemsArray.at(i).get('item').at(j).get('correctionMin').value
+                          }}
+                          Y
+                          {{
+                            itemsArray.at(i).get('item').at(j).get('correctionMax').value
+                          }}
+                        </span>
+                    </div>
                   </div>
+                  
                 </div>
                 <div>
                   <div class=" mt-4 flex flex-row">
@@ -367,8 +391,16 @@
                 class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                   <option   *ngFor="let arcoInterno of selectedArco1" [value]="arcoInterno">{{arcoInterno}}</option>
                 </select>
-                <input *ngIf="product.get('selectedArco1').value=='SOBRE ARCO'"   type="number" placeholder="En MM" formControlName="selectedArco2" id="arco"  class=" w-24 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
+                <input  [ngClass]="{
+                  'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedArco2')?.getError('invalid')
+                }" *ngIf="product.get('selectedArco1').value=='SOBRE ARCO'"   type="number" placeholder="En MM" formControlName="selectedArco2" id="arco"  class=" w-24 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
                 border-gray-300 rounded-md" >    
+                <span
+                *ngIf="itemsArray.at(i).get('item').at(j).get('selectedArco2').getError('invalid')"
+                class="ml-2 text-sm text-red-700"
+              >
+              El Sobre Arco Neccessita un valor en MM             
+              </span>
               </div>
               </div>
             
@@ -382,7 +414,7 @@
                  " style="display: flex  !important;
                  flex-direction: column !important;
                  align-items: center !important;">
-                     <input formControlName='whereArco' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                     <input  formControlName='whereArco' value="Billateral"  type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
                      <label class="ml-3">
                        <span class="block text-sm font-medium text-gray-700">Bill</span>
                      </label>
@@ -477,12 +509,20 @@
                     <label    *ngIf=" product.get('selectedAlsa1')
                     .value" class="block text-sm font-medium text-gray-700">ALZA ALTURA EN MM
                     </label>
-                    <select  *ngIf=" product.get('selectedAlsa1')
+                    <select [ngClass]="{
+                      'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedAlsa2')?.getError('invalid')
+                    }" *ngIf=" product.get('selectedAlsa1')
                     .value"
                     formControlName="selectedAlsa2" autocomplete="selectedAlsa2" name="selectedAlsa2" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                       <option *ngFor="let alsa of alsa2" [value]="alsa">{{alsa}}</option>
                     </select> 
+                    <span
+                    *ngIf="itemsArray.at(i).get('item').at(j).get('selectedAlsa2').getError('invalid')"
+                    class="ml-2 text-sm text-red-700"
+                  >
+                  El Alza Neccessita un valor en MM             
+                  </span>
                     <div   *ngIf=" product.get('selectedAlsa1')
                     .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
                       <div class="flex;
@@ -527,7 +567,9 @@
                   <label   *ngIf=" product.get('selectedRPI1')
                   .value" class="block text-sm font-medium text-gray-700">RPI ALTURA EN MM
                   </label>
-                  <select 
+                  <select [ngClass]="{
+                    'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.getError('invalid')
+                  }"
                   *ngIf=" product.get('selectedRPI1')
                   .value"
                   
@@ -535,6 +577,12 @@
                   class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
                     <option  *ngFor="let item of rpis2" [value]="item">{{ item }}</option>
                   </select>
+                  <span
+                *ngIf="itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.getError('invalid')"
+                class="ml-2 text-sm text-red-700"
+              >
+              El RPI Neccessita un valor en MM             
+              </span>
                   <div   *ngIf=" product.get('selectedRPI1')
                   .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
                     <div class="flex;
@@ -580,6 +628,9 @@
                   .value" class="block text-sm font-medium text-gray-700">RPE ALTURA EN MM
                   </label>
                   <select 
+                  [ngClass]="{
+                    'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPE2')?.getError('invalid')
+                  }"
                   *ngIf=" product.get('selectedRPE1')
                   .value"
                   formControlName="selectedRPE2"
@@ -588,7 +639,12 @@
                     focus:border-indigo-500 sm:text-sm" >
                     <option *ngFor="let item of rpes2" [value]="item">{{ item }}</option>
                   </select>
-  
+                <span
+              *ngIf="itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPE2')?.getError('invalid')"
+              class="ml-2 text-sm text-red-700"
+            >
+            El RPE Neccessita un valor en MM             
+            </span>
                   <div *ngIf=" product.get('selectedRPE1')
                   .value"
                    class="space-y-1 flex flex-row" style="align-items: baseline;">

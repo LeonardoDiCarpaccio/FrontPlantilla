@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommandService } from 'src/app/services/crud/command.service';
 import { combineLatest } from 'rxjs';
 
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
             patientId: new FormControl(),
             options: new FormArray([
               new FormGroup({
-                quantity: new FormControl(1, Validators.required),
+                quantity: new FormControl(1),
                 model: new FormControl('', Validators.required),
               }),
             ]),
@@ -108,6 +108,9 @@ export class DashboardComponent implements OnInit {
                 quantity: new FormControl(1),
                 model: new FormControl(''),
                 correction: new FormControl(),
+                correctionMin: new FormControl(),
+                correctionMax: new FormControl(),
+
                 size: new FormControl(''),
 
                 /// ANTEPIEE
@@ -193,8 +196,18 @@ export class DashboardComponent implements OnInit {
       this.form.get('client.price').setValue(this.user.price);
     }
     this.actions = [{ text: 'Selecionnar', method: this.selectClient }];
+    this.updateScreenWidth();
+  }
+  largeScreen: boolean;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.updateScreenWidth();
   }
 
+  updateScreenWidth(): void {
+    this.largeScreen = window.innerWidth > 1030;
+  }
   selectClient = (user: any): void => {
     let clientId = this.form.get('command');
 
@@ -220,6 +233,7 @@ export class DashboardComponent implements OnInit {
   onValueChanged(newValue: number) {
     this.step = newValue;
   }
+
   addShoeSol(index: any) {
     let shoeSolBefore = (this.itemsArray.at(index).get('item') as FormArray).at(
       index
@@ -242,7 +256,7 @@ export class DashboardComponent implements OnInit {
         patientFirstName: new FormControl('', Validators.required),
         options: new FormArray([
           new FormGroup({
-            quantity: new FormControl(1, Validators.required),
+            quantity: new FormControl(1),
             model: new FormControl('', Validators.required),
           }),
         ]),
@@ -250,41 +264,44 @@ export class DashboardComponent implements OnInit {
           new FormGroup({
             // FORM NECESARIOS
             correction: new FormControl(),
+            correctionMin: new FormControl(),
+            correctionMax: new FormControl(),
             size: new FormControl('', Validators.required),
+            model: new FormControl('', Validators.required),
 
             price: new FormControl(),
             /// ANTEPIEE
             descargaAntepie: new FormControl(''),
-            WhereDescarga: new FormControl(''),
+            WhereDescarga: new FormControl('Billateral'),
             //OLIVAA
             oliva_BarraMetatarsal: new FormControl(''),
-            whereOliva: new FormControl(),
+            whereOliva: new FormControl('Billateral'),
             //RAI
             rai: new FormControl(''),
-            whereRai: new FormControl(),
+            whereRai: new FormControl('Billateral'),
             //RAE
             rae: new FormControl(''),
-            whereRae: new FormControl(),
+            whereRae: new FormControl('Billateral'),
             //PIE MEDIOOOO
             //ARCO
             arco: new FormControl(''),
             selectedArco1: new FormControl(''),
             selectedArco2: new FormControl(''),
-            whereArco: new FormControl(),
+            whereArco: new FormControl('Billateral'),
             //CONTRA ARCO
             contraArco: new FormControl(''),
-            whereContraArco: new FormControl(''),
+            whereContraArco: new FormControl('Billateral'),
 
             /// TALON/RETROPIE
             ///ALSA
             alsa: new FormControl(''),
             selectedAlsa1: new FormControl(''),
             selectedAlsa2: new FormControl(''),
-            whereAlsa: new FormControl(),
+            whereAlsa: new FormControl('Billateral'),
 
             ///Alcochada
             alcochadaOEspolon: new FormControl(''),
-            Wherealcochada: new FormControl(''),
+            Wherealcochada: new FormControl('Billateral'),
 
             ///OPTION
             clinica: new FormControl(''),
@@ -294,13 +311,13 @@ export class DashboardComponent implements OnInit {
             rpi: new FormControl(''),
             selectedRPI1: new FormControl(''),
             selectedRPI2: new FormControl(''),
-            whereRpi: new FormControl(),
+            whereRpi: new FormControl('Billateral'),
 
             ////// RPE
             rpe: new FormControl(''),
             selectedRPE1: new FormControl(''),
             selectedRPE2: new FormControl(''),
-            whereRpe: new FormControl(),
+            whereRpe: new FormControl('Billateral'),
 
             //Talonera
             talonera1: new FormControl(''),
@@ -326,32 +343,100 @@ export class DashboardComponent implements OnInit {
       (this.itemsArray as FormArray).removeAt(indexItems);
     }
   }
+  onSelectTalles(size: any, indexItems: any, indexItem: any) {
+    (this.itemsArray.at(indexItems).get('item') as FormArray)
+      .at(indexItem)
+      .get('correction')
+      .setValue(Math.round((parseInt(size) * 10) / 1.5));
+    (this.itemsArray.at(indexItems).get('item') as FormArray)
+      .at(indexItem)
+      .get('correctionMax')
+      .setValue(Math.round((parseInt(size) * 10) / 1.5));
+    (this.itemsArray.at(indexItems).get('item') as FormArray)
+      .at(indexItem)
+      .get('correctionMin')
+      .setValue(Math.round((parseInt(size) * 10) / 1.5) * 0.85);
+  }
   async onSubmit() {
     // let plantillaNombre = 0;
-    (this.itemsArray as FormArray).controls.forEach((patient) => {
-      (patient.get('item') as FormArray).controls.forEach((item) => {
-        /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIO
+    (this.itemsArray as FormArray).controls.forEach((patient, patientIndex) => {
+      (patient.get('item') as FormArray).controls.forEach(
+        (item: FormGroup, itemIndex) => {
+          /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIO
+          item.get('selectedArco2').setErrors(null);
+          item.get('selectedRPI2').setErrors(null);
+          item.get('selectedRPE2').setErrors(null);
+          item.get('correction').setErrors(null);
+          item.get('selectedAlsa2').setErrors(null);
+          // console.log(
+          //   `Patient ${patientIndex}, Item ${itemIndex} errors: `,
+          //   item.errors,
+          //   this.itemsArray.valid
+          // );
+          // Object.keys(item.controls).forEach((key) => {
+          //   console.log(
+          //     `Patient ${patientIndex}, Item ${itemIndex}, Control ${key} status: `,
+          //     item.get(key).status
+          //   );
+          //   console.log(
+          //     `Patient ${patientIndex}, Item ${itemIndex}, Control ${key} errors: `,
+          //     item.get(key).errors
+          //   );
+          // });
+          if (
+            item.get('correction').value <
+              Math.round((parseInt(item.get('size').value) * 10) / 1.5) *
+                0.85 ||
+            Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
+              item.get('correction').value
+            //    ||
+            // item.get('quantity').value < 1
+          ) {
+            // plantillaNombre += item.get('price').value;
+            item.get('correction').setErrors({ invalid: true });
 
-        if (
-          item.get('correction').value <
-            Math.round((parseInt(item.get('size').value) * 10) / 1.5) * 0.85 ||
-          Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
-            item.get('correction').value
-          //    ||
-          // item.get('quantity').value < 1
-        ) {
-          // plantillaNombre += item.get('price').value;
+            // this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
+            this.alert.info(
+              'El valor de la correcion no se puede applicar a la talles selecionnada '
+            );
+          }
 
-          this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
-          this.alert.info(
-            'El valor de la correcion no se puede applicar a la talles selecionnada '
-          );
+          if (
+            item.get('selectedArco1').value == 'SOBRE ARCO' &&
+            item.get('selectedArco2').value == ''
+          ) {
+            item.get('selectedArco2').setErrors({ invalid: true });
+            this.alert.info('El Sobre Arco Neccessita un valor en MM');
+          }
+          if (
+            item.get('selectedRPI1').value != '' &&
+            item.get('selectedRPI2').value == ''
+          ) {
+            item.get('selectedRPI2').setErrors({ invalid: true });
+            this.alert.info('El RPI Neccessita un valor en MM');
+          }
+          if (
+            item.get('selectedRPE1').value != '' &&
+            item.get('selectedRPE2').value == ''
+          ) {
+            item.get('selectedRPE2').setErrors({ invalid: true });
+            this.alert.info('El RPE Neccessita un valor en MM');
+          }
+          if (
+            item.get('selectedAlsa1').value != '' &&
+            item.get('selectedAlsa2').value == ''
+          ) {
+            item.get('selectedAlsa2').setErrors({ invalid: true });
+            this.alert.info('El Alza Neccessita un valor en MM');
+          }
         }
-      });
+      );
     });
 
     if (this.itemsArray.valid) {
-      this.clientList = await this.loadCommand();
+      if (this.role == 'admin') {
+        this.clientList = await this.loadCommand();
+      }
     } else {
       this.alert.info(
         'Los Campos Nombre, Apellido, Modelo, Cantidad y Talle del formulario son obligatorios '
