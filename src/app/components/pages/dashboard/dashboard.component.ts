@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
             options: new FormArray([
               new FormGroup({
                 quantity: new FormControl(1),
-                model: new FormControl('', Validators.required),
+                model: new FormControl(''),
               }),
             ]),
             item: new FormArray([
@@ -243,7 +243,7 @@ export class DashboardComponent implements OnInit {
     (this.itemsArray.at(index).get('options') as FormArray).push(
       new FormGroup({
         quantity: new FormControl(1, Validators.required),
-        model: new FormControl('', Validators.required),
+        model: new FormControl(''),
       })
     );
   }
@@ -257,7 +257,7 @@ export class DashboardComponent implements OnInit {
         options: new FormArray([
           new FormGroup({
             quantity: new FormControl(1),
-            model: new FormControl('', Validators.required),
+            model: new FormControl(''),
           }),
         ]),
         item: new FormArray([
@@ -267,7 +267,7 @@ export class DashboardComponent implements OnInit {
             correctionMin: new FormControl(),
             correctionMax: new FormControl(),
             size: new FormControl('', Validators.required),
-            model: new FormControl('', Validators.required),
+            model: new FormControl(''),
 
             price: new FormControl(),
             /// ANTEPIEE
@@ -368,21 +368,12 @@ export class DashboardComponent implements OnInit {
           item.get('selectedRPE2').setErrors(null);
           item.get('correction').setErrors(null);
           item.get('selectedAlsa2').setErrors(null);
-          // console.log(
-          //   `Patient ${patientIndex}, Item ${itemIndex} errors: `,
-          //   item.errors,
-          //   this.itemsArray.valid
-          // );
-          // Object.keys(item.controls).forEach((key) => {
-          //   console.log(
-          //     `Patient ${patientIndex}, Item ${itemIndex}, Control ${key} status: `,
-          //     item.get(key).status
-          //   );
-          //   console.log(
-          //     `Patient ${patientIndex}, Item ${itemIndex}, Control ${key} errors: `,
-          //     item.get(key).errors
-          //   );
-          // });
+          console.log(
+            `Patient ${patientIndex}, Item ${itemIndex} errors: `,
+            item.errors,
+            this.itemsArray.valid
+          );
+          console.log();
           if (
             item.get('correction').value <
               Math.round((parseInt(item.get('size').value) * 10) / 1.5) *
