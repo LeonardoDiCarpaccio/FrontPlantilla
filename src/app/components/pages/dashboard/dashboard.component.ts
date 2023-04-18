@@ -268,6 +268,7 @@ export class DashboardComponent implements OnInit {
             correctionMax: new FormControl(),
             size: new FormControl('', Validators.required),
             model: new FormControl(''),
+            quantity: new FormControl(1),
 
             price: new FormControl(),
             /// ANTEPIEE
@@ -448,10 +449,20 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmitClient() {
-    let plantillaNombre = 0;
+    let plantillaNombre: number = 0;
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item) => {
-        plantillaNombre += item.get('price').value;
+        console.log(plantillaNombre, ' plantillaNombre');
+        console.log(
+          item.get('price').value,
+          typeof item.get('price').value,
+          ' item.get(s).value;'
+        );
+
+        plantillaNombre = Math.round(
+          plantillaNombre + parseInt(item.get('price').value)
+        );
+        console.log(plantillaNombre, ' plantillaNombre');
       });
     });
 
@@ -462,6 +473,11 @@ export class DashboardComponent implements OnInit {
         (this.form.get('client')?.get('price').value as number) *
           plantillaNombre
       );
+    console.log(
+      this.form.get('client')?.get('price').value as number,
+      'plantillaNombrethis.form.get(client)?.get(price).value as number)'
+    );
+
     if (this.form.get('client').valid) {
       this.changeStepAhead();
     }
@@ -472,10 +488,12 @@ export class DashboardComponent implements OnInit {
       (obj) => obj.name === model
     );
     const pricePlantilla = matchingObject ? matchingObject.price : null;
+
     (this.itemsArray.at(indexItems).get('item') as FormArray)
       .at(indexItem)
       .get('price')
       .setValue(pricePlantilla);
+    console.log(pricePlantilla, 'pricePlantilla');
   }
 
   temporarySaveForm() {
