@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +17,12 @@ export class CommandService {
   }
 
   insertUpdateCommand(data: any) {
-    return this.http.post<any>(`${environment.apiUrl}/command/save`, data);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post<any>(`${environment.apiUrl}/command/save`, data, {
+      headers,
+    });
   }
 
   deleteCommand(data: any) {
