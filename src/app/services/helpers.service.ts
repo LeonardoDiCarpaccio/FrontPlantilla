@@ -413,6 +413,10 @@ export class HelpersService {
       cellA.font = {
         size: 12,
       };
+      cellA.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
+      };
       cellB.alignment = {
         wrapText: true,
         vertical: 'middle',
@@ -420,6 +424,10 @@ export class HelpersService {
       };
       cellB.font = {
         size: 12,
+      };
+      cellB.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
       };
       cellC.alignment = {
         wrapText: true,
@@ -429,6 +437,10 @@ export class HelpersService {
       cellC.font = {
         size: 12,
       };
+      cellC.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
+      };
       cellD.alignment = {
         wrapText: true,
         vertical: 'middle',
@@ -436,6 +448,10 @@ export class HelpersService {
       };
       cellD.font = {
         size: 12,
+      };
+      cellD.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
       };
       cellE.alignment = {
         wrapText: true,
@@ -445,6 +461,10 @@ export class HelpersService {
       cellE.font = {
         size: 12,
       };
+      cellE.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
+      };
       cellF.alignment = {
         wrapText: true,
         vertical: 'middle',
@@ -453,6 +473,10 @@ export class HelpersService {
       cellF.font = {
         size: 14,
       };
+      cellF.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
+      };
       cellG.alignment = {
         wrapText: true,
         vertical: 'middle',
@@ -460,12 +484,20 @@ export class HelpersService {
       cellG.font = {
         size: 15,
       };
+      cellG.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
+      };
       cellH.alignment = {
         wrapText: true,
         vertical: 'middle',
       };
       cellH.font = {
         size: 13,
+      };
+      cellH.border = {
+        top: { style: 'medium', color: { argb: 'FF000000' } },
+        bottom: { style: 'medium', color: { argb: 'FF000000' } },
       };
     }
 
