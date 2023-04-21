@@ -29,7 +29,7 @@ export class HelpersService {
       '' +
       items.id;
     let workbook = new Workbook();
-    let worksheetPresta = workbook.addWorksheet('Feuil1');
+    let worksheetPresta = workbook.addWorksheet('Hoja1');
     // Set the page properties
     worksheetPresta.pageSetup.paperSize = 9; // A4
     worksheetPresta.pageSetup.margins = {
@@ -40,38 +40,65 @@ export class HelpersService {
       header: 0.05,
       footer: 0.05,
     };
+
+    let columnIndex = 1;
+    let rowIndex = 1;
+    let pairCounter = 0;
+
     items.patient.forEach((patient) => {
       patient.item.forEach((item) => {
-        let newrow = [
-          item.id,
-          patient.patientName + ' ' + patient.patientFirstName,
-        ];
-        worksheetPresta.addRow(newrow);
+        let cellID = worksheetPresta.getCell(rowIndex, columnIndex);
+        let cellName = worksheetPresta.getCell(rowIndex, columnIndex + 1);
+
+        cellID.value = item.id;
+        cellName.value = patient.patientName + ' ' + patient.patientFirstName;
+
+        pairCounter++;
+        if (pairCounter === 3) {
+          pairCounter = 0;
+          rowIndex++;
+          columnIndex = 1;
+        } else {
+          columnIndex += 2;
+        }
       });
     });
-    // Set the width of columns A to F
-    worksheetPresta.getColumn('A').width = 8;
-    worksheetPresta.getColumn('B').width = 25;
-    for (let i = 1; i <= worksheetPresta.rowCount; i++) {
-      const cellA = worksheetPresta.getCell(`A${i}`);
-      const cellB = worksheetPresta.getCell(`B${i}`);
+    // Calculate the total width for 4 pairs of columns
+    let idColumnWidth = 8;
+    let maxNameColumnWidth = 50; // You can adjust this value to fit the A4 width
+    let nameColumnWidth = Math.min(
+      (210 - 2 * 0.2 * 25.4 - 4 * 8) / 4,
+      maxNameColumnWidth
+    ); // A4 width in mm is 210; 1 inch = 25.4 mm
 
-      cellA.alignment = {
-        wrapText: true,
-        vertical: 'middle',
-        horizontal: 'center',
-      };
-      cellA.font = {
-        size: 14,
-      };
-      cellB.alignment = {
-        wrapText: true,
-        vertical: 'middle',
-        horizontal: 'center',
-      };
-      cellB.font = {
-        size: 16,
-      };
+    // Set the width and style of the columns
+    let maxColumns = columnIndex > 1 ? columnIndex : 9;
+    for (let i = 1; i < maxColumns; i += 2) {
+      worksheetPresta.getColumn(i).width = idColumnWidth;
+      worksheetPresta.getColumn(i + 1).width = 26;
+
+      for (let j = 1; j <= worksheetPresta.rowCount; j++) {
+        const cellA = worksheetPresta.getCell(j, i);
+        const cellB = worksheetPresta.getCell(j, i + 1);
+
+        cellA.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+        };
+        cellA.font = {
+          size: 14,
+        };
+        cellB.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+          shrinkToFit: true, // Add this property to ensure the text fits the cell width
+        };
+        cellB.font = {
+          size: 16,
+        };
+      }
     }
 
     //Generate & Save Excel File
@@ -82,6 +109,7 @@ export class HelpersService {
       fs.saveAs(blob, title_file + '.xlsx');
     });
   }
+
   createCsvModel(items: any) {
     const title_file =
       items.client.clientName +
@@ -95,7 +123,7 @@ export class HelpersService {
     const currentDate = new Date().toLocaleDateString('arg-CA');
     const clientName = items.client.clientName;
     const clientFirstName = items.client.clientFirstName;
-    let worksheetPresta = workbook.addWorksheet('Feuil1');
+    let worksheetPresta = workbook.addWorksheet('Hoja1');
     // Add date and client name to the sheet
     const cellA = worksheetPresta.getCell(`F1`);
     const cellB = worksheetPresta.getCell(`G1`);

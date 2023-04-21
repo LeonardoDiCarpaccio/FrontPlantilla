@@ -12,18 +12,18 @@ export class NavigationComponent implements OnInit {
     role: any;
     client: any;
     async ngOnInit() {
-        this.client = JSON.parse(sessionStorage.getItem("user"));
+        this.client = JSON.parse(localStorage.getItem("user"));
 
         this.role = await this.auth.getRole();
     }
-    Show: boolean = false;
+    Show: boolean = true;
     displayed: boolean = false;
 
     hideSidebar() {
         this.isSidebarOpen = false;
     }
     toggle() {
-        this.Show = !this.Show;
+        this.Show = true;
     }
     display() {
         this.displayed = !this.displayed;

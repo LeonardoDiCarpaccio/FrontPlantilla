@@ -17,14 +17,14 @@
                   <span class="pr-3 bg-white text-2xl font-medium text-gray-900">
                     PACIENTE N°{{f+1}} : {{patient.patientName}} {{patient.patientFirstName}}
                   </span>
-                  <button *ngIf="actions!='InOrder'"  (click)="updatePlantija( patient)" type="button" class="inline-flex items-center shadow-base px-4 py-1.5 border border-gray-300 text-base leading-5 font-semibold rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button *ngIf="actions!=('InOrder'&&'Client')"  (click)="updatePlantija( patient)" type="button" class="inline-flex items-center shadow-base px-4 py-1.5 border border-gray-300 text-base leading-5 font-semibold rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <!-- Heroicon name: solid/plus-base -->
                     <svg class="-ml-1.5 mr-1 h-8 w-8 text-gray-400" fill="none" stroke="blue" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
                       </svg>
                     <span>MODIFICAR</span>
                   </button>
-                  <button *ngIf="f!=0 && actions!='InOrder'" (click)="deletePatiente(patient,f)" type="button" class="inline-flex items-center shadow-base px-4 py-1.5 border border-red-300 text-base leading-5 font-semibold rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                  <button *ngIf="f!=0 && actions!=('InOrder'&&'Client')" (click)="deletePatiente(patient,f)" type="button" class="inline-flex items-center shadow-base px-4 py-1.5 border border-red-300 text-base leading-5 font-semibold rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     
                     <svg class="-ml-1.5 mr-1 h-4 w-4 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -76,9 +76,11 @@
                  
                 <div  *ngIf="i==0" class="flex flex-row px-1">
                   <!-- <label for="Quantity" class="block text-base font-semibold text-gray-700">1 </label> -->
-                  <label for="model" class="block text-base font-semibold text-gray-700  pr-1"> MODELO : </label>
+                  <label for="model" class="block text-base font-semibold text-gray-700  pr-1">1</label>
+
+                  <label for="model" class="block text-base font-semibold text-gray-700  pr-1"> Modelo : </label>
                   <label for="street_address" class="block text-base font-semibold text-gray-700"> {{item.model}}</label>      
-                  <button *ngIf="j!=0 && actions!='InOrder'"class="ml-2" (click)="deleteShoeSol(item,modelIndex,arrMainNgFor)" type="button">
+                  <button *ngIf="j!=0 && actions!=('InOrder'&&'Client')"class="ml-2" (click)="deleteShoeSol(item,modelIndex,arrMainNgFor)" type="button">
                       
                     <svg class="-ml-1.5 mr-1 h-6 w-8 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -89,7 +91,7 @@
                 
                 
                 </div>
-                <div *ngIf=" actions!='InOrder'" class="relative flex justify-center">
+                <div *ngIf=" actions!=('InOrder'&&'Client')" class="relative flex justify-center">
                   <button (click)="addShoeSol(patient,item,i,j,arrMainNgFor)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
@@ -233,7 +235,7 @@
                   <label for="rpi" class="block text-base font-semibold text-gray-700">ACOLCHADO DE TALON/DESCARGA ESPOLON :</label>
                   <label for="street_address" class="block text-base font-semibold text-gray-700">{{item.alcochadaOEspolon}}</label>
                 </div>
-                <div *ngIf="item.talonera&&i==0&&actions!='InOrder'" class="col-span-2 base:col-span-4">
+                <div *ngIf="item.talonera&&i==0&&actions!='InOrder'" class="col-span-4 base:col-span-4">
                   <label for="talonera" class="block text-base font-semibold text-gray-700">TALONERA :</label>
                   <label for="street_address" class="block text-base font-semibold text-gray-700">{{item.talonera}}</label>
                 </div>
@@ -273,7 +275,7 @@
           </div>
           </a>
           </div>
-          <div *ngIf="actions!='InOrder'"  class="relative flex justify-start pl-4 bg-gray-50">
+          <div *ngIf="actions!=('InOrder'&&'Client')"  class="relative flex justify-start pl-4 bg-gray-50">
             <button (click)="addPaciente()" type="button" 
             class="inline-flex items-center shadow-base px-4 py-1.5 border
              border-gray-300 text-base leading-9 font-semibold rounded-lg text-gray-900

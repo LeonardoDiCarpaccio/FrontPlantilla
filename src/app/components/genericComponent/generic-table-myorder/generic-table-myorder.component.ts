@@ -117,7 +117,7 @@ export class GenericTableMyorderComponent implements OnInit {
         node.selectedItem = true;
       }
     }
-
+    console.log(node, 'node');
     this.commandDetails = node;
     this.beforeDisplayDetails = node.id;
   }

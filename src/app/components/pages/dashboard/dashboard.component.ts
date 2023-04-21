@@ -69,11 +69,11 @@ export class DashboardComponent implements OnInit {
     // VERIFIER QUE LA DATA CEST BIEN ENREGIRSTR2 DANS LA BASE AVEC LE NOUVEAU FORMAT !!!
     // clientId: [this.user.id,Validators.required], autre facon de lecrire
 
-    if (JSON.parse(sessionStorage.getItem('user')).roleId == 1) {
+    if (JSON.parse(localStorage.getItem('user')).roleId == 1) {
       this.role = 'admin';
       this.user = {};
     } else {
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+      this.user = JSON.parse(localStorage.getItem('user'));
       this.role = 'client';
     }
     await this.priceTypeService.getPriceType({}).subscribe((res) => {
@@ -588,6 +588,8 @@ export class DashboardComponent implements OnInit {
     if (this.itemsArray.valid) {
       if (this.role == 'admin') {
         this.clientList = await this.loadCommand();
+      } else {
+        this.changeStepAhead();
       }
     } else {
       this.alert.info(

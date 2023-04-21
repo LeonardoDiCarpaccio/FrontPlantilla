@@ -29,6 +29,11 @@ export class UsersComponent implements OnInit {
     // { name: 'Contrasena', key: 'password' },
     { name: 'Cuenta Actual', key: 'account' },
   ];
+  listedOfPrice = [
+    { Type: 'AAA-Sin Descuento', id: 1 },
+    { Type: 'AA-5% Descuento', id: 0.95 },
+    { Type: 'A-10% Descuento', id: 0.9 },
+  ];
 
   formRulesUpdate = [
     {
@@ -53,10 +58,11 @@ export class UsersComponent implements OnInit {
       formControl: 'orga',
     },
     {
-      typeForm: 'input',
-      typeInput: 'number',
-      placeholder: 'Precio Por Plantilla',
-      label: 'Cambiar El Precio Por Plantilla',
+      typeForm: 'dropdown',
+      placeholder: 'Precio por plantilla',
+      label: 'Descuento Por Plantilla ',
+      option: this.listedOfPrice,
+      keyOption: 'Type',
       formControl: 'price',
     },
     {
@@ -105,13 +111,21 @@ export class UsersComponent implements OnInit {
       formControl: 'orga',
     },
     {
-      typeForm: 'input',
-      typeInput: 'number',
-      placeholder: 'Descuento Por Plantilla del 0 AL 1',
-      label:
-        'Descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
+      typeForm: 'dropdown',
+      placeholder: 'Precio por plantilla',
+      label: 'Descuento Por Plantilla ',
+      option: this.listedOfPrice,
+      keyOption: 'Type',
       formControl: 'price',
     },
+    // {
+    //   typeForm: 'input',
+    //   typeInput: 'number',
+    //   placeholder: 'Descuento Por Plantilla del 0 AL 1',
+    //   label:
+    //     'Descuento Por Plantilla : Si descuento = 0.9, el cliente tiene 10% de descuento en cada plantilla',
+    //   formControl: 'price',
+    // },
     {
       typeForm: 'input',
       typeInput: 'email',
@@ -206,6 +220,17 @@ export class UsersComponent implements OnInit {
       })
       .subscribe(async (data) => {
         if (data) {
+          console.log(data, 'success data: ');
+          if (data.price == 'AAA') {
+            data.price = 1;
+          }
+          if (data.price == 'AA') {
+            data.price = 0.95;
+          }
+          if (data.price == 'A') {
+            data.price = 0.9;
+          }
+
           await this.clientService.insertUpdateClient(data).subscribe((res) => {
             if (res) {
               this.alert.success(
@@ -218,7 +243,6 @@ export class UsersComponent implements OnInit {
           });
 
           //We get modal result
-          subscription.unsubscribe();
         }
       });
   }
@@ -281,7 +305,6 @@ export class UsersComponent implements OnInit {
     }
   };
 }
-
 // array of fiter, each item of the array become a <select>
 // option is used to fill the <option>
 // placeholder is the first row "<option disabled selected>" (kind of <select> title)

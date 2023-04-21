@@ -29,11 +29,11 @@ export class AuthService {
         const user = res.user;
 
         if (token) {
-          sessionStorage.setItem(this.TOKEN_KEY, token);
+          localStorage.setItem(this.TOKEN_KEY, token);
         }
 
         if (user) {
-          sessionStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(user));
         }
 
         switch (user.role.name) {
@@ -79,7 +79,7 @@ export class AuthService {
     if (typeof this.role != 'undefined') {
       return this.role;
     } else {
-      let a: any = sessionStorage.getItem('user');
+      let a: any = localStorage.getItem('user');
       if (a == null) {
         this.disconnect();
       } else {
@@ -90,10 +90,10 @@ export class AuthService {
     }
   }
   getToken(): string | null {
-    return sessionStorage.getItem(this.TOKEN_KEY);
+    return localStorage.getItem(this.TOKEN_KEY);
   }
   disconnect() {
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
 
     this.router.navigate(['/login']);
     this.alert.info('Reconnexion...');

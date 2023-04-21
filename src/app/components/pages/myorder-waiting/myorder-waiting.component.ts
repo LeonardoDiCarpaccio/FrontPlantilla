@@ -71,13 +71,14 @@ export class MyorderWaitingComponent implements OnInit {
       { text: 'Borrar', method: this.deletePedido },
     ];
     this.status = [{ text: 'Cambiar El Estado', method: this.changeStatus }];
-    this.client = JSON.parse(sessionStorage.getItem('user'));
+    this.client = JSON.parse(localStorage.getItem('user'));
+    console.log(this.client, 'this.client');
     await this.loadCommand();
   }
   async loadCommand() {
     await this.commandService
       .findByCommand({
-        where: { statusId: 1, clientId: this.client.clientId },
+        where: { statusId: 1, clientId: this.client.id },
         relations: ['status', 'client', 'patient', 'patient.item'],
       })
       .subscribe((res) => {

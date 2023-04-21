@@ -67,7 +67,7 @@ export class MyorderHistoryComponent implements OnInit {
       // { text: 'Modificar', method: this.updateUser },
       { text: 'Borrar', method: this.deletePedido },
     ];
-    this.client = JSON.parse(sessionStorage.getItem('user'));
+    this.client = JSON.parse(localStorage.getItem('user'));
 
     // this.status = [{ text: 'Cambiar El Estado', method: this.changeStatus }];
     await this.loadCommand();
@@ -75,7 +75,7 @@ export class MyorderHistoryComponent implements OnInit {
   async loadCommand() {
     await this.commandService
       .findByCommand({
-        where: { statusId: 3, clientId: this.client.clientId },
+        where: { statusId: 3, clientId: this.client.id },
         relations: ['status', 'client', 'patient', 'patient.item'],
       })
       .subscribe((res) => {
