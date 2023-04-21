@@ -64,8 +64,8 @@ export class HelpersService {
       });
     });
     // Calculate the total width for 4 pairs of columns
-    let idColumnWidth = 8;
-    let maxNameColumnWidth = 50; // You can adjust this value to fit the A4 width
+    let idColumnWidth = 6;
+    let maxNameColumnWidth = 40; // You can adjust this value to fit the A4 width
     let nameColumnWidth = Math.min(
       (210 - 2 * 0.2 * 25.4 - 4 * 8) / 4,
       maxNameColumnWidth
@@ -89,6 +89,11 @@ export class HelpersService {
         cellA.font = {
           size: 14,
         };
+        cellA.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
+        };
+
         cellB.alignment = {
           wrapText: true,
           vertical: 'middle',
@@ -97,6 +102,10 @@ export class HelpersService {
         };
         cellB.font = {
           size: 16,
+        };
+        cellB.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
         };
       }
     }

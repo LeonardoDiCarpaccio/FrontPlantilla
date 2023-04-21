@@ -11,7 +11,7 @@
   </div>
     <div class="form-container">
 
-  <div *ngIf='this.step==1 || this.step==3' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-2'" class="mt-10 sm:mt-0">
+  <div *ngIf='this.step==1 ' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-2'" class="mt-10 sm:mt-0">
 
     <div [ngClass]="this.step==1 ? '': 'md:grid pt-2 md:grid-cols-[200px_repeat(2,minmax(0,1fr))]  max-w-7xl'" style= "max-width: 90rem;"class="
     md:gap-2">
@@ -20,8 +20,8 @@
 
      
       </div>
-      <app-generic-order-details-card style="min-width: 60.8em;
-      margin-left: 6.2em;" *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card>
+      <!-- <app-generic-order-details-card style="min-width: 60.8em;
+      margin-left: 6.2em;" *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card> -->
 
       <div *ngIf='this.step==1' [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
                   <form [formGroup]="commandFormGroup" >
@@ -248,7 +248,7 @@
                   <div                *ngIf="j==0"
                   class=" ml-6 col-span-1 sm:col-span-2">
                    
-                    <label for="rai" class="block text-sm font-medium text-gray-700">RAI EN MM
+                    <label for="rai" class="block text-sm font-medium text-gray-700">RAI EN mm
 
                     </label>
                     
@@ -291,7 +291,7 @@
                   </div>
                   <div                 *ngIf="j==0"
                   class=" ml-6 col-span-1 sm:col-span-2">
-                    <label for="rae" class="block text-sm font-medium text-gray-700">RAE EN MM
+                    <label for="rae" class="block text-sm font-medium text-gray-700">RAE EN mm
 
 </label>
                     <select                 
@@ -364,13 +364,13 @@
                 </select>
                 <input  [ngClass]="{
                   'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedArco2')?.getError('invalid')
-                }" *ngIf="product.get('selectedArco1').value=='SOBRE ARCO'"   type="number" placeholder="En MM" formControlName="selectedArco2" id="arco"  class=" w-24 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
+                }" *ngIf="product.get('selectedArco1').value=='SOBRE ARCO'"   type="number" placeholder="En mm" formControlName="selectedArco2" id="arco"  class=" w-24 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
                 border-gray-300 rounded-md" >    
                 <span
                 *ngIf="itemsArray.at(i).get('item').at(j).get('selectedArco2').getError('invalid')"
                 class="ml-2 text-sm text-red-700"
               >
-              El Sobre Arco Neccessita un valor en MM             
+              El Sobre Arco Neccessita un valor en mm             
               </span>
               </div>
               </div>
@@ -474,7 +474,7 @@
                       <option *ngFor="let alsa of alsa1" [value]="alsa">{{alsa}}</option>
                     </select> 
                     <label    *ngIf=" product.get('selectedAlsa1')
-                    .value" class="block text-sm font-medium text-gray-700">ALZA ALTURA EN MM
+                    .value" class="block text-sm font-medium text-gray-700">ALZA ALTURA EN mm
                     </label>
                     <select [ngClass]="{
                       'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedAlsa2')?.getError('invalid')
@@ -488,7 +488,7 @@
                     *ngIf="itemsArray.at(i).get('item').at(j).get('selectedAlsa2').getError('invalid')"
                     class="ml-2 text-sm text-red-700"
                   >
-                  El Alza Neccessita un valor en MM             
+                  El Alza Neccessita un valor en mm             
                   </span>
                     <div   *ngIf=" product.get('selectedAlsa1')
                     .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
@@ -532,7 +532,7 @@
                     <option *ngFor="let item of rpis1" [value]="item">{{ item }}</option>
                   </select>
                   <label   *ngIf=" product.get('selectedRPI1')
-                  .value" class="block text-sm font-medium text-gray-700">RPI ALTURA EN MM
+                  .value" class="block text-sm font-medium text-gray-700">RPI ALTURA EN mm
                   </label>
                   <select [ngClass]="{
                     'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.getError('invalid')
@@ -548,7 +548,7 @@
                 *ngIf="itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.getError('invalid')"
                 class="ml-2 text-sm text-red-700"
               >
-              El RPI Neccessita un valor en MM             
+              El RPI Neccessita un valor en mm             
               </span>
                   <div   *ngIf=" product.get('selectedRPI1')
                   .value" class="space-y-1 flex flex-row" style="align-items: baseline;">
@@ -592,7 +592,7 @@
                     <option *ngFor="let item of rpes1" [value]="item">{{ item }}</option>
                   </select>
                   <label   *ngIf=" product.get('selectedRPE1')
-                  .value" class="block text-sm font-medium text-gray-700">RPE ALTURA EN MM
+                  .value" class="block text-sm font-medium text-gray-700">RPE ALTURA EN mm
                   </label>
                   <select 
                   [ngClass]="{
@@ -610,7 +610,7 @@
               *ngIf="itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPE2')?.getError('invalid')"
               class="ml-2 text-sm text-red-700"
             >
-            El RPE Neccessita un valor en MM             
+            El RPE Neccessita un valor en mm             
             </span>
                   <div *ngIf=" product.get('selectedRPE1')
                   .value"
@@ -695,7 +695,7 @@
                     <option *ngFor="let item of talonera1" [value]="item">{{ item }}</option>
                   </select>
                   <label   *ngIf=" product.get('talonera1')
-                  .value" class="block text-sm font-medium text-gray-700">TALONERA ALTURA EN MM 
+                  .value" class="block text-sm font-medium text-gray-700">TALONERA ALTURA EN mm 
                   </label>
                   <select 
                   *ngIf=" product.get('talonera1')
@@ -883,7 +883,7 @@
           
             <div  *ngIf='this.step==2' class="px-4 py-3 bg-gray-50 text-right sm:px-6">
               <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Confirmar
+                ENVIAR EL PEDIDO 
               </button>
             </div>
           </div>
@@ -893,7 +893,7 @@
     </div>
   </div>
  
-  <div  
+  <!-- <div  
   [ngClass]="this.step==3 ? 'mt-10 sm:mt-0 pl-6 pb-8':'' "
   >
 <div
@@ -922,7 +922,7 @@
   </div>
 </div>
 </div>
-</div>  
+</div>   -->
 
 </main>
 </div>

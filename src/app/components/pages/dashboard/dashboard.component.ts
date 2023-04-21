@@ -558,28 +558,28 @@ export class DashboardComponent implements OnInit {
             item.get('selectedArco2').value == ''
           ) {
             item.get('selectedArco2').setErrors({ invalid: true });
-            this.alert.info('El Sobre Arco Neccessita un valor en MM');
+            this.alert.info('El Sobre Arco Neccessita un valor en mm');
           }
           if (
             item.get('selectedRPI1').value != '' &&
             item.get('selectedRPI2').value == ''
           ) {
             item.get('selectedRPI2').setErrors({ invalid: true });
-            this.alert.info('El RPI Neccessita un valor en MM');
+            this.alert.info('El RPI Neccessita un valor en mm');
           }
           if (
             item.get('selectedRPE1').value != '' &&
             item.get('selectedRPE2').value == ''
           ) {
             item.get('selectedRPE2').setErrors({ invalid: true });
-            this.alert.info('El RPE Neccessita un valor en MM');
+            this.alert.info('El RPE Neccessita un valor en mm');
           }
           if (
             item.get('selectedAlsa1').value != '' &&
             item.get('selectedAlsa2').value == ''
           ) {
             item.get('selectedAlsa2').setErrors({ invalid: true });
-            this.alert.info('El Alza Neccessita un valor en MM');
+            this.alert.info('El Alza Neccessita un valor en mm');
           }
         }
       );
@@ -634,7 +634,7 @@ export class DashboardComponent implements OnInit {
     this.form.get('command')?.get('price').setValue(plantillaNombre);
 
     if (this.form.get('client').valid) {
-      this.changeStepAhead();
+      this.temporarySaveForm();
     }
   }
 
@@ -1037,11 +1037,11 @@ export class DashboardComponent implements OnInit {
   selectedModel: string;
 
   ////RPI
-  rpis1 = ['', 'STANDARD', 'LARGO', 'COMPLETO', 'Hasta 1er'];
+  rpis1 = ['', 'ESTANDARD', 'LARGO', 'COMPLETO', 'HASTA 1er'];
   rpis2 = ['1 mm', '2 mm', '3 mm', '4 mm', '5 mm', '6 mm', '7 mm', '8 mm'];
 
   //RPE
-  rpes1 = ['', 'STANDARD', 'LARGO', 'COMPLETO', 'Hasta 5er'];
+  rpes1 = ['', 'ESTANDARD', 'LARGO', 'COMPLETO', 'HASTA 5'];
   rpes2 = ['1 mm', '2 mm', '3 mm', '4 mm', '5 mm', '6 mm', '7 mm', '8 mm'];
 
   ////RPI
@@ -1050,7 +1050,7 @@ export class DashboardComponent implements OnInit {
   rae1 = ['', '1 mm', '2 mm', '3 mm', '4 mm', '5 mm'];
 
   //ARCO
-  selectedArco1 = ['', 'STANDARD', 'SOBRE ARCO', 'REFORZADO'];
+  selectedArco1 = ['', 'ESTANDARD', 'SOBRE ARCO', 'REFORZADO'];
   selectedArco2: number;
 
   //CONTRA ARCO
@@ -1115,7 +1115,7 @@ export class DashboardComponent implements OnInit {
     'OLIVA 2',
     'OLIVA 1',
     'OLIVA 0',
-    'BARRA STANDARD',
+    'BARRA ESTANDARD',
     'BARRA MEDIA',
     'BARRA GRANDE',
   ];
