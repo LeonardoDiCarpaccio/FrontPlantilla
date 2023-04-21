@@ -31,6 +31,7 @@ export class GenericTableOrderComponent implements OnInit {
   statusStoredHisto: any;
   id: any;
   commandDetails: any;
+  page: number = 1;
 
   constructor(
     private alert: AlertService,

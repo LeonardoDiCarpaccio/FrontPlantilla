@@ -63,11 +63,14 @@ export class DashboardComponent implements OnInit {
   searchBar = {
     placeholder: 'Buscar un usuario',
   };
+  ngOnDestroy() {
+    const formData = JSON.stringify(this.form.value);
+    localStorage.setItem('formData', formData);
+  }
+
   async ngOnInit() {
     this.receivedData = history.state;
     console.log(this.receivedData, 'receivedData');
-    // VERIFIER QUE LA DATA CEST BIEN ENREGIRSTR2 DANS LA BASE AVEC LE NOUVEAU FORMAT !!!
-    // clientId: [this.user.id,Validators.required], autre facon de lecrire
 
     if (JSON.parse(localStorage.getItem('user')).roleId == 1) {
       this.role = 'admin';
@@ -81,109 +84,19 @@ export class DashboardComponent implements OnInit {
         this.priceTypePlantillaList = res;
       }
     });
-    this.form = new FormGroup({
-      client: new FormGroup({
-        clientName: new FormControl(''),
-        clientFirstname: new FormControl(''),
-        orga: new FormControl(''),
 
-        phone: new FormControl(''),
-        mail: new FormControl(''),
-        location: new FormControl(''),
-        price: new FormControl(''),
-      }),
-      command: new FormGroup({
-        clientId: new FormControl(this.user.id, Validators.required),
-        creationDateDisplay: new FormControl(
-          this.helperService.dateNowString()
-        ),
-        price: new FormControl('', Validators.required),
-        patient: new FormArray([
-          new FormGroup({
-            patientName: new FormControl('', Validators.required),
-            patientFirstName: new FormControl('', Validators.required),
-            patientId: new FormControl(),
-            options: new FormArray([
-              new FormGroup({
-                quantity: new FormControl(1),
-                model: new FormControl(''),
-              }),
-            ]),
-            item: new FormArray([
-              new FormGroup({
-                // FORM NECESARIOS
-                quantity: new FormControl(1),
-                model: new FormControl(''),
-                correction: new FormControl(),
-                correctionMin: new FormControl(),
-                correctionMax: new FormControl(),
+    // Load saved form data from localStorage
+    const savedFormData = localStorage.getItem('formData');
 
-                size: new FormControl(''),
+    if (savedFormData) {
+      const savedData = JSON.parse(savedFormData);
 
-                /// ANTEPIEE
-                descargaAntepie: new FormControl(''),
-                WhereDescarga: new FormControl('Billateral'),
-                //OLIVAA
-                oliva_BarraMetatarsal: new FormControl(''),
-                whereOliva: new FormControl('Billateral'),
-                //RAI
-                rai: new FormControl(''),
-                whereRai: new FormControl('Billateral'),
-                //RAE
-                rae: new FormControl(''),
-                whereRae: new FormControl('Billateral'),
-                //PIE MEDIOOOO
-                //ARCO
-                arco: new FormControl(''),
-                selectedArco1: new FormControl(''),
-                selectedArco2: new FormControl(''),
-                whereArco: new FormControl('Billateral'),
-                //CONTRA ARCO
-                contraArco: new FormControl(''),
-                whereContraArco: new FormControl('Billateral'),
-
-                /// TALON/RETROPIE
-                ///ALSA
-                alsa: new FormControl(''),
-                selectedAlsa1: new FormControl(''),
-                selectedAlsa2: new FormControl(''),
-                whereAlsa: new FormControl('Billateral'),
-
-                ///Alcochada
-                alcochadaOEspolon: new FormControl(''),
-                Wherealcochada: new FormControl('Billateral'),
-
-                ///OPTION
-                clinica: new FormControl(''),
-                talonera: new FormControl(''),
-
-                //RPI
-                rpi: new FormControl(''),
-                selectedRPI1: new FormControl(''),
-                selectedRPI2: new FormControl(''),
-                whereRpi: new FormControl('Billateral'),
-
-                ////// RPE
-                rpe: new FormControl(''),
-                selectedRPE1: new FormControl(''),
-                selectedRPE2: new FormControl(''),
-                whereRpe: new FormControl('Billateral'),
-
-                //Talonera
-                talonera1: new FormControl(''),
-                taloneraAltura: new FormControl(''),
-                taloneraType: new FormControl(''),
-                taloneraDescarga: new FormControl(''),
-                //PRICE
-                price: new FormControl(''),
-              }),
-            ]),
-          }),
-        ]),
-      }),
-
-      //dont forget to initiate this object in the constructor or onInit method when the token is added to the prgral
-    });
+      // Initialize form with saved data
+      this.form = this.createForm(savedData);
+    } else {
+      // Initialize form with default structure
+      this.form = this.createForm();
+    }
 
     this.step = 1;
     this.commandFormGroup = this.form.get('command') as FormGroup;
@@ -205,6 +118,7 @@ export class DashboardComponent implements OnInit {
     this.actions = [{ text: 'Selecionnar', method: this.selectClient }];
     this.updateScreenWidth();
   }
+
   largeScreen: boolean;
 
   @HostListener('window:resize', ['$event'])
@@ -217,26 +131,28 @@ export class DashboardComponent implements OnInit {
   }
   selectClient = (user: any): void => {
     let clientId = this.form.get('command');
-
     clientId.get('clientId').setValue(user.id);
     this.form.get('client.clientName').setValue(user.clientName);
     this.form.get('client.clientFirstname').setValue(user.clientFirstName);
     this.form.get('client.orga').setValue(user.orga);
-
     this.form.get('client.phone').setValue(user.phone);
     this.form.get('client.mail').setValue(user.mail);
     this.form.get('client.location').setValue(user.location);
     this.form.get('client.price').setValue(user.price);
   };
+
   get itemsArray() {
     return this.commandFormGroup?.get('patient') as FormArray;
   }
+
   getItem(index: any) {
     return this.itemsArray.at(index).get('item') as FormArray;
   }
+
   getOptions(index: any) {
     return this.itemsArray.at(index).get('options') as FormArray;
   }
+
   onValueChanged(newValue: number) {
     this.step = newValue;
   }
@@ -533,7 +449,9 @@ export class DashboardComponent implements OnInit {
           item.get('selectedRPI2').setErrors(null);
           item.get('selectedRPE2').setErrors(null);
           item.get('correction').setErrors(null);
-          item.get('selectedAlsa2').setErrors(null);
+          patient.get('patientName').setErrors(null);
+          patient.get('patientFirstName').setErrors(null);
+          item.get('size').setErrors(null);
 
           if (
             item.get('correction').value <
@@ -552,6 +470,16 @@ export class DashboardComponent implements OnInit {
               'El valor de la correcion no se puede applicar a la talles selecionnada '
             );
           }
+          patient.get('patientName').value == ''
+            ? patient.get('patientName').setErrors({ invalid: true })
+            : null;
+          patient.get('patientFirstName').value == ''
+            ? patient.get('patientFirstName').setErrors({ invalid: true })
+            : null;
+          item.get('size').value == ''
+            ? item.get('size').setErrors({ invalid: true })
+            : null;
+          // patient.get('patientFirstName').value == '' ? patient.get('patientFirstName').setErrors({ invalid: true }) :null;
 
           if (
             item.get('selectedArco1').value == 'SOBRE ARCO' &&
@@ -915,84 +843,6 @@ export class DashboardComponent implements OnInit {
             );
         }
       });
-
-      // (patient.get('options') as FormArray).controls.forEach(
-      //   (options, optionsIndexemIndex) => {
-      //     if (optionsIndexemIndex != 0) {
-      //       let shoeSolBefore = (
-      //         this.itemsArray.at(0).get('item') as FormArray
-      //       ).at(0);
-
-      //       (patient.get('item') as FormArray).push(
-      //         new FormGroup({
-      //           // FORM NECESARIOS
-      //           correction: new FormControl(shoeSolBefore.get('correction')),
-      //           correctionMin: new FormControl(),
-      //           correctionMax: new FormControl(),
-      //           size: new FormControl(shoeSolBefore.get('size')?shoeSolBefore.get('size'):''),
-      //           model: new FormControl(shoeSolBefore.get('size')?shoeSolBefore.get('size'):''),
-      //           quantity: new FormControl(1),
-
-      //           price: new FormControl(),
-      //           /// ANTEPIEE
-      //           descargaAntepie: new FormControl(''),
-      //           WhereDescarga: new FormControl('Billateral'),
-      //           //OLIVAA
-      //           oliva_BarraMetatarsal: new FormControl(''),
-      //           whereOliva: new FormControl('Billateral'),
-      //           //RAI
-      //           rai: new FormControl(''),
-      //           whereRai: new FormControl('Billateral'),
-      //           //RAE
-      //           rae: new FormControl(''),
-      //           whereRae: new FormControl('Billateral'),
-      //           //PIE MEDIOOOO
-      //           //ARCO
-      //           arco: new FormControl(''),
-      //           selectedArco1: new FormControl(''),
-      //           selectedArco2: new FormControl(''),
-      //           whereArco: new FormControl('Billateral'),
-      //           //CONTRA ARCO
-      //           contraArco: new FormControl(''),
-      //           whereContraArco: new FormControl('Billateral'),
-
-      //           /// TALON/RETROPIE
-      //           ///ALSA
-      //           alsa: new FormControl(''),
-      //           selectedAlsa1: new FormControl(''),
-      //           selectedAlsa2: new FormControl(''),
-      //           whereAlsa: new FormControl('Billateral'),
-
-      //           ///Alcochada
-      //           alcochadaOEspolon: new FormControl(''),
-      //           Wherealcochada: new FormControl('Billateral'),
-
-      //           ///OPTION
-      //           clinica: new FormControl(''),
-      //           talonera: new FormControl(''),
-
-      //           //RPI
-      //           rpi: new FormControl(''),
-      //           selectedRPI1: new FormControl(''),
-      //           selectedRPI2: new FormControl(''),
-      //           whereRpi: new FormControl('Billateral'),
-
-      //           ////// RPE
-      //           rpe: new FormControl(''),
-      //           selectedRPE1: new FormControl(''),
-      //           selectedRPE2: new FormControl(''),
-      //           whereRpe: new FormControl('Billateral'),
-
-      //           //Talonera
-      //           talonera1: new FormControl(''),
-      //           taloneraAltura: new FormControl(''),
-      //           taloneraType: new FormControl(''),
-      //           taloneraDescarga: new FormControl(''),
-      //         })
-      // );
-      // }
-      //   }
-      // );
     });
     const formValues = this.form.get('command').value;
     let pedido = this.stringifyWithCircularReferenceReplacer(formValues);
@@ -1002,6 +852,7 @@ export class DashboardComponent implements OnInit {
         this.alert.success(
           'Los datos del pedido fueron enregistrado en labase de datos!'
         );
+        localStorage.removeItem('formData');
         window.location.reload();
       } else {
         this.alert.error('El servidor se encontro con un problema');
@@ -1129,4 +980,146 @@ export class DashboardComponent implements OnInit {
     53.5, 54, 54.5,
   ];
   selectedSizes: number;
+  createForm(data: any = null): FormGroup {
+    const form = new FormGroup({
+      client: new FormGroup({
+        clientName: new FormControl(''),
+        clientFirstname: new FormControl(''),
+        orga: new FormControl(''),
+
+        phone: new FormControl(''),
+        mail: new FormControl(''),
+        location: new FormControl(''),
+        price: new FormControl(''),
+      }),
+      command: new FormGroup({
+        clientId: new FormControl(this.user.id, Validators.required),
+        creationDateDisplay: new FormControl(
+          this.helperService.dateNowString()
+        ),
+        price: new FormControl('', Validators.required),
+        patient: new FormArray([]),
+      }),
+    });
+
+    if (data) {
+      // Load patients from saved data
+      for (const patientData of data.command.patient) {
+        const patientFormGroup = this.createPatientFormGroup();
+
+        // Clear the default options and items form arrays
+        (patientFormGroup.get('options') as FormArray).clear();
+        (patientFormGroup.get('item') as FormArray).clear();
+
+        // Load options and items from saved data for each patient
+        for (const optionData of patientData.options) {
+          const optionFormGroup = this.createOptionFormGroup();
+          optionFormGroup.patchValue(optionData);
+          (patientFormGroup.get('options') as FormArray).push(optionFormGroup);
+        }
+        for (const itemData of patientData.item) {
+          const itemFormGroup = this.createItemFormGroup();
+          itemFormGroup.patchValue(itemData);
+          (patientFormGroup.get('item') as FormArray).push(itemFormGroup);
+        }
+
+        patientFormGroup.patchValue(patientData);
+        (form.get('command.patient') as FormArray).push(patientFormGroup);
+      }
+    } else {
+      // Initialize form with one patient, option, and item
+      (form.get('command.patient') as FormArray).push(
+        this.createPatientFormGroup()
+      );
+    }
+
+    return form;
+  }
+
+  createPatientFormGroup(): FormGroup {
+    return new FormGroup({
+      patientName: new FormControl('', Validators.required),
+      patientFirstName: new FormControl('', Validators.required),
+      patientId: new FormControl(),
+      options: new FormArray([this.createOptionFormGroup()]),
+      item: new FormArray([this.createItemFormGroup()]),
+    });
+  }
+
+  createOptionFormGroup(): FormGroup {
+    return new FormGroup({
+      quantity: new FormControl(1),
+      model: new FormControl(''),
+    });
+  }
+
+  createItemFormGroup(): FormGroup {
+    return new FormGroup({
+      // FORM NECESARIOS
+      quantity: new FormControl(1),
+      model: new FormControl(''),
+      correction: new FormControl(),
+      correctionMin: new FormControl(),
+      correctionMax: new FormControl(),
+
+      size: new FormControl(''),
+
+      /// ANTEPIEE
+      descargaAntepie: new FormControl(''),
+      WhereDescarga: new FormControl('Billateral'),
+      //OLIVAA
+      oliva_BarraMetatarsal: new FormControl(''),
+      whereOliva: new FormControl('Billateral'),
+      //RAI
+      rai: new FormControl(''),
+      whereRai: new FormControl('Billateral'),
+      //RAE
+      rae: new FormControl(''),
+      whereRae: new FormControl('Billateral'),
+      //PIE MEDIOOOO
+      //ARCO
+      arco: new FormControl(''),
+      selectedArco1: new FormControl(''),
+      selectedArco2: new FormControl(''),
+      whereArco: new FormControl('Billateral'),
+      //CONTRA ARCO
+      contraArco: new FormControl(''),
+      whereContraArco: new FormControl('Billateral'),
+
+      /// TALON/RETROPIE
+      ///ALSA
+      alsa: new FormControl(''),
+      selectedAlsa1: new FormControl(''),
+      selectedAlsa2: new FormControl(''),
+      whereAlsa: new FormControl('Billateral'),
+
+      ///Alcochada
+      alcochadaOEspolon: new FormControl(''),
+      Wherealcochada: new FormControl('Billateral'),
+
+      ///OPTION
+      clinica: new FormControl(''),
+      talonera: new FormControl(''),
+
+      //RPI
+      rpi: new FormControl(''),
+      selectedRPI1: new FormControl(''),
+      selectedRPI2: new FormControl(''),
+      whereRpi: new FormControl('Billateral'),
+
+      ////// RPE
+      rpe: new FormControl(''),
+      selectedRPE1: new FormControl(''),
+      selectedRPE2: new FormControl(''),
+      whereRpe: new FormControl('Billateral'),
+
+      //Talonera
+      talonera1: new FormControl(''),
+      taloneraAltura: new FormControl(''),
+      taloneraType: new FormControl(''),
+      taloneraDescarga: new FormControl(''),
+      //PRICE
+      price: new FormControl(''),
+    });
+  }
 }

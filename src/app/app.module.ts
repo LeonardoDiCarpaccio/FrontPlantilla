@@ -31,6 +31,7 @@ import { AuthInterceptor } from './services/authInterceptor';
 import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
 import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 import { GenericTableMyorderComponent } from './components/genericComponent/generic-table-myorder/generic-table-myorder.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 // import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
 // import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 
@@ -58,6 +59,7 @@ import { GenericTableMyorderComponent } from './components/genericComponent/gene
     MyorderWaitingComponent,
     MyorderHistoryComponent,
     GenericTableMyorderComponent,
+
     // MyorderWaitingComponent,
     // MyorderHistoryComponent,
   ],
@@ -71,7 +73,7 @@ import { GenericTableMyorderComponent } from './components/genericComponent/gene
     AppRoutingModule,
     SimpleModalModule,
     FormsModule,
-
+    NgxPaginationModule,
     Ng2SearchPipeModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
