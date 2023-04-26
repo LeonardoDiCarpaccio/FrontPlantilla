@@ -79,6 +79,7 @@ export class DashboardComponent implements OnInit {
       this.user = JSON.parse(localStorage.getItem('user'));
       this.role = 'client';
     }
+
     await this.priceTypeService.getPriceType({}).subscribe((res) => {
       if (res) {
         this.priceTypePlantillaList = res;
@@ -90,7 +91,6 @@ export class DashboardComponent implements OnInit {
 
     if (savedFormData) {
       const savedData = JSON.parse(savedFormData);
-
       // Initialize form with saved data
       this.form = this.createForm(savedData);
     } else {
@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
     this.step = 1;
     this.commandFormGroup = this.form.get('command') as FormGroup;
     this.clientFormGroup = this.form.get('client') as FormGroup;
+
     if (this.role === 'client') {
       let clientId = this.form.get('command');
       clientId.get('clientId').setValue(this.user.id);
@@ -129,6 +130,7 @@ export class DashboardComponent implements OnInit {
   updateScreenWidth(): void {
     this.largeScreen = window.innerWidth > 1030;
   }
+
   selectClient = (user: any): void => {
     let clientId = this.form.get('command');
     clientId.get('clientId').setValue(user.id);
@@ -158,10 +160,6 @@ export class DashboardComponent implements OnInit {
   }
 
   addShoeSol(index: any) {
-    let shoeSolBefore = (this.itemsArray.at(index).get('item') as FormArray).at(
-      index
-    );
-
     // if (this.form.get('shoeSols').value.length() != 1) {
     (this.itemsArray.at(index).get('options') as FormArray).push(
       new FormGroup({
@@ -169,8 +167,13 @@ export class DashboardComponent implements OnInit {
         model: new FormControl(''),
       })
     );
+  }
+  updateShoeSol(shoeSolBefore: any, patientIndex: any, options: any) {
+    // let shoeSolBefore = (this.itemsArray.at(index).get('item') as FormArray).at(
+    //   index
+    // );
     console.log(shoeSolBefore.value, 'shoeSolBefore');
-    (this.itemsArray.at(index).get('item') as FormArray).push(
+    (this.itemsArray.at(patientIndex).get('item') as FormArray).push(
       new FormGroup({
         // FORM NECESARIOS
         correction: new FormControl(
@@ -183,7 +186,7 @@ export class DashboardComponent implements OnInit {
         size: new FormControl(
           shoeSolBefore.get('size').value ? shoeSolBefore.get('size').value : ''
         ),
-        model: new FormControl(),
+        model: new FormControl(options.get('model').value),
         quantity: new FormControl(1),
 
         price: new FormControl(),
@@ -410,7 +413,6 @@ export class DashboardComponent implements OnInit {
         ]),
       })
     );
-    // }
   }
 
   deleteShoeSol(indexItems: any, indexItem: any) {
@@ -420,11 +422,13 @@ export class DashboardComponent implements OnInit {
       );
     }
   }
+
   deletePatiente(indexItems: any, indexItem: any) {
     if (this.itemsArray.value.length > 1) {
       (this.itemsArray as FormArray).removeAt(indexItems);
     }
   }
+
   onSelectTalles(size: any, indexItems: any, indexItem: any) {
     (this.itemsArray.at(indexItems).get('item') as FormArray)
       .at(indexItem)
@@ -439,12 +443,14 @@ export class DashboardComponent implements OnInit {
       .get('correctionMin')
       .setValue(Math.round((parseInt(size) * 10) / 1.5) * 0.85);
   }
+
   async onSubmit() {
     // let plantillaNombre = 0;
     (this.itemsArray as FormArray).controls.forEach((patient, patientIndex) => {
       (patient.get('item') as FormArray).controls.forEach(
         (item: FormGroup, itemIndex) => {
-          /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIO
+          /// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECION
+
           item.get('selectedArco2').setErrors(null);
           item.get('selectedRPI2').setErrors(null);
           item.get('selectedRPE2').setErrors(null);
@@ -459,15 +465,10 @@ export class DashboardComponent implements OnInit {
                 0.85 ||
             Math.round((parseInt(item.get('size').value) * 10) / 1.5) <
               item.get('correction').value
-            //    ||
-            // item.get('quantity').value < 1
           ) {
-            // plantillaNombre += item.get('price').value;
             item.get('correction').setErrors({ invalid: true });
-
-            // this.itemsArray.setErrors({ invalid: 'This field is invalid.' });
             this.alert.info(
-              'El valor de la correcion no se puede applicar a la talles selecionnada '
+              'El valor de la correcion no se puede applicar a la talles selecionnada'
             );
           }
           patient.get('patientName').value == ''
@@ -479,7 +480,9 @@ export class DashboardComponent implements OnInit {
           item.get('size').value == ''
             ? item.get('size').setErrors({ invalid: true })
             : null;
-          // patient.get('patientFirstName').value == '' ? patient.get('patientFirstName').setErrors({ invalid: true }) :null;
+
+          //patient.get('patientFirstName').value == ''
+          //patient.get('patientFirstName').setErrors({ invalid: true }) :null;
 
           if (
             item.get('selectedArco1').value == 'SOBRE ARCO' &&
@@ -540,25 +543,43 @@ export class DashboardComponent implements OnInit {
 
   onSubmitClient() {
     let plantillaNombre: number = 0;
+    console.log(
+      (this.itemsArray as FormArray).value,
+      ' (this.itemsArray as FormArray)'
+    );
+
+    (this.itemsArray as FormArray).controls.forEach((patient, patientIndex) => {
+      console.log(patientIndex, 'patientIndex 1111');
+
+      (patient.get('options') as FormArray).controls.forEach(
+        (options, optionIndex) => {
+          let shoeSol = (patient.get('item') as FormArray).at(0);
+
+          this.updateShoeSol(shoeSol, patientIndex, options);
+          this.updatePrice(
+            options.get('model').value,
+            patientIndex,
+            optionIndex
+          );
+        }
+      );
+      (patient.get('item') as FormArray).removeAt(0);
+    });
     (this.itemsArray as FormArray).controls.forEach((patient) => {
       (patient.get('item') as FormArray).controls.forEach((item, itemIndex) => {
-        console.log(
-          parseFloat(item.get('price').value),
-          itemIndex,
-          "  item.get('price').value"
-        );
-        console.log(plantillaNombre, 'plantillaNombre');
-
+        console.log(plantillaNombre, 'plantillaNombre  por plantilla');
         plantillaNombre = Math.round(
           plantillaNombre + parseFloat(item.get('price').value)
         );
       });
     });
-    console.log(plantillaNombre, 'plantillaNombre');
+    console.log(plantillaNombre, 'plantillaNombre toatl');
+
     plantillaNombre = Math.round(
       (this.form.get('client')?.get('price').value as number) * plantillaNombre
     );
-    // this.form.get('command')?.get('price').setValue(plantillaNombre.toString());
+
+    console.log(plantillaNombre, 'plantillaNombre toatl 222222');
     this.form.get('command')?.get('price').setValue(plantillaNombre);
 
     if (this.form.get('client').valid) {
@@ -566,14 +587,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  updatePrice(model: any, indexItems: any, indexItem: any) {
+  updatePrice(model: any, patientIndex: any, indexItem: any) {
+    let indexItemTrue = indexItem + 1;
     const matchingObject = this.priceTypePlantillaList.find(
       (obj) => obj.name === model
     );
     const pricePlantilla = matchingObject ? matchingObject.price : null;
-
-    (this.itemsArray.at(indexItems).get('item') as FormArray)
-      .at(indexItem)
+    (this.itemsArray.at(patientIndex).get('item') as FormArray)
+      .at(indexItemTrue)
       .get('price')
       .setValue(pricePlantilla);
   }
@@ -583,12 +604,12 @@ export class DashboardComponent implements OnInit {
       (patient.get('item') as FormArray).controls.forEach((item, itemIndex) => {
         /////// TEST ENTRE LA VALEUR DE LA TAILLE DE LA SEMELLE ET LA CORRECIOn
 
-        item
-          .get('model')
-          .setValue(
-            (patient.get('options') as FormArray).at(itemIndex).get('model')
-              .value
-          );
+        // item
+        //   .get('model')
+        //   .setValue(
+        //     (patient.get('options') as FormArray).at(itemIndex).get('model')
+        //       .value
+        //   );
 
         item
           .get('rpi')
@@ -845,6 +866,7 @@ export class DashboardComponent implements OnInit {
       });
     });
     const formValues = this.form.get('command').value;
+    console.log(formValues, 'formValues formValues formValues');
     let pedido = this.stringifyWithCircularReferenceReplacer(formValues);
 
     this.commandService.insertUpdateCommand(pedido).subscribe((res) => {
@@ -875,10 +897,20 @@ export class DashboardComponent implements OnInit {
     if (this.step != 3) {
       this.step += 1;
     }
+    console.log(this.itemsArray.value);
   }
   changeStepBack() {
     if (this.step > 1) {
       this.step -= 1;
+      console.log(this.itemsArray.value);
+
+      // (this.itemsArray as FormArray).controls.forEach(
+      //   (patient, patientIndex) => {
+      //     (patient.get('item') as FormArray).controls.forEach(
+      //       (item, itemIndex) => {}
+      //     );
+      //   }
+      // );
     }
   }
 

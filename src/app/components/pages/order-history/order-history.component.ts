@@ -21,7 +21,7 @@ export class OrderHistoryComponent implements OnInit {
     { name: 'Apellido', key: 'clientName', obj: 'client' },
     { name: 'Nombre', key: 'clientFirstName', obj: 'client' },
     { name: 'Organization', key: 'orga', obj: 'client' },
-    { name: 'Feche De Creacion', key: 'creationDateDisplay' },
+    { name: 'Fecha De Creacion', key: 'creationDateDisplay' },
     { name: 'Ver Detalles', key: 'details' },
 
     // { name: 'Cantidad', key: 'quantity', obj: 'item' },
@@ -77,6 +77,7 @@ export class OrderHistoryComponent implements OnInit {
       .findByCommand({
         where: { statusId: 3 },
         relations: ['status', 'client', 'patient', 'patient.item'],
+        order: { creationDateDisplay: 'DESC' },
       })
       .subscribe((res) => {
         this.arrMainNgFor = res;
