@@ -426,6 +426,10 @@ export class DashboardComponent implements OnInit {
   deletePatiente(indexItems: any, indexItem: any) {
     if (this.itemsArray.value.length > 1) {
       (this.itemsArray as FormArray).removeAt(indexItems);
+    } else {
+      (this.itemsArray as FormArray).removeAt(0);
+      this.addPaciente(indexItems);
+      console.log(this.itemsArray.value, 'this.itemsArray.value');
     }
   }
 

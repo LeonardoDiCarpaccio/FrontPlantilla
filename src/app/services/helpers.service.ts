@@ -75,11 +75,14 @@ export class HelpersService {
     let maxColumns = columnIndex > 1 ? columnIndex : 9;
     for (let i = 1; i < maxColumns; i += 2) {
       worksheetPresta.getColumn(i).width = idColumnWidth;
-      worksheetPresta.getColumn(i + 1).width = 26;
+      worksheetPresta.getColumn(i + 1).width = 20;
+      worksheetPresta.getColumn(i + 3).width = 20;
 
       for (let j = 1; j <= worksheetPresta.rowCount; j++) {
         const cellA = worksheetPresta.getCell(j, i);
         const cellB = worksheetPresta.getCell(j, i + 1);
+        const cellC = worksheetPresta.getCell(j, i + 2); // Add this line to handle the third column
+        const cellD = worksheetPresta.getCell(j, i + 3); // Add this line to handle the third column
 
         cellA.alignment = {
           wrapText: true,
@@ -101,9 +104,37 @@ export class HelpersService {
           shrinkToFit: true, // Add this property to ensure the text fits the cell width
         };
         cellB.font = {
-          size: 16,
+          size: 14,
         };
         cellB.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
+        };
+        // Apply styles for the third column (cellC)
+        cellC.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+          shrinkToFit: true, // Add this property to ensure the text fits the cell width
+        };
+        cellC.font = {
+          size: 14,
+        };
+        cellC.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
+        };
+
+        cellD.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+          shrinkToFit: true, // Add this property to ensure the text fits the cell width
+        };
+        cellD.font = {
+          size: 14,
+        };
+        cellD.border = {
           top: { style: 'medium', color: { argb: 'FF000000' } },
           bottom: { style: 'medium', color: { argb: 'FF000000' } },
         };

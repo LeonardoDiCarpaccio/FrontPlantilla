@@ -36,7 +36,7 @@
           <span class="pr-3 bg-white text-2xl font-medium text-gray-900">
             PACIENTE {{i+1}} : {{ patient.get('patientName').value}} {{ patient.get('patientFirstName').value}}
           </span>
-          <button *ngIf="i!=0" (click)="deletePatiente(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+          <button  (click)="deletePatiente(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
             <svg class="-ml-1.5 mr-1 h-4 w-4 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
