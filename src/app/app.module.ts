@@ -32,6 +32,7 @@ import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myor
 import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 import { GenericTableMyorderComponent } from './components/genericComponent/generic-table-myorder/generic-table-myorder.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DashboardAdminComponent } from './components/pages/dashboard-admin/dashboard-admin.component';
 // import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
 // import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
 
@@ -59,6 +60,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MyorderWaitingComponent,
     MyorderHistoryComponent,
     GenericTableMyorderComponent,
+    DashboardAdminComponent,
 
     // MyorderWaitingComponent,
     // MyorderHistoryComponent,

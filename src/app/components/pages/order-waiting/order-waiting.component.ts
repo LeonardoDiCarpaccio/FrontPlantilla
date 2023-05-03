@@ -83,10 +83,11 @@ export class OrderWaitingComponent implements OnInit {
       .findByCommand({
         where: { statusId: 1 },
         relations: ['status', 'client', 'patient', 'patient.item'],
-        order: { creationDateDisplay: 'DESC' },
+        order: { id: 'DESC' },
       })
       .subscribe((res) => {
         this.arrMainNgFor = res;
+        console.log(' this.arrMainNgFor', this.arrMainNgFor);
       });
   }
   changeStatus = (status: any): void => {

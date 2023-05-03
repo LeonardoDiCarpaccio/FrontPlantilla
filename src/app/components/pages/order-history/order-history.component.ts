@@ -77,7 +77,7 @@ export class OrderHistoryComponent implements OnInit {
       .findByCommand({
         where: { statusId: 3 },
         relations: ['status', 'client', 'patient', 'patient.item'],
-        order: { creationDateDisplay: 'DESC' },
+        order: { id: 'DESC' },
       })
       .subscribe((res) => {
         this.arrMainNgFor = res;

@@ -13,6 +13,7 @@ export class GenericTableComponent implements OnInit {
   @Input() searchBar: any;
   @Input() filter: any;
   @Input() alertMsgFilterNoMatch: string = '';
+  @Input() customMaxHeightClass: string;
 
   copyArrNgFor: any = [];
   searchText = '';

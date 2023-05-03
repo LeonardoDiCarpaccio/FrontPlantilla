@@ -1,0 +1,22 @@
+.table-container {
+    max-height: 25rem !important;
+    overflow-y: auto;
+  }
+  .max-h-25 {
+    max-height: 25rem !important;
+  }
+  .form-container {
+    overflow-x: auto;
+    white-space: nowrap;
+  }/* Add this to your component's CSS file */
+.error-input {
+  border-color: red;
+  background-color: #ffe6e6;
+}
+
+.error-input.ng-invalid.ng-touched {
+    /* Add the styles you need for the error state */
+    border-color: red;
+   
+}  
+  

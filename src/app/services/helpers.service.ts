@@ -151,6 +151,7 @@ export class HelpersService {
   }
 
   createCsvModel(items: any) {
+    console.log(items, 'items');
     const title_file =
       items.client.clientName +
       '' +

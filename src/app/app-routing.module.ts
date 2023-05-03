@@ -14,6 +14,7 @@ import { OrderHistoryComponent } from './components/pages/order-history/order-hi
 import { RoleGuard } from './Guards/role.guard';
 import { MyorderWaitingComponent } from './components/pages/myorder-waiting/myorder-waiting.component';
 import { MyorderHistoryComponent } from './components/pages/myorder-history/myorder-history.component';
+import { DashboardAdminComponent } from './components/pages/dashboard-admin/dashboard-admin.component';
 const routes: Route[] = [
   {
     path: '',
@@ -24,6 +25,12 @@ const routes: Route[] = [
         component: DashboardComponent,
         canActivate: [RoleGuard],
         data: { roles: ['client', 'admin'] },
+      },
+      {
+        path: 'dashboard-admin',
+        component: DashboardAdminComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['admin'] },
       },
       // {
       //   path: 'order-approved',

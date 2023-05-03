@@ -9,21 +9,136 @@
       <div class="border-t border-gray-200"></div>
     </div>
   </div>
+  <div 
+  [ngClass]="this.step==1 && this.step !=2 ? 
+  'ml-40 mr-40': 'pl-6'"
+  class="mt-10 sm:mt-0"
+  >
+ 
+    <div 
+    [ngClass]="this.step==1 ? 
+    '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" 
+    class=" md:gap-2">
+      <!-- <div 
+      [ngClass]="this.step==1 ? 
+        'justify-center py-8': 'md:col-span-1 self-center'"
+        class="flex"
+     >
+        <div 
+        [ngClass]="this.step==1 ? 
+        '': 'col-start-1'"
+        class="px-4 sm:px-0"
+        >
+         
+          <p class="mt-1 text-sm text-gray-600">
+            VERIFICAN QUE TODAS LAS INFORMACION SEAN EXACTA ANTES DE ENVIAR ESTE FORMULARIO DEL PEDIDO.  </p>
+        </div>
+      </div> -->
+      <h2 
+      *ngIf="this.step == 2"
+      [ngClass]="this.step==2 ? 
+      'flex justify-center':null"
+      class=" text-lg font-bold leading-10 text-gray-900"
+      >Cliente Selecionnado : </h2>
+      <h2 
+      *ngIf="this.step == 1"
+      class=" pt-2 text-lg font-bold leading-1 text-gray-900"
+      >SELECCIONAR CLIENTE : </h2>
+      <app-generic-table *ngIf="(this.form.get('command').get('clientId').value == null || this.role == 'admin') && this.step != 3 && this.step==1" [filter]="filter" [searchBar]="searchBar" [arrMainNgFor]="clientList" [arrHeader]="arrHeader" [actions]="actions" [alertMsgFilterNoMatch]="alertMsgFilterNoMatch" [customMaxHeightClass]="'max-h-25'">
+    </app-generic-table>
+    
+      <div *ngIf=" this.form.get('command').get('clientId').value!=null"  class="mt-2 md:mt-0 md:col-span-2">
+        <form  [formGroup]="form" (ngSubmit)="onSubmitClient()">
+          <div formGroupName="client" class="shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
+              <div class="grid grid-cols-5 gap-2">
+                  <div class="col-span-6 sm:col-span-1">
+                    <label for="clientName" class="block text-sm font-medium text-gray-700">Apellido</label>
+                    <label   for="clientName" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientName').value}}</label>
+
+                    <!-- <input required type="text" formControlName="clientName" id="clientName" 
+                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                     border-gray-300 rounded-md"> -->
+                  </div>
+                  <div class="col-span-6 sm:col-span-1">
+                  <label for="clientFirstname" class="block text-sm font-medium text-gray-700">Nombre</label>
+                  <label [ngClass]="{
+                    'error-input': itemsArray.at(i)?.get('patientFirstName').getError('invalid')
+                  }" for="clientFirstname" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientFirstname').value}}</label>
+
+                  <!-- <input  required type="text" formControlName="clientFirstname" id="clientFirstname" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>      
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Organization</label>
+                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.orga').value!= null ? this.form.get('client.orga').value : 'Indisponible'}}</label>
+<!-- 
+                  <input required  type="tel" id="phone" formControlName="phone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>  
+                <div *ngIf="this.role!='client'" class="col-span-6 sm:col-span-1">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Descuento en % por Plantilla</label>
+                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.price').value != null ? this.form.get('client.price').value: 'Indisponible'}}</label>
+<!-- 
+                  <input required  type="tel" id="phone" formControlName="phone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>      
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Cellular</label>
+                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.phone').value}}</label>
+<!-- 
+                  <input required  type="tel" id="phone" formControlName="phone" 
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="mail" class="block text-sm font-medium text-gray-700">Email</label>
+                  <label for="mail" class="block text-sm font-medium text-gray-700">{{this.form.get('client.mail').value!= null ? this.form.get('client.mail').value : 'Indisponible'}}</label>
+<!-- 
+                  <input required type="email" name="mail" id="mail" formControlName="mail"  
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>
+                <div class="col-span-6 sm:col-span-1">
+                  <label for="location" class="block text-sm font-medium text-gray-700">Dirrecion De Envio</label>
+                  <label for="location" class="block text-sm font-medium text-gray-700">{{this.form.get('client.location').value!= 'null' ? this.form.get('client.location').value : 'Indisponible'}}</label>
+
+                  <!-- <input required type="text"  id="location" formControlName="location"
+                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
+                   border-gray-300 rounded-md"> -->
+                </div>
+             
+              </div>
+            </div>
+          
+            <div  *ngIf='this.step==1' class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+SIGUIENTE              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
     <div class="form-container">
 
-  <div *ngIf='this.step==1 ' [ngClass]="this.step==1 ? 'ml-10 mr-10': 'pl-2'" class="mt-10 sm:mt-0">
+  <div *ngIf='this.step==2 ' [ngClass]="this.step==2 ? 'ml-10 mr-10': 'pl-2'" class="mt-10 sm:mt-0">
 
-    <div [ngClass]="this.step==1 ? '': 'md:grid pt-2 md:grid-cols-[200px_repeat(2,minmax(0,1fr))]  max-w-7xl'" style= "max-width: 90rem;"class="
+    <div [ngClass]="this.step==2 ? '': 'md:grid pt-2 md:grid-cols-[200px_repeat(2,minmax(0,1fr))]  max-w-7xl'" style= "max-width: 90rem;"class="
     md:gap-2">
 
-      <div [ngClass]="this.step==1 ? 'justify-center py-1': 'md:col-span-1 self-center'" class="flex">
+      <div [ngClass]="this.step==2 ? 'justify-center py-1': 'md:col-span-1 self-center'" class="flex">
 
      
       </div>
       <!-- <app-generic-order-details-card style="min-width: 60.8em;
       margin-left: 6.2em;" *ngIf="this.step==3" (valueChanged)="onValueChanged($event)" [actions]="'InOrder'" [arrMainNgFor]="this.form.get('command').value" ></app-generic-order-details-card> -->
 
-      <div *ngIf='this.step==1' [ngClass]="this.step==1 ? ' pb-40':''" class="mt-5md:mt-0 md:col-span-2">
+      <div *ngIf='this.step==2' class="mt-5md:mt-0 md:col-span-2">
                   <form [formGroup]="commandFormGroup" >
 
          <div formArrayName="patient" class="shadow overflow-hidden sm:rounded-md">
@@ -40,13 +155,13 @@
             <svg class="-ml-1.5 mr-1 h-4 w-4 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span>BORRAR</span>
+            <span>Borrar El Paciente</span>
           </button>
         </div>
       </div>
 
             <div class="pt-2" [formGroupName]="i">
-              <div class="flex flex-col md:flex-row">
+              <div class="flex flex-col md:flex-row" style="max-width: 85rem;">
                 <div class="flex flex-row">
                   <div class="flex items-center ml-1">
                     <label for="street_address" class="block text-sm font-medium text-gray-700">APELLIDO:</label>
@@ -65,7 +180,7 @@
                   </div>
                 </div>
               
-                <div formArrayName="options" class="md:flex md:flex-row md:ml-4">
+                <div formArrayName="options" class="md:flex md:flex-row md:ml-4" style="align-items: center" >
                   <div *ngFor="let product of getOptions(i).controls; let j = index;" class="flex flex-col pr-2 bg-white">
                     <div [formGroupName]="j" class="flex flex-row">
                       <div class="flex items-center ml-1" style="min-width: 4rem;">
@@ -74,11 +189,13 @@
                       </div>
               
                       <div class="flex items-center ml-1 w-24 min-w-max">
-                        <label for="model" class="block text-sm font-medium text-gray-700">Modelo:</label>
-                        <select   
-                        (change)="updatePrice($event.target.value, i, j)" formControlName="model" autocomplete="Model" name="Modelo" 
+                        <label   for="model" class="block text-sm font-medium text-gray-700">Modelo:</label>
+                        <select  [ngClass]="{
+                            'error-input': isSubmitted && itemsArray.at(i).get('options').at(j).get('model').value == ''
+                          }"    
+                        formControlName="model" autocomplete="Model" name="Modelo" 
                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                          <option id="model" *ngFor="let model of priceTypePlantillaList" [value]="model.name">{{model.name}}</option>
+                          <option  id="model" *ngFor="let model of priceTypePlantillaList" [value]="model.name">{{model.name}}</option>
                         </select>
                       </div>
                       <button *ngIf="j!=0" (click)="deleteShoeSol(i,j)" type="button" class="inline-flex items-center shadow-sm px-1 py-1.5 border border-red-300 text-sm leading-5 font-medium rounded-full text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
@@ -86,21 +203,21 @@
                         <svg class="-ml-1.5 mr-1 h-6 w-8 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <span>BORRAR</span>
+                        <span>Borrar Modelo</span>
                       </button>
                     </div>
                    
                   </div>
                   
                 </div>
-                <div  *ngIf="step==1" class="relative h-10">
+                <div  *ngIf="step==2" class="relative h-10">
                   
-                  <div class="relative flex justify-center">
-                    <button (click)="addShoeSol(i,j)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <div  *ngIf="getOptionsLength(i) <=2" class="relative flex justify-center">
+                    <button (click)="addShoeSol(i)" type="button" class="inline-flex items-center shadow-sm px-4 py-1.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       <svg class="-ml-1.5 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                       </svg>
-                      <span>ANADIR UN MODELO 
+                      <span>Anadir Modelo 
                         </span>
            
                     </button>
@@ -120,33 +237,43 @@
                   </div>
                 </div>
                 <div [formGroupName]="j" >
-                  <div class="flex flex-col md:flex-row">
+                  <div class="flex flex-col md:flex-row " >
                   <div                 *ngIf="j==0"
                    class="w-20 flex flex-col items-center justify-center">
                     <label for="size"  class="block text-sm font-medium text-gray-700">TALLES EU</label>
-                    <select [ngClass]="{
-                      'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('size')?.getError('invalid')
-                    }" (change)="onSelectTalles($event.target.value, i, j)"  formControlName="size" autocomplete="Talles" name="Talles" 
-                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option  id="size" *ngFor="let size of sizes" [value]="size" >{{size}}</option>
-                    </select>                
+                    <select
+                    [ngClass]="{
+                        'error-input':
+                        isSubmitted && itemsArray.at(i).get('item').at(j).get('size').value == '' 
+                      }"
+                    (change)="onSelectTalles($event.target.value, i, j)"
+                    formControlName="size"
+                    autocomplete="Talles"
+                    name="Talles"
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  >
+                    <option id="size" *ngFor="let size of sizes" [value]="size">{{size}}</option>
+                  </select>
+                
+
                   </div>
-  
+
                   <div *ngIf="j == 0" class="w-28 ml-4 flex flex-col  justify-center">
                     <label for="correction" class="block text-sm font-medium text-gray-700">
                       CORRECCIÓN
                     </label>
                     <div class="flex flex-row ">
+                      <!-- itemsArray.at(i)?.get('item')?.at(j)?.get('correction')?.getError('invalid') -->
                       <input
                         [ngClass]="{
-                          'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('correction')?.getError('invalid')
+                          'error-input':  isSubmitted && getCorrectionBool(i,j)
                         }"
                         type="number"
                         formControlName="correction"
                         class="w-16 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                         <span
-                          *ngIf="itemsArray.at(i).get('item').at(j).get('correction').getError('invalid')"
+                          *ngIf="isSubmitted && getCorrectionBool(i,j)"
                           class="ml-2 text-sm text-red-700"
                         >
                           Correcion entre
@@ -371,7 +498,7 @@
                   <option   *ngFor="let arcoInterno of selectedArco1" [value]="arcoInterno">{{arcoInterno}}</option>
                 </select>
                 <input  [ngClass]="{
-                  'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedArco2')?.getError('invalid')
+                  'error-input':  isSubmitted && itemsArray.at(i)?.get('item')?.at(j)?.get('selectedArco2')?.value == ''  
                 }" *ngIf="product.get('selectedArco1').value=='SOBRE ARCO'"   type="number" placeholder="En mm" formControlName="selectedArco2" id="arco"  class=" w-24 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-sm
                 border-gray-300 rounded-md" >    
                 <span
@@ -484,9 +611,9 @@
                     <label    *ngIf=" product.get('selectedAlsa1')
                     .value" class="block text-sm font-medium text-gray-700">ALZA ALTURA EN mm
                     </label>
-                    <select [ngClass]="{
-                      'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedAlsa2')?.getError('invalid')
-                    }" *ngIf=" product.get('selectedAlsa1')
+                    <select  [ngClass]="{
+                      'error-input':  isSubmitted && itemsArray.at(i)?.get('item')?.at(j)?.get('selectedAlsa2')?.value == ''  
+                    }"   *ngIf=" product.get('selectedAlsa1')
                     .value"
                     formControlName="selectedAlsa2" autocomplete="selectedAlsa2" name="selectedAlsa2" 
                     class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -543,8 +670,8 @@
                   .value" class="block text-sm font-medium text-gray-700">RPI ALTURA EN mm
                   </label>
                   <select [ngClass]="{
-                    'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.getError('invalid')
-                  }"
+                    'error-input':  isSubmitted && itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPI2')?.value == ''  
+                  }" 
                   *ngIf=" product.get('selectedRPI1')
                   .value"
                   
@@ -604,8 +731,10 @@
                   </label>
                   <select 
                   [ngClass]="{
-                    'error-input': itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPE2')?.getError('invalid')
-                  }"
+                    'error-input':  isSubmitted && itemsArray.at(i)?.get('item')?.at(j)?.get('selectedRPE2')?.value == ''  
+                  }" 
+                 
+                  
                   *ngIf=" product.get('selectedRPE1')
                   .value"
                   formControlName="selectedRPE2"
@@ -763,7 +892,7 @@
             </div>
        
           </div>
-          <div  *ngIf="step==1" class="relative flex justify-start pl-4 bg-gray-50">
+          <div  *ngIf="step==2" class="relative flex justify-start pl-4 bg-gray-50">
             <button (click)="addPaciente(i,j)" type="button" 
             class="inline-flex items-center shadow-sm px-4 py-1.5 border
              border-gray-300 text-sm leading-9 font-bold rounded-lg text-gray-900
@@ -775,14 +904,15 @@
               <span>ANADIR UN PACIENTE MAS              </span>
             </button>
           </div>
-          <div *ngIf="step==1" class="px-4 py-3 flex justify-end bg-gray-50 sm:px-6">
+          <div *ngIf="step==2" class="px-4 py-3 flex justify-end bg-gray-50 sm:px-6">
             <form (ngSubmit)="false">
               <button
                 (click)="onSubmit()"
                 class="inline-flex justify-center py-1.5 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 type="submit"
               >
-Siguiente Paso              </button>
+               ENVIAR EL PEDIDO
+              </button>
             </form>
           </div>
           
@@ -795,117 +925,9 @@ Siguiente Paso              </button>
     
   </div>
   
-  <div *ngIf='this.step!=1'
-  [ngClass]="this.step==2 ? 
-  'ml-40 mr-40': 'pl-6'"
-  class="mt-10 sm:mt-0"
-  >
-    <div 
-    [ngClass]="this.step==2 ? 
-    '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" 
-    class=" md:gap-2">
-      <div 
-      [ngClass]="this.step==2 ? 
-        'justify-center py-8': 'md:col-span-1 self-center'"
-        class="flex"
-     >
-        <div 
-        [ngClass]="this.step==2 ? 
-        '': 'col-start-1'"
-        class="px-4 sm:px-0"
-        >
-          <h2 
-          [ngClass]="this.step==2 ? 
-          'flex justify-center':null"
-          class=" text-lg font-bold leading-6 text-gray-900"
-          >SUS INFORMACIONES</h2>
-          <p class="mt-1 text-sm text-gray-600">
-            VERIFICAN QUE TODAS LAS INFORMACION SEAN EXACTA ANTES DE ENVIAR ESTE FORMULARIO DEL PEDIDO.  </p>
-        </div>
-      </div>
-      <app-generic-table *ngIf="(this.form.get('command').get('clientId').value ==null || this.role =='admin')&&this.step!=3  " [filter]="filter" [searchBar]="searchBar" [arrMainNgFor]="clientList" [arrHeader]="arrHeader" [actions]="actions" [alertMsgFilterNoMatch]="alertMsgFilterNoMatch" >
-
-      </app-generic-table>
-      <div *ngIf=" this.form.get('command').get('clientId').value!=null"  class="mt-5 md:mt-0 md:col-span-2">
-        <form  [formGroup]="form" (ngSubmit)="onSubmitClient()">
-          <div formGroupName="client" class="shadow overflow-hidden sm:rounded-md">
-            <div class="px-4 py-5 bg-white sm:p-6">
-              <div class="grid grid-cols-5 gap-2">
-                  <div class="col-span-6 sm:col-span-1">
-                    <label for="clientName" class="block text-sm font-medium text-gray-700">Apellido</label>
-                    <label   for="clientName" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientName').value}}</label>
-
-                    <!-- <input required type="text" formControlName="clientName" id="clientName" 
-                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                     border-gray-300 rounded-md"> -->
-                  </div>
-                  <div class="col-span-6 sm:col-span-1">
-                  <label for="clientFirstname" class="block text-sm font-medium text-gray-700">Nombre</label>
-                  <label [ngClass]="{
-                    'error-input': itemsArray.at(i)?.get('patientFirstName').getError('invalid')
-                  }" for="clientFirstname" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientFirstname').value}}</label>
-
-                  <!-- <input  required type="text" formControlName="clientFirstname" id="clientFirstname" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>      
-                <div class="col-span-6 sm:col-span-1">
-                  <label for="phone" class="block text-sm font-medium text-gray-700">Organization</label>
-                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.orga').value!= null ? this.form.get('client.orga').value : 'Indisponible'}}</label>
-<!-- 
-                  <input required  type="tel" id="phone" formControlName="phone" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>  
-                <div *ngIf="this.role!='client'" class="col-span-6 sm:col-span-1">
-                  <label for="phone" class="block text-sm font-medium text-gray-700">Descuento en % por Plantilla</label>
-                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.price').value != null }}</label>
-<!-- 
-                  <input required  type="tel" id="phone" formControlName="phone" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>      
-                <div class="col-span-6 sm:col-span-1">
-                  <label for="phone" class="block text-sm font-medium text-gray-700">Cellular</label>
-                  <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.phone').value}}</label>
-<!-- 
-                  <input required  type="tel" id="phone" formControlName="phone" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>
-                <div class="col-span-6 sm:col-span-1">
-                  <label for="mail" class="block text-sm font-medium text-gray-700">Email</label>
-                  <label for="mail" class="block text-sm font-medium text-gray-700">{{this.form.get('client.mail').value!= null ? this.form.get('client.mail').value : 'Indisponible'}}</label>
-<!-- 
-                  <input required type="email" name="mail" id="mail" formControlName="mail"  
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>
-                <div class="col-span-6 sm:col-span-1">
-                  <label for="location" class="block text-sm font-medium text-gray-700">Dirrecion De Envio</label>
-                  <label for="location" class="block text-sm font-medium text-gray-700">{{this.form.get('client.location').value!= 'null' ? this.form.get('client.location').value : 'Indisponible'}}</label>
-
-                  <!-- <input required type="text"  id="location" formControlName="location"
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>
-             
-              </div>
-            </div>
-          
-            <div  *ngIf='this.step==2' class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                ENVIAR EL PEDIDO 
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-     
-    </div>
-  </div>
+ 
   <div *ngIf="step!=1" 
-  style="min-height: 200px;padding-left: 10rem;justify-content: flex-start;"
+  style="min-height: 130px;padding-left: 2rem;justify-content: flex-start;"
   class="border-t border-gray-200 px-4 pb-12 flex items-center justify-around sm:px-0 ">
   <a (click)="changeStepBack()" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
     <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
