@@ -43,7 +43,7 @@ export class MyorderWaitingComponent implements OnInit {
 
   // option which deserve to add a searchBar upper the table, searchbar can be NULL.
   searchBar = {
-    placeholder: 'Buscar un pedido',
+    placeholder: 'BUSCAR UN PEDIDO',
   };
 
   filter = [];
@@ -125,7 +125,7 @@ export class MyorderWaitingComponent implements OnInit {
         if (data) {
           if (data.confirm === 'SI Borrar') {
             this.alert.success(
-              'Los datos del usuario fueron modificado en la base de datos !'
+              'Los datos del cliente fueron modificado en la base de datos !'
             );
 
             if (pedido) {

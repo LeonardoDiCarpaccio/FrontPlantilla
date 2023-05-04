@@ -9,6 +9,14 @@
       <div class="border-t border-gray-200"></div>
     </div>
   </div>
+  <div *ngIf="step!=1" 
+  style="min-height: 50px;padding-left: 2rem;justify-content: flex-start;"
+  class="border-t border-gray-200 px-4 flex items-center justify-around sm:px-0 ">
+  <a (click)="changeStepBack()" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+    <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+    Volver Al Paso "SELECCION DE CLIENTE"
+  </a>
+ </div>
   <div 
   [ngClass]="this.step==1 && this.step !=2 ? 
   'ml-40 mr-40': 'pl-6'"
@@ -17,33 +25,21 @@
  
     <div 
     [ngClass]="this.step==1 ? 
-    '': 'md:grid pt-8 md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" 
+    '': 'md:grid  md:grid-cols-[300px_repeat(2,minmax(0,1fr))]  max-w-7xl'" 
     class=" md:gap-2">
-      <!-- <div 
-      [ngClass]="this.step==1 ? 
-        'justify-center py-8': 'md:col-span-1 self-center'"
-        class="flex"
-     >
-        <div 
-        [ngClass]="this.step==1 ? 
-        '': 'col-start-1'"
-        class="px-4 sm:px-0"
-        >
-         
-          <p class="mt-1 text-sm text-gray-600">
-            VERIFICAN QUE TODAS LAS INFORMACION SEAN EXACTA ANTES DE ENVIAR ESTE FORMULARIO DEL PEDIDO.  </p>
-        </div>
-      </div> -->
+     
       <h2 
       *ngIf="this.step == 2"
       [ngClass]="this.step==2 ? 
       'flex justify-center':null"
+      style="align-self: center
+      ;"
       class=" text-lg font-bold leading-10 text-gray-900"
-      >Cliente Selecionnado : </h2>
+      >CLIENTE SELECCIONADO : </h2>
       <h2 
       *ngIf="this.step == 1"
       class=" pt-2 text-lg font-bold leading-1 text-gray-900"
-      >SELECCIONAR CLIENTE : </h2>
+      >SELECCION DE CLIENTE : </h2>
       <app-generic-table *ngIf="(this.form.get('command').get('clientId').value == null || this.role == 'admin') && this.step != 3 && this.step==1" [filter]="filter" [searchBar]="searchBar" [arrMainNgFor]="clientList" [arrHeader]="arrHeader" [actions]="actions" [alertMsgFilterNoMatch]="alertMsgFilterNoMatch" [customMaxHeightClass]="'max-h-25'">
     </app-generic-table>
     
@@ -51,14 +47,12 @@
         <form  [formGroup]="form" (ngSubmit)="onSubmitClient()">
           <div formGroupName="client" class="shadow overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6">
-              <div class="grid grid-cols-5 gap-2">
+              <div class="grid grid-cols-4 gap-2">
                   <div class="col-span-6 sm:col-span-1">
                     <label for="clientName" class="block text-sm font-medium text-gray-700">Apellido</label>
                     <label   for="clientName" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientName').value}}</label>
 
-                    <!-- <input required type="text" formControlName="clientName" id="clientName" 
-                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                     border-gray-300 rounded-md"> -->
+                  
                   </div>
                   <div class="col-span-6 sm:col-span-1">
                   <label for="clientFirstname" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -66,17 +60,12 @@
                     'error-input': itemsArray.at(i)?.get('patientFirstName').getError('invalid')
                   }" for="clientFirstname" class="block text-sm font-medium text-gray-700">{{this.form.get('client.clientFirstname').value}}</label>
 
-                  <!-- <input  required type="text" formControlName="clientFirstname" id="clientFirstname" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
+                 
                 </div>      
                 <div class="col-span-6 sm:col-span-1">
                   <label for="phone" class="block text-sm font-medium text-gray-700">Organization</label>
                   <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.orga').value!= null ? this.form.get('client.orga').value : 'Indisponible'}}</label>
-<!-- 
-                  <input required  type="tel" id="phone" formControlName="phone" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
+
                 </div>  
                 <div *ngIf="this.role!='client'" class="col-span-6 sm:col-span-1">
                   <label for="phone" class="block text-sm font-medium text-gray-700">Descuento en % por Plantilla</label>
@@ -86,30 +75,21 @@
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
                    border-gray-300 rounded-md"> -->
                 </div>      
-                <div class="col-span-6 sm:col-span-1">
+                <!-- <div class="col-span-6 sm:col-span-1">
                   <label for="phone" class="block text-sm font-medium text-gray-700">Cellular</label>
                   <label for="phone" class="block text-sm font-medium text-gray-700">{{this.form.get('client.phone').value}}</label>
-<!-- 
-                  <input required  type="tel" id="phone" formControlName="phone" 
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
+
                 </div>
                 <div class="col-span-6 sm:col-span-1">
                   <label for="mail" class="block text-sm font-medium text-gray-700">Email</label>
                   <label for="mail" class="block text-sm font-medium text-gray-700">{{this.form.get('client.mail').value!= null ? this.form.get('client.mail').value : 'Indisponible'}}</label>
-<!-- 
-                  <input required type="email" name="mail" id="mail" formControlName="mail"  
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
+
                 </div>
                 <div class="col-span-6 sm:col-span-1">
                   <label for="location" class="block text-sm font-medium text-gray-700">Dirrecion De Envio</label>
                   <label for="location" class="block text-sm font-medium text-gray-700">{{this.form.get('client.location').value!= 'null' ? this.form.get('client.location').value : 'Indisponible'}}</label>
 
-                  <!-- <input required type="text"  id="location" formControlName="location"
-                  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm
-                   border-gray-300 rounded-md"> -->
-                </div>
+                </div> -->
              
               </div>
             </div>
@@ -929,10 +909,10 @@ SIGUIENTE              </button>
   <div *ngIf="step!=1" 
   style="min-height: 130px;padding-left: 2rem;justify-content: flex-start;"
   class="border-t border-gray-200 px-4 pb-12 flex items-center justify-around sm:px-0 ">
-  <a (click)="changeStepBack()" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+  <!-- <a (click)="changeStepBack()" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
     <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
     Volver 
-  </a>
+  </a> -->
  </div>
   <!-- [ngClass]="this.step==3 ? 'mt-10 sm:mt-0 pl-6 pb-8':'' "
   >

@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
   ];
   // option which deserve to add a searchBar upper the table, searchbar can be NULL.
   searchBar = {
-    placeholder: 'Buscar un usuario',
+    placeholder: 'Buscar un cliente',
   };
   ngOnDestroy() {
     const formData = JSON.stringify(this.form.value);

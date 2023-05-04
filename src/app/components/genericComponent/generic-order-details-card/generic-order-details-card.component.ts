@@ -57,7 +57,7 @@ export class GenericOrderDetailsCardComponent implements OnInit {
           };
           this.commandService.insertUpdateCommand(update).subscribe((res) => {
             this.alert.success(
-              'Los datos del usuario fueron modificado en la base de datos !'
+              'Los datos del cliente fueron modificado en la base de datos !'
             );
             window.location.reload();
           });
@@ -159,7 +159,7 @@ export class GenericOrderDetailsCardComponent implements OnInit {
             .insertUpdateCommand(update)
             .subscribe((res) => {
               this.alert.success(
-                'Los datos del usuario fueron modificado en la base de datos !'
+                'Los datos del cliente fueron modificado en la base de datos !'
               );
             });
           //We get modal result
@@ -253,7 +253,7 @@ export class GenericOrderDetailsCardComponent implements OnInit {
             .subscribe((res) => {
               if (res) {
                 this.alert.success(
-                  'Los datos del usuario fueron modificado en la base de datos !'
+                  'Los datos del cliente fueron modificado en la base de datos !'
                 );
                 // window.location.reload();
               } else {
@@ -345,7 +345,7 @@ export class GenericOrderDetailsCardComponent implements OnInit {
             await this.itemService.insertUpdateItem(data).subscribe((res) => {
               if (res) {
                 this.alert.success(
-                  'Los datos del usuario fueron modificado en la base de datos !'
+                  'Los datos del cliente fueron modificado en la base de datos !'
                 );
                 window.location.reload();
               } else {

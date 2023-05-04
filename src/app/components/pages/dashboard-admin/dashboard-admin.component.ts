@@ -68,7 +68,7 @@ export class DashboardAdminComponent implements OnInit {
   ];
   // option which deserve to add a searchBar upper the table, searchbar can be NULL.
   searchBar = {
-    placeholder: 'Buscar un usuario',
+    placeholder: 'BUSCAR UN CLIENTE',
   };
   ngOnDestroy() {
     const formData = JSON.stringify(this.form.value);
@@ -93,9 +93,9 @@ export class DashboardAdminComponent implements OnInit {
 
     // Load saved form data from localStorage
     const savedFormData = localStorage.getItem('formData');
+    let savedData = JSON.parse(savedFormData);
 
     if (savedFormData) {
-      const savedData = JSON.parse(savedFormData);
       // Initialize form with saved data
       this.form = this.createForm(savedData);
     } else {
@@ -123,6 +123,17 @@ export class DashboardAdminComponent implements OnInit {
     }
     this.actions = [{ text: 'seleccionar', method: this.selectClient }];
     this.updateScreenWidth();
+    console.log(savedData, 'form client value ');
+
+    console.log(this.form.get('client').value, 'form client value ');
+    if (
+      savedData.command.clientId != null &&
+      (savedData.command.patient[0].patientName != '' ||
+        savedData.command.patient[0].patientFirstName != '' ||
+        savedData.command.patient.lengh > 0)
+    ) {
+      this.onSubmitClient();
+    }
   }
 
   largeScreen: boolean;
@@ -713,6 +724,7 @@ export class DashboardAdminComponent implements OnInit {
     if (this.form.get('client').valid) {
       // this.temporarySaveForm();
       this.changeStepAhead();
+      console.log('here we go again');
     }
   }
 
@@ -1169,7 +1181,17 @@ export class DashboardAdminComponent implements OnInit {
 
     if (data) {
       console.log(data.client, 'data.client');
+      // Load clientId from saved data if it exists
+      if (data.command && data.command.clientId) {
+        form.get('command.clientId').setValue(data.command.clientId);
+      }
+
+      // Load client data from saved data
+      if (data.client) {
+        form.get('client').patchValue(data.client);
+      }
       // Load patients from saved data
+
       for (const patientData of data.command.patient) {
         const patientFormGroup = this.createPatientFormGroup();
 

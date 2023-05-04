@@ -161,11 +161,11 @@ export class UsersComponent implements OnInit {
 
   // option which deserve to add a searchBar upper the table, searchbar can be NULL.
   searchBar = {
-    placeholder: 'Buscar un usuario',
+    placeholder: 'BUSCAR UN CLIENTE',
   };
 
   // text alert when filter make the ngFor array lengh coming to zero
-  alertMsgFilterNoMatch = 'Esos filtros no corresponden a ninguno usuarios';
+  alertMsgFilterNoMatch = 'Esos filtros no corresponden a ninguno cliente';
   // actions is initialized at null, but it can be filled by an array with the text of the action and the method to call, if it stay null, the generic table will only be for display
   // actions is always filled in the ngOnInit, otherwise we get an error "property is used before initialisation" ///// the method passed to the obj are method with callback
   // this.actions = [
@@ -234,7 +234,7 @@ export class UsersComponent implements OnInit {
           await this.clientService.insertUpdateClient(data).subscribe((res) => {
             if (res) {
               this.alert.success(
-                'Los datos del usuario fueron modificado en la base de datos !'
+                'Los datos del cliente fueron modificado en la base de datos !'
               );
               window.location.reload();
             } else {
@@ -274,7 +274,7 @@ export class UsersComponent implements OnInit {
           await this.clientService.insertUpdateClient(data).subscribe((res) => {
             if (res) {
               this.alert.success(
-                'Los datos del usuario fueron modificado en la base de datos !'
+                'Los datos del cliente fueron modificado en la base de datos !'
               );
               window.location.reload();
             } else {
@@ -293,7 +293,7 @@ export class UsersComponent implements OnInit {
       this.clientService.deleteClient(user).subscribe((res) => {
         if (res) {
           this.alert.success(
-            'Los datos del usuario fueron modificado en la base de datos !'
+            'Los datos del cliente fueron modificado en la base de datos !'
           );
           window.location.reload();
         } else {

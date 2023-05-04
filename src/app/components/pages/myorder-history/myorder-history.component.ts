@@ -40,7 +40,7 @@ export class MyorderHistoryComponent implements OnInit {
 
   // option which deserve to add a searchBar upper the table, searchbar can be NULL.
   searchBar = {
-    placeholder: 'Buscar un pedido',
+    placeholder: 'BUSCAR UN PEDIDO',
   };
 
   filter = [];
