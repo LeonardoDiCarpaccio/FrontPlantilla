@@ -75,15 +75,17 @@ export class HelpersService {
     let maxColumns = columnIndex > 1 ? columnIndex : 9;
     for (let i = 1; i < maxColumns; i += 2) {
       worksheetPresta.getColumn(i).width = idColumnWidth;
-      worksheetPresta.getColumn(i + 1).width = 20;
-      worksheetPresta.getColumn(i + 3).width = 20;
+      worksheetPresta.getColumn(i + 1).width = 18;
+      worksheetPresta.getColumn(i + 3).width = 18;
+      worksheetPresta.getColumn(i + 5).width = 18;
 
       for (let j = 1; j <= worksheetPresta.rowCount; j++) {
         const cellA = worksheetPresta.getCell(j, i);
         const cellB = worksheetPresta.getCell(j, i + 1);
         const cellC = worksheetPresta.getCell(j, i + 2); // Add this line to handle the third column
         const cellD = worksheetPresta.getCell(j, i + 3); // Add this line to handle the third column
-
+        const cellE = worksheetPresta.getCell(j, i + 4); // Add this line to handle the third column
+        const cellF = worksheetPresta.getCell(j, i + 5); // Add this line to handle the third column
         cellA.alignment = {
           wrapText: true,
           vertical: 'middle',
@@ -135,6 +137,32 @@ export class HelpersService {
           size: 14,
         };
         cellD.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
+        };
+        cellE.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+          shrinkToFit: true, // Add this property to ensure the text fits the cell width
+        };
+        cellE.font = {
+          size: 14,
+        };
+        cellE.border = {
+          top: { style: 'medium', color: { argb: 'FF000000' } },
+          bottom: { style: 'medium', color: { argb: 'FF000000' } },
+        };
+        cellF.alignment = {
+          wrapText: true,
+          vertical: 'middle',
+          horizontal: 'center',
+          shrinkToFit: true, // Add this property to ensure the text fits the cell width
+        };
+        cellF.font = {
+          size: 14,
+        };
+        cellF.border = {
           top: { style: 'medium', color: { argb: 'FF000000' } },
           bottom: { style: 'medium', color: { argb: 'FF000000' } },
         };
@@ -435,6 +463,7 @@ export class HelpersService {
     worksheetPresta.getColumn('F').width = 20;
     worksheetPresta.getColumn('G').width = 45;
     worksheetPresta.getColumn('H').width = 20;
+
     // Set the height of the G cell in each row to adjust to the text
     for (let i = 3; i <= worksheetPresta.rowCount; i++) {
       const cellA = worksheetPresta.getCell(`A${i}`);
