@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
     { name: 'Nombre', key: 'clientFirstName' },
     { name: 'Organization', key: 'orga' },
     { name: 'Precio Por Plantilla', key: 'price' },
-    { name: 'Email', key: 'mail' },
+    { name: 'Usuario', key: 'mail' },
     { name: 'Dirrecion De Envio', key: 'location' },
     // { name: 'Contrasena', key: 'password' },
     { name: 'Cuenta Actual', key: 'account' },
@@ -68,8 +68,8 @@ export class UsersComponent implements OnInit {
     {
       typeForm: 'input',
       typeInput: 'email',
-      placeholder: 'Mail',
-      label: 'Cambiar El Mail',
+      placeholder: 'Usuario',
+      label: 'Cambiar El Usuario',
       formControl: 'mail',
     },
 
@@ -129,11 +129,17 @@ export class UsersComponent implements OnInit {
     {
       typeForm: 'input',
       typeInput: 'email',
-      placeholder: 'Mail',
-      label: 'Entrar El Mail',
+      placeholder: 'Usuario',
+      label: 'Entrar El Usuario De La Cuenta',
       formControl: 'mail',
     },
-
+    {
+      typeForm: 'input',
+      typeInput: 'text',
+      placeholder: 'Contrasena del Usuario',
+      label: 'Entrar Valor De La Contrasena',
+      formControl: 'password',
+    },
     {
       typeForm: 'input',
       typeInput: 'text',
@@ -204,6 +210,7 @@ export class UsersComponent implements OnInit {
     let form = new FormGroup({
       // id: new FormControl(Validators.required),
       clientName: new FormControl(),
+      password: new FormControl(),
       clientFirstName: new FormControl(),
       mail: new FormControl(),
       price: new FormControl(),

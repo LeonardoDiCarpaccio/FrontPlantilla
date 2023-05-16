@@ -18,6 +18,8 @@ export class MyorderHistoryComponent implements OnInit {
     { name: 'Apellido', key: 'clientName', obj: 'client' },
     { name: 'Nombre', key: 'clientFirstName', obj: 'client' },
     { name: 'Organization', key: 'orga', obj: 'client' },
+    { name: 'Precio', key: 'price' },
+
     { name: 'Fecha De Creacion', key: 'creationDateDisplay' },
     { name: 'Ver Detalles', key: 'details' },
 
