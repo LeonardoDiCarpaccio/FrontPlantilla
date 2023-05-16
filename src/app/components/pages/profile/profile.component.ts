@@ -4,6 +4,7 @@ import { SimpleModalService } from 'ngx-simple-modal';
 import { AlertService } from 'src/app/services/alert.service';
 import { ClientService } from 'src/app/services/crud/client.service';
 import { GenericFormgroupComponent } from '../../genericComponent/generic-formgroup/generic-formgroup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -153,11 +154,17 @@ export class ProfileComponent implements OnInit {
     private simpleModalService: SimpleModalService,
     private alert: AlertService,
     private clientService: ClientService,
-    private http: HttpClientModule
+    private http: HttpClientModule,
+    private router: Router
   ) {}
   client: any;
 
   async ngOnInit() {
     this.client = JSON.parse(localStorage.getItem('user'));
+  }
+
+  disconnect() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
